@@ -452,8 +452,8 @@
       <span class="d2r-chip"><i class="d2r-ico d2r-ico-in">●</i>введено (суцільна рамка)</span>
       <span class="d2r-chip"><i class="d2r-ico d2r-ico-calc">◆</i>розраховано з введених даних (штрихова рамка)</span>
       <span class="d2r-chip"><i class="d2r-ico d2r-ico-need">▲</i><span class="d2r-swatch" aria-hidden="true"></span>бракує даних (червона заливка і пунктирна рамка)</span>
-      <span class="d2r-chip"><i class="d2r-ico d2r-ico-off">○</i>без статусу — режим «Шаблон» або опційний блок без даних</span>
-      <span class="d2r-chip"><span class="d2r-optbadge">опційно</span>блок необов'язковий для висновку</span>
+      <span class="d2r-chip"><i class="d2r-ico d2r-ico-off">○</i>без статусу — режим «Шаблон» або додатковий блок без даних</span>
+      <span class="d2r-chip"><span class="d2r-optbadge">додатково</span>: не впливає на висновок про масштабування</span>
       <span class="d2r-chip"><span class="d2r-keyswatch" aria-hidden="true"></span>Ключове для рішення</span>
     </div>
 
@@ -473,7 +473,7 @@
         <p class="d2r-fsub">Етап 5 · Монетизація — базові дані</p>
         <div class="d2r-field is-key"><label for="d2r-f-paying">Paying Users</label><input class="d2r-fin" id="d2r-f-paying" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-paying"></p><p class="d2r-needfor" id="d2r-n-paying"></p></div>
         <div class="d2r-field is-key"><label for="d2r-f-revenue">Revenue, $</label><input class="d2r-fin" id="d2r-f-revenue" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-revenue"></p><p class="d2r-needfor" id="d2r-n-revenue"></p></div>
-        <p class="d2r-fsub">Необов'язкові поля</p>
+        <p class="d2r-fsub">Розширені поля (для LTV і маржі)</p>
         <div class="d2r-field"><label for="d2r-f-purchases">Number of Purchases (етап 5)</label><input class="d2r-fin" id="d2r-f-purchases" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-purchases"></p><p class="d2r-needfor" id="d2r-n-purchases"></p></div>
         <div class="d2r-field"><label for="d2r-f-cost">Cost, $ (етап 5: собівартість, комісії та інші витрати цього доходу)</label><input class="d2r-fin" id="d2r-f-cost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-cost"></p><p class="d2r-needfor" id="d2r-n-cost"></p></div>
         <div class="d2r-field is-key"><label for="d2r-f-ustart">Users at Start (етапи 4 і 7, когорта платних)</label><input class="d2r-fin" id="d2r-f-ustart" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustart"></p><p class="d2r-needfor" id="d2r-n-ustart"></p></div>
@@ -481,7 +481,7 @@
         <div class="d2r-field"><label for="d2r-f-dau">DAU (етап 3)</label><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
         <div class="d2r-field"><label for="d2r-f-mau">MAU (етап 3)</label><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
         <div class="d2r-chwrap">
-          <p class="d2r-chcap">Необов'язкова таблиця «Канали» (до 5 рядків)</p>
+          <p class="d2r-chcap">Розбивка за каналами (до 5 рядків)</p>
           <table class="d2r-cht">
             <thead><tr><th>Канал</th><th>Marketing Cost, $</th><th>Paying Users</th><th>Revenue, $</th></tr></thead>
             <tbody>
@@ -620,7 +620,7 @@
           dependsOn:["activated"],
           what:"Наскільки продукт став звичкою: яка частка місячної аудиторії заходить щодня. Регулярна взаємодія передує поверненням і покупкам.",
           plan:"Перевірити, чи продукт використовують регулярно, а не один раз після встановлення.",
-          expect:"Вищий DAU/MAU — частіші контакти з оффером і кращі шанси на утримання. Блок опційний: для рішення про масштабування достатньо воронки.",
+          expect:"Вищий DAU/MAU — частіші контакти з оффером і кращі шанси на утримання. Блок додатковий: для рішення про масштабування достатньо воронки.",
           noData:"Без нього просто менше контексту про звичку. На висновок про окупність це не впливає — він не входить у формули CAC, ROAS і LTV."},
         {id:"retention", stage:4, needs:["ustart","ustill"], did:"retention", title:"Retention rate",
           formula:"Retention rate (%) = Users Still Active / Users at Start × 100%",
@@ -718,7 +718,7 @@
           dependsOn:["paying"],
           what:"Задоволені користувачі рекомендують продукт: NPS міряє готовність радити, Viral coefficient — скільки нових приводять рекомендації.",
           plan:"Перевірити, чи продукт сам приводить користувачів і чи це знижує ефективний CAC.",
-          expect:"Сильні рекомендації здешевлюють зростання. Блок опційний: на математику окупності він не впливає напряму.",
+          expect:"Сильні рекомендації здешевлюють зростання. Блок додатковий: на математику окупності він не впливає напряму.",
           noData:"Без нього просто не видно безплатного зростання. Висновок про окупність платного залучення це не змінює."},
         {id:"churn", stage:7, needs:["ustart","ustill"], did:"churn", title:"Churn rate",
           formula:"Churn rate (%) = Users Who Left / Users at Period Start × 100%; Churn rate обернений до Retention rate",
@@ -923,7 +923,7 @@
         if(n.id === "marketing-cost") return "Marketing Cost / Ad Spend (вхідні витрати)";
         if(n.id === "onboarding") return "Onboarding completion = Activated users / Installs × 100";
         if(n.id === "activated") return "Activated users (введене число); Activation rate = Activated users / Installs";
-        if(n.id === "dau-mau") return "DAU/MAU = DAU / MAU · опційно";
+        if(n.id === "dau-mau") return "DAU/MAU = DAU / MAU · додатково";
         if(n.id === "retention") return "Retention rate = Users Still Active / Users at Start × 100";
         if(n.id === "cohort") return "Cohort retention — той самий Retention rate по когорті";
         if(n.id === "conv-purchase") return "Conversion rate (purchase) = Paying Users / Activated users × 100";
@@ -937,7 +937,7 @@
         if(n.id === "roas") return "ROAS = Revenue / Marketing Cost (припущення: Ad Spend = Marketing Cost)";
         if(n.id === "romi") return "ROMI = (Revenue − Marketing Cost) / Marketing Cost × 100";
         if(n.id === "margin") return "Margin = (Revenue − Cost) / Revenue × 100";
-        if(n.id === "nps-viral") return "NPS / Viral coefficient · опційно";
+        if(n.id === "nps-viral") return "NPS / Viral coefficient · додатково";
         if(n.id === "churn") return "Churn rate = (Users at Start − Users Still Active) / Users at Start × 100";
         if(n.id === "channels") return "CAC / ROAS по кожному каналу";
         return n.formula;
@@ -990,8 +990,8 @@
         var d = n.did ? D[n.did] : null;
         if(n.opt){
           if(d && d.ok) return {st:"calc", sub:substLine(n, raw, D), status:"◆ Розраховано з: " + fromList(n)};
-          if(d && (d.err || d.divZero)) return {st:"neutral", sub:"— (" + (d.err ? "помилка в полі" : "ділення на нуль") + ")", status:"Нейтральний · опційно"};
-          return {st:"neutral", sub:templateSub(n), status:"Нейтральний · опційно"};
+          if(d && (d.err || d.divZero)) return {st:"neutral", sub:"— (" + (d.err ? "помилка в полі" : "ділення на нуль") + ")", status:"Нейтральний · додатково"};
+          return {st:"neutral", sub:templateSub(n), status:"Нейтральний · додатково"};
         }
         if(d && d.err) return {st:"calc", sub:"— (помилка в полі)", status:"◆ Помилка в полі"};
         if(d && d.divZero) return {st:"calc", sub:"— (ділення на нуль)" + (d.note ? " · " + d.note : ""), status:"◆ Ділення на нуль"};
@@ -1074,7 +1074,7 @@
           ic.textContent = e.st === "in" ? "●" : e.st === "calc" ? "◆" : e.st === "need" ? "▲" : "○";
         }
         var kt = b.querySelector(".d2r-kind span");
-        if(kt) kt.textContent = (e.st === "in" ? "Введено" : e.st === "calc" ? "Розраховано" : e.st === "need" ? "Бракує даних" : "Формула") + ((n.opt || n.info) ? " · опційно" : "");
+        if(kt) kt.textContent = (e.st === "in" ? "Введено" : e.st === "calc" ? "Розраховано" : e.st === "need" ? "Бракує даних" : "Формула") + ((n.opt || n.info) ? " · додатково" : "");
         var f = b.querySelector("[data-d2r-sub]");
         if(f) f.textContent = e.sub;
       }
@@ -1533,7 +1533,7 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
           "<h3>" + esc(n.title) + "</h3>" +
 (D2R_FULLNAMES[n.id] ? "<p class=\"d2r-full\"><b>" + esc(n.title) + "</b> — " + esc(D2R_FULLNAMES[n.id][0]) + " — " + esc(D2R_FULLNAMES[n.id][1]) + "</p>" : "") +
           "<ul class=\"d2r-detail-fields\">" +
-          "<li><b class=\"flabel\">Етап</b>Етап " + esc(STAGES[n.stage].name) + ((n.opt || n.info) ? " · <span class=\"d2r-tag\">опційно</span>" : "") + "</li>" +
+          "<li><b class=\"flabel\">Етап</b>Етап " + esc(STAGES[n.stage].name) + ((n.opt || n.info) ? " · <span class=\"d2r-tag\">додатково</span>" : "") + "</li>" +
           "<li><b class=\"flabel\">Статус</b>" + esc(e.status) + "</li>" +
           (mn ? "<li><b class=\"flabel\">На яке питання відповідає</b>" + esc(mn.q) + "</li>" : "") +
           "<li><b class=\"flabel\">Що відбувається</b>" + esc(n.what) + "</li>" +

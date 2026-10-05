@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Як користуватися калькулятором AARRR</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%231E7A63'/%3E%3Ctext x='50' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='30' font-weight='bold' fill='%23fff'%3EA%3C/text%3E%3Ctext x='50' y='70' text-anchor='middle' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='%23fff'%3E→R%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    color-scheme:light dark;
+    --bg:#F6F4EF;
+    --ink:#1F2421;
+    --ink-soft:#5B6059;
+    --line:#D8D4C8;
+    --card:#FFFFFF;
+    --accent-blue:#2F5D8A;
+    --accent-blue-bg:#E6F0F8;
+    --accent-coral:#B5562F;
+    --accent-coral-bg:#FBEBE2;
+    --accent-teal:#1E7A63;
+    --accent-teal-bg:#E2F2EC;
+    --accent-purple:#5B4B8A;
+    --accent-purple-bg:#ECE8F6;
+    --accent-amber:#9A6B16;
+    --accent-amber-bg:#FAF0DB;
+    --accent-green:#3B7A23;
+    --accent-green-bg:#EBF4E3;
+    --accent-red:#A23A2E;
+    --accent-red-bg:#F8E5E2;
+    --accent-slate:#46586E;
+    --accent-slate-bg:#E7EDF3;
+    --accent-sky:#4A97C8;
+    --accent-sky-bg:#E3F1F8;
+    --accent-indigo:#4A4E94;
+    --accent-indigo-bg:#ECEDF7;
+    --mono:'JetBrains Mono','SF Mono',Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#191B18;
+      --ink:#EDEFE9;
+      --ink-soft:#A9B0A4;
+      --line:#353B32;
+      --card:#22261F;
+      --accent-blue:#8FB4D8;
+      --accent-blue-bg:#22384C;
+      --accent-coral:#D68A63;
+      --accent-coral-bg:#4A2E20;
+      --accent-teal:#5FB598;
+      --accent-teal-bg:#1C3A30;
+      --accent-purple:#A394D1;
+      --accent-purple-bg:#322B4E;
+      --accent-amber:#D3A94F;
+      --accent-amber-bg:#45351A;
+      --accent-green:#8FBE6E;
+      --accent-green-bg:#263B1E;
+      --accent-red:#D67E72;
+      --accent-red-bg:#4A2620;
+      --accent-slate:#93A7BE;
+      --accent-slate-bg:#26313D;
+      --accent-sky:#7FBCDD;
+      --accent-sky-bg:#1F3A48;
+      --accent-indigo:#9BA0D4;
+      --accent-indigo-bg:#2A2D4D;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    padding-bottom:80px;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px;}
+  header.top{
+    padding:64px 24px 40px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(0,0,0,0.015),transparent);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:Georgia,'Times New Roman',serif;
+    font-weight:400;
+    font-size:clamp(32px,5vw,48px);
+    line-height:1.08;
+    margin:0 0 16px;
+    letter-spacing:-0.01em;
+  }
+  h1 em{font-style:italic;color:var(--accent-teal);}
+  .sub{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:680px;
+    margin:0;
+  }
+  .backnav{margin:0 0 22px;}
+  .backnav a,.howto-link a{
+    color:var(--accent-teal);
+    font-weight:600;
+    font-size:15px;
+    text-underline-offset:3px;
+  }
+  .backnav a:hover,.howto-link a:hover{text-decoration-thickness:2px;}
+  .backnav a:focus-visible,.howto-link a:focus-visible,
+  .toc a:focus-visible{
+    outline:2.5px solid var(--accent-teal);
+    outline-offset:2px;
+    border-radius:4px;
+  }
+  section.guide{
+    padding:56px 24px 8px;
+    scroll-margin-top:24px;
+  }
+  .guide-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+  .guide-num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  h2{
+    font-family:Georgia,serif;
+    font-weight:400;
+    font-size:28px;
+    margin:0;
+    letter-spacing:-0.005em;
+  }
+  h3{
+    font-family:Georgia,serif;
+    font-weight:400;
+    font-size:19px;
+    margin:26px 0 8px;
+    color:var(--accent-teal);
+  }
+  .guide-body{max-width:680px;}
+  .guide-body p{margin:0 0 12px;font-size:15.5px;}
+  .guide-body ol,.guide-body ul{margin:0 0 12px;padding-left:22px;font-size:15.5px;}
+  .guide-body li{margin-bottom:8px;}
+  .guide-body code{
+    font-family:var(--mono);
+    background:rgba(127,127,127,0.16);
+    padding:1px 6px;
+    border-radius:4px;
+    font-size:13.5px;
+  }
+  .toc{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 20px;
+    margin:28px 0 0;
+    max-width:680px;
+  }
+  .toc p{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 8px;
+  }
+  .toc ol{margin:0;padding-left:20px;font-size:14.5px;}
+  .toc li{margin-bottom:4px;}
+  .toc a{color:var(--ink);text-underline-offset:3px;}
+  .toc a:hover{color:var(--accent-teal);}
+  .marks{list-style:none;margin:0 0 12px;padding:0;}
+  .marks li{
+    display:flex;align-items:flex-start;gap:10px;
+    margin-bottom:10px;font-size:15.5px;
+  }
+  .marks .d2r-chip{flex-shrink:0;}
+  .d2r-legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;}
+  .d2r-chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 9px;}
+  .d2r-ico{font-style:normal;font-weight:700;font-size:12px;line-height:1;
+    display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;flex:0 0 auto;}
+  .d2r-ico-in{background:var(--accent-blue-bg);color:var(--accent-blue);border:1.5px solid var(--accent-blue);}
+  .d2r-ico-calc{background:var(--accent-amber-bg);color:var(--accent-amber);border:1.5px dashed var(--accent-amber);}
+  .d2r-ico-need{background:var(--accent-red-bg);color:var(--accent-red);border:1.5px dotted var(--accent-red);}
+  .d2r-ico-off{background:var(--bg);color:var(--ink-soft);border:1.5px solid var(--line);}
+  .d2r-optbadge{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);border:1px solid var(--line);
+    border-radius:5px;padding:0 6px;background:var(--bg);}
+  .d2r-swatch{display:inline-block;width:20px;height:14px;border-radius:4px;flex:0 0 auto;
+    background:var(--accent-red-bg);border:1.5px dotted var(--accent-red);}
+  .d2r-keyswatch{display:inline-block;width:20px;height:14px;border-radius:4px;flex:0 0 auto;background:var(--accent-green-bg);border:1px solid var(--accent-green);}
+  .dep-up-demo,.dep-down-demo{
+    display:inline-block;width:20px;height:14px;border-radius:4px;flex:0 0 auto;background:var(--card);
+  }
+  .dep-up-demo{box-shadow:0 0 0 2.5px var(--accent-teal);}
+  .dep-down-demo{box-shadow:0 0 0 2.5px var(--accent-purple);}
+  .table-scroll{overflow-x:auto;max-width:100%;}
+  table.ht-fields{border-collapse:collapse;font-size:14px;background:var(--card);min-width:560px;width:100%;max-width:900px;}
+  table.ht-fields th,table.ht-fields td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  table.ht-fields th{font-family:var(--mono);font-size:11px;color:var(--ink-soft);background:var(--bg);font-weight:400;white-space:nowrap;}
+  table.ht-fields td:first-child{font-family:var(--mono);font-size:13px;white-space:nowrap;}
+  footer{
+    padding:40px 24px 20px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:13px;
+    font-family:var(--mono);
+  }
+  @media (max-width:640px){
+    section.guide{padding:40px 20px 8px;}
+    h2{font-size:22px;}
+    .guide-num{display:none;}
+    header.top{padding:48px 20px 32px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <nav class="backnav" aria-label="Назад до калькулятора"><a href="index.html">← До калькулятора</a></nav>
+    <p class="eyebrow">Розширений AARRR · 7 етапів · CAC / LTV / ROAS</p>
+    <h1>Як користуватися <em>калькулятором</em></h1>
+    <p class="sub">Покрокова інструкція до інструмента AARRR + юніт-економіка: від введення даних до рішення про масштабування.</p>
+    <nav class="toc" aria-label="Зміст інструкції">
+      <p>Зміст</p>
+      <ol>
+        <li><a href="#what">Що це і для чого</a></li>
+        <li><a href="#start">Швидкий старт</a></li>
+        <li><a href="#buttons">Кнопки</a></li>
+        <li><a href="#marks">Позначки й кольори</a></li>
+        <li><a href="#fields">Поля за етапами</a></li>
+        <li><a href="#verdict">Як читати висновок</a></li>
+        <li><a href="#limits">Обмеження</a></li>
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="guide" id="what" aria-labelledby="h-what">
+  <div class="wrap">
+    <div class="guide-head"><span class="guide-num">01</span><h2 id="h-what">Що це і для чого</h2></div>
+    <div class="guide-body">
+      <p>Інструмент показує, як ваші дані проходять етапами AARRR від залучення до відтоку: які метрики з них рахуються (CAC, LTV, LTV/CAC, ROAS, ROMI) і чого бракує, щоб вирішити, чи масштабувати залучення.</p>
+    </div>
+  </div>
+</section>
+
+<section class="guide" id="start" aria-labelledby="h-start">
+  <div class="wrap">
+    <div class="guide-head"><span class="guide-num">02</span><h2 id="h-start">Швидкий старт</h2></div>
+    <div class="guide-body">
+      <ol>
+        <li>Виберіть режим: <code>Шаблон (формули)</code> — щоб подивитися формули й залежності, або <code>Розрахунок</code> — щоб порахувати метрики за своїми даними.</li>
+        <li>Введіть базові поля за етапами: Installs, Marketing Cost, Activated users, Paying Users, Revenue.</li>
+        <li>За потреби заповніть розширені поля (для LTV і маржі) й таблицю «Розбивка за каналами» (до 5 рядків).</li>
+        <li>Прочитайте блок «Висновок за даними» під схемою.</li>
+        <li>Клікніть будь-який блок схеми, щоб побачити розшифровку метрики (EN / UA), етап і залежності.</li>
+        <li>За потреби скопіюйте висновок кнопкою «Скопіювати як текст».</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="guide" id="buttons" aria-labelledby="h-buttons">
+  <div class="wrap">
+    <div class="guide-head"><span class="guide-num">03</span><h2 id="h-buttons">Кнопки</h2></div>
+    <div class="guide-body">
+      <ul>
+        <li><code>Шаблон (формули)</code> — режим за замовчуванням. Показує формули й залежності метрик без підстановки даних.</li>
+        <li><code>Розрахунок</code> — рахує метрики за введеними значеннями й показує висновок та блок «Чого бракує».</li>
+        <li><code>Приклад даних</code> — підставляє демонстраційні значення в усі поля форми.</li>
+        <li><code>Очистити</code> — скидає всі введені значення.</li>
+        <li><code>Скопіювати як текст</code> — копіює блок «Висновок за даними» у буфер обміну.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="guide" id="marks" aria-labelledby="h-marks">
+  <div class="wrap">
+    <div class="guide-head"><span class="guide-num">04</span><h2 id="h-marks">Позначки й кольори</h2></div>
+    <div class="guide-body">
+      <ul class="marks">
+        <li><span class="d2r-chip"><i class="d2r-ico d2r-ico-in">●</i>введено</span><span>Вхідне число з форми (суцільна рамка).</span></li>
+        <li><span class="d2r-chip"><i class="d2r-ico d2r-ico-calc">◆</i>розраховано</span><span>Метрика, обчислена з введених даних (штрихова рамка).</span></li>
+        <li><span class="d2r-chip"><i class="d2r-ico d2r-ico-need">▲</i><span class="d2r-swatch" aria-hidden="true"></span>бракує даних</span><span>Для розрахунку не вистачає полів (червона заливка і пунктирна рамка).</span></li>
+        <li><span class="d2r-chip"><i class="d2r-ico d2r-ico-off">○</i>без статусу</span><span>Режим «Шаблон» або додатковий блок без даних.</span></li>
+        <li><span class="d2r-chip"><span class="d2r-optbadge">додатково</span></span><span>Блок не впливає на висновок про масштабування.</span></li>
+        <li><span class="d2r-chip"><span class="d2r-keyswatch" aria-hidden="true"></span>Ключове для рішення</span><span>Салатовий фон: ядро рішення (CAC, LTV, LTV/CAC) і дані, від яких вони залежать.</span></li>
+        <li><span class="d2r-chip"><span class="dep-up-demo" aria-hidden="true"></span>залежності</span><span>Зелена підсвітка: блоки, від яких залежить обраний («від чого залежить»).</span></li>
+        <li><span class="d2r-chip"><span class="dep-down-demo" aria-hidden="true"></span>вплив</span><span>Фіолетова підсвітка: блоки, на які обраний впливає («на що впливає»).</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="guide" id="fields" aria-labelledby="h-fields">
+  <div class="wrap">
+    <div class="guide-head"><span class="guide-num">05</span><h2 id="h-fields">Поля за етапами</h2></div>
+    <div class="guide-body">
+      <div class="table-scroll">
+        <table class="ht-fields">
+          <thead><tr><th scope="col">Поле</th><th scope="col">Етап</th><th scope="col">Для чого потрібне</th></tr></thead>
+          <tbody>
+            <tr><td>Installs</td><td>1 · Залучення</td><td>Скільки користувачів залучено; база для частки активації</td></tr>
+            <tr><td>Marketing Cost</td><td>1 · Залучення</td><td>Витрати на залучення; чисельник CAC, знаменник ROAS і ROMI</td></tr>
+            <tr><td>Activated users</td><td>2 · Активація</td><td>Хто дійшов до першої цінності; база конверсії в покупку</td></tr>
+            <tr><td>DAU, MAU</td><td>3 · Взаємодія</td><td>Регулярність використання; додатковий контекст, не входить у формули окупності</td></tr>
+            <tr><td>Users at Start, Users Still Active</td><td>4 · Утримання і 7 · Відтік</td><td>Когорта платних для Retention rate, Churn rate і LTV</td></tr>
+            <tr><td>Paying Users</td><td>5 · Монетизація</td><td>Хто зробив покупку; знаменник CAC і ARPPU</td></tr>
+            <tr><td>Revenue</td><td>5 · Монетизація</td><td>Дохід; чисельник ROAS і ROMI</td></tr>
+            <tr><td>Number of Purchases</td><td>5 · Монетизація (розширене)</td><td>Частота повторних покупок для LTV</td></tr>
+            <tr><td>Cost</td><td>5 · Монетизація (розширене)</td><td>Собівартість і комісії цього доходу; потрібно для маржі</td></tr>
+            <tr><td>Розбивка за каналами</td><td>1 · Залучення / 5 · Монетизація</td><td>CAC і ROAS у розрізі каналів; потрібні дані щонайменше по двох каналах</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="guide" id="verdict" aria-labelledby="h-verdict">
+  <div class="wrap">
+    <div class="guide-head"><span class="guide-num">06</span><h2 id="h-verdict">Як читати висновок</h2></div>
+    <div class="guide-body">
+      <h3>Що розраховано</h3>
+      <p>Метрики, для яких вистачило введених даних, з підстановкою ваших чисел у формули.</p>
+      <h3>Чого бракує</h3>
+      <p>Метрики, які порахувати неможливо, і перелік полів, яких для них не вистачає.</p>
+      <h3>Що можна сказати вже зараз</h3>
+      <p>Проміжні висновки, які випливають з уже введених даних, навіть якщо частина метрик ще заблокована.</p>
+      <h3>Наступний крок</h3>
+      <p>Що ввести або перевірити далі, щоб наблизитися до рішення про масштабування.</p>
+    </div>
+  </div>
+</section>
+
+<section class="guide" id="limits" aria-labelledby="h-limits">
+  <div class="wrap">
+    <div class="guide-head"><span class="guide-num">07</span><h2 id="h-limits">Обмеження</h2></div>
+    <div class="guide-body">
+      <p>LTV = ARPPU / Churn коректний лише для моделей з повторними платежами (підписка, повторні покупки). Для разової покупки LTV дорівнює першому чеку.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  Логіку й формули визначив автор; реалізація виконана з допомогою ШІ. Етапи подано як узагальнену модель життєвого циклу користувача на основі AARRR; у різних джерелах їх 5–7.
+</footer>
+
+</body>
+</html>

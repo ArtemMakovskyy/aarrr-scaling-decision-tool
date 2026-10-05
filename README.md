@@ -1,5 +1,7 @@
 # AARRR · Unit Economics · Scaling Decision Tool
 
+🌐 **Live demo:** https://artemmakovskyy.github.io/aarrr-scaling-decision-tool/
+
 Розширений AARRR · 7 етапів · CAC / LTV / ROAS
 
 **Від даних до рішення про масштабування.** AARRR-каркас + юніт-економіка: як вхідні дані проходять етапами пайплайну від залучення до відтоку, які показники з них рахуються (CAC, LTV, LTV/CAC, ROAS, ROMI) і чого бракує, щоб вирішити, чи масштабувати залучення.

@@ -504,6 +504,7 @@
           <p class="d2r-cherr" id="d2r-ch-err3"></p>
           <p class="d2r-cherr" id="d2r-ch-err4"></p>
           <p class="d2r-cherr" id="d2r-ch-err5"></p>
+          <p class="d2r-cherr" id="d2r-ch-sum"></p>
         </div>
         <p class="d2r-fsub">Розраховується автоматично</p>
         <div class="d2r-der"><span class="d2r-derlabel">Onboarding completion, %</span><output id="d2r-o-onboarding">—</output><span class="d2r-from" id="d2r-of-onboarding" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
@@ -532,6 +533,8 @@
       <span><i style="background:var(--accent-purple)"></i>фіолетова підсвітка — на що блок впливає</span>
     </div>
 
+    <div class="detail-panel" id="panel-d2r-detail"><div class="detail-inner" id="d2r-detail-inner"></div></div>
+
     <div class="d2r-verdict" id="d2r-verdict">
       <div class="d2r-vhead"><span class="d2r-vtitle">Висновок за даними</span><button type="button" class="d2r-btn" id="d2r-copy">Скопіювати як текст</button></div>
       <div class="d2r-vprog" id="d2r-vprog-w" aria-live="polite"><span id="d2r-vprog-t"></span><progress id="d2r-vprog-b" max="19" value="0"></progress></div>
@@ -545,9 +548,7 @@
       </div>
     </div>
 
-    <div class="detail-panel" id="panel-d2r-detail"><div class="detail-inner" id="d2r-detail-inner"></div></div>
-
-    <p class="d2r-prose">Як читати схему: зверху вниз у межах смуги етапу — порядок розрахунку. Ланцюжок рішення: Installs → Activated users → Paying Users → Revenue; далі Paying Users + Marketing Cost → CAC, Revenue + Ad Spend → ROAS, а Retention rate / Churn rate + ARPU → LTV → LTV/CAC. Без правої частини (LTV, Retention rate, Churn rate, Purchase frequency, Margin і ROMI, розбивка по каналах) відповісти, чи масштабувати залучення, неможливо — видно лише перший чек, а не окупність.</p>
+    <p class="d2r-prose">Як читати схему: зверху вниз у межах смуги етапу — порядок розрахунку. Ланцюжок рішення: Installs → Activated users → Paying Users → Revenue; далі Paying Users + Marketing Cost → CAC, Revenue + Ad Spend → ROAS, а Retention rate / Churn rate + ARPPU → LTV → LTV/CAC. Без правої частини (LTV, Retention rate, Churn rate, Purchase frequency, Margin і ROMI, розбивка по каналах) відповісти, чи масштабувати залучення, неможливо — видно лише перший чек, а не окупність.</p>
     <p class="hint">клікни на блок схеми (або натисни Enter / Space на клавіатурі)</p>
 
     <script>
@@ -671,13 +672,20 @@
           plan:"Порахувати гроші, які воронка вже принесла, — базу для ROAS і ROMI.",
           expect:"Revenue покриває Marketing Cost лише частково або повністю на першому чеку. Повна окупність видна тільки через LTV.",
           noData:"Без Revenue немає чисельника ROAS і ROMI: невідомо, скільки повертає кожен вкладений долар."},
-        {id:"arppu", stage:5, needs:["revenue","paying"], did:"arppu", title:"ARPPU / ARPU",
-          formula:"ARPPU = Total Revenue / Paying Users; ARPU = Revenue / Users ",
+        {id:"arppu", stage:5, needs:["revenue","paying"], did:"arppu", title:"ARPPU",
+          formula:"ARPPU = Total Revenue / Paying Users",
           dependsOn:["revenue","paying"],
-          what:"Дохід у перерахунку на одного користувача: ARPPU — на платного, ARPU — на всіх. Місток від разового чека до LTV.",
+          what:"Середній дохід на одного платного користувача. Місток від разового чека до LTV.",
           plan:"Отримати питомий дохід, який потім множиться на тривалість життя користувача у формулі LTV.",
-          expect:"ARPPU тут дорівнює чеку першої покупки. Справжній ARPU зростає лише з повторними покупками (Purchase frequency).",
-          noData:"Без питомого доходу формула LTV = ARPU × середній період утримання не має першого множника."},
+          expect:"ARPPU тут дорівнює чеку першої покупки; зростає лише з повторними покупками (Purchase frequency).",
+          noData:"Без питомого доходу формула LTV не має першого множника."},
+        {id:"arpu", stage:5, needs:["revenue","installs"], did:"arpu", title:"ARPU",
+          formula:"ARPU = Revenue / Users (у схемі Users = Installs)",
+          dependsOn:["revenue","installs"],
+          what:"Середній дохід на одного користувача, враховуючи всіх, а не лише платних.",
+          plan:"Зафіксувати середній дохід на одного користувача для оцінки віддачі всього залучення.",
+          expect:"ARPU значно менший за ARPPU, бо більшість користувачів не платить.",
+          noData:"Без Installs немає знаменника: ARPU не рахується."},
         {id:"purchase-freq", stage:5, needs:["purchases","paying"], did:"pfreq", title:"Purchase frequency",
           formula:"Purchase frequency = Number of Purchases / Users Who Made Purchases",
           dependsOn:["paying"],
@@ -911,6 +919,24 @@
         }
         return rows;
       }
+      /* М'яка перевірка: суми по заповнених рядках каналів мають сходитися з підсумками.
+         Повертає попередження (не блокує розрахунок). Перевіряє лише введені підсумки. */
+      function channelSumCheck(raw, ch){
+        var warns = [];
+        if(!ch.length) return warns;
+        var sumC = 0, sumP = 0, sumR = 0;
+        ch.forEach(function(r){ sumC += r.cost; sumP += r.paying; sumR += r.rev; });
+        if(raw.mcost.state === "ok" && Math.abs(sumC - raw.mcost.v) > 0.01){
+          warns.push({label:"Сума Marketing Cost по каналах", err:"Перевірте: " + fmtMoney0(sumC) + ", а підсумок " + fmtMoney0(raw.mcost.v) + ". Можливо, внесено не всі канали."});
+        }
+        if(raw.paying.state === "ok" && sumP !== raw.paying.v){
+          warns.push({label:"Сума Paying Users по каналах", err:"Перевірте: " + fmtInt(sumP) + ", а підсумок " + fmtInt(raw.paying.v) + ". Можливо, внесено не всі канали."});
+        }
+        if(raw.revenue.state === "ok" && Math.abs(sumR - raw.revenue.v) > 0.01){
+          warns.push({label:"Сума Revenue по каналах", err:"Перевірте: " + fmtMoney0(sumR) + ", а підсумок " + fmtMoney0(raw.revenue.v) + ". Можливо, внесено не всі канали."});
+        }
+        return warns;
+      }
       function aovNeedIds(raw){
         if(raw.revenue.state !== "ok") return ["revenue"];
         if(raw.purchases.state === "ok" || raw.paying.state === "ok") return [];
@@ -937,7 +963,8 @@
         if(n.id === "paying") return "Paying Users (вхідне число)";
         if(n.id === "aov") return "AOV = Revenue / Number of Purchases";
         if(n.id === "revenue") return "Revenue (вхідне число)";
-        if(n.id === "arppu") return "ARPPU = Revenue / Paying Users; ARPU = Revenue / Installs";
+        if(n.id === "arppu") return "ARPPU = Revenue / Paying Users";
+        if(n.id === "arpu") return "ARPU = Revenue / Installs (припущення: Users = Installs)";
         if(n.id === "purchase-freq") return "Purchase frequency = Number of Purchases / Paying Users";
         if(n.id === "ltv") return "LTV = ARPPU × (1 / Churn rate) · «період утримання ≈ 1 / Churn rate» — стандартне спрощення";
         if(n.id === "ltv-cac") return "LTV/CAC = LTV / CAC";
@@ -962,7 +989,8 @@
           case "onboarding": return "Onboarding completion = " + I("activated") + " / " + I("installs") + " × 100 = " + fmtPct1(D.onboarding.v);
           case "conv-purchase": return "Conversion rate (purchase) = " + I("paying") + " / " + I("activated") + " × 100 = " + fmtPct1(D.conv.v);
           case "aov": return "AOV = " + fmtMoney0(raw.revenue.v) + " / " + fmtInt(D.aov.den) + " = " + fmtMoney2(D.aov.v) + (D.aov.note ? " (" + D.aov.note + ")" : "");
-          case "arppu": return "ARPPU = " + fmtMoney0(raw.revenue.v) + " / " + I("paying") + " = " + fmtMoney2(D.arppu.v) + "; " + arpuText(raw, D);
+          case "arppu": return "ARPPU = " + fmtMoney0(raw.revenue.v) + " / " + I("paying") + " = " + fmtMoney2(D.arppu.v);
+          case "arpu": return arpuText(raw, D);
           case "cac": return "CAC = " + fmtMoney0(raw.mcost.v) + " / " + I("paying") + " = " + fmtMoney2(D.cac.v);
           case "roas": return "ROAS = " + fmtMoney0(raw.revenue.v) + " / " + fmtMoney0(raw.mcost.v) + " = " + fmtMult(D.roas.v) + " (припущення: Ad Spend = Marketing Cost)";
           case "romi": return "ROMI = (" + fmtMoney0(raw.revenue.v) + " − " + fmtMoney0(raw.mcost.v) + ") / " + fmtMoney0(raw.mcost.v) + " × 100 = " + fmtPct1(D.romi.v);
@@ -1202,6 +1230,7 @@
         FIDS.forEach(function(fid){
           if(raw[fid].state === "bad") fix.push({label:FIELDS[fid].label, err:raw[fid].err});
         });
+        channelSumCheck(raw, ch).forEach(function(w){ fix.push(w); });
         return {groups:groups, fix:fix};
       }
       function verdictFacts(raw, D, ch){
@@ -1409,6 +1438,9 @@
         var ch = readChannels();
         var D = derive(raw);
         STATE = {raw:raw, D:D, ch:ch};
+        var chSum = channelSumCheck(raw, ch);
+        var sumEl = document.getElementById("d2r-ch-sum");
+        if(sumEl) sumEl.textContent = chSum.map(function(w){ return w.label + ": " + w.err; }).join(" ");
         refreshSubs();
         refreshDerived(D);
         refreshSummary();
@@ -1468,7 +1500,7 @@
         return seen;
       }
       /* Розшифровка назв метрик: [англійською, українською] */
-var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення застосунку"], "marketing-cost": ["Marketing Cost / Ad Spend", "Маркетингові витрати / Рекламні витрати"], "cac": ["Customer Acquisition Cost", "Вартість залучення клієнта"], "channels": ["Acquisition Channels Breakdown", "Розбивка за каналами залучення"], "onboarding": ["Onboarding Completion Rate", "Частка користувачів, що завершили onboarding"], "activated": ["Activated Users / Activation Rate", "Активовані користувачі / Рівень активації"], "dau-mau": ["Daily Active Users / Monthly Active Users", "Щоденні / щомісячні активні користувачі (DAU/MAU)"], "retention": ["Retention Rate", "Рівень утримання користувачів"], "cohort": ["Cohort Retention", "Утримання когорти користувачів"], "conv-purchase": ["Conversion Rate (purchase)", "Конверсія в покупку"], "paying": ["Paying Users", "Платні користувачі"], "aov": ["Average Order Value (AOV)", "Середній чек (середня сума покупки)"], "revenue": ["Revenue", "Дохід (виручка)"], "arppu": ["ARPPU: Average Revenue Per Paying User / ARPU: Average Revenue Per User", "Середній дохід на платного користувача / на користувача"], "purchase-freq": ["Purchase Frequency", "Частота покупок"], "ltv": ["Customer Lifetime Value", "Цінність клієнта за весь час життя"], "ltv-cac": ["LTV to CAC ratio", "Співвідношення LTV до CAC"], "roas": ["Return on Ad Spend", "Віддача від рекламних витрат"], "romi": ["Return on Marketing Investment", "Рентабельність маркетингових інвестицій"], "margin": ["Margin", "Маржа (маржинальність)"], "nps-viral": ["Net Promoter Score / Viral Coefficient", "Індекс лояльності клієнтів / Вірусний коефіцієнт"], "churn": ["Churn Rate", "Відтік користувачів"]};
+var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення застосунку"], "marketing-cost": ["Marketing Cost / Ad Spend", "Маркетингові витрати / Рекламні витрати"], "cac": ["Customer Acquisition Cost", "Вартість залучення клієнта"], "channels": ["Acquisition Channels Breakdown", "Розбивка за каналами залучення"], "onboarding": ["Onboarding Completion Rate", "Частка користувачів, що завершили onboarding"], "activated": ["Activated Users / Activation Rate", "Активовані користувачі / Рівень активації"], "dau-mau": ["Daily Active Users / Monthly Active Users", "Щоденні / щомісячні активні користувачі (DAU/MAU)"], "retention": ["Retention Rate", "Рівень утримання користувачів"], "cohort": ["Cohort Retention", "Утримання когорти користувачів"], "conv-purchase": ["Conversion Rate (purchase)", "Конверсія в покупку"], "paying": ["Paying Users", "Платні користувачі"], "aov": ["Average Order Value (AOV)", "Середній чек (середня сума покупки)"], "revenue": ["Revenue", "Дохід (виручка)"], "arppu": ["Average Revenue Per Paying User", "Середній дохід на платного користувача"], "arpu": ["Average Revenue Per User", "Середній дохід на користувача"], "purchase-freq": ["Purchase Frequency", "Частота покупок"], "ltv": ["Customer Lifetime Value", "Цінність клієнта за весь час життя"], "ltv-cac": ["LTV to CAC ratio", "Співвідношення LTV до CAC"], "roas": ["Return on Ad Spend", "Віддача від рекламних витрат"], "romi": ["Return on Marketing Investment", "Рентабельність маркетингових інвестицій"], "margin": ["Margin", "Маржа (маржинальність)"], "nps-viral": ["Net Promoter Score / Viral Coefficient", "Індекс лояльності клієнтів / Вірусний коефіцієнт"], "churn": ["Churn Rate", "Відтік користувачів"]};
 /* Статичні нотатки для 11 ключових метрик: питання, база розрахунку, типова помилка. */
       var D2R_METRIC_NOTES = {
         "conv-purchase":{q:"Яка частина активованих користувачів дійшла до першої покупки?",
@@ -1486,9 +1518,12 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
         "romi":{q:"На скільки відсотків виручка перевищує маркетингові витрати?",
           base:"Чисельник: Revenue − Marketing Cost. Знаменник: Marketing Cost. Обидва за один період.",
           mistake:"Плутати з ROAS: той самий приклад дає ROAS 1,6 і ROMI 60,0%. Також помилково вважати ROMI повним прибутком: Cost (собівартість) тут не враховано."},
-        "arppu":{q:"Скільки в середньому приносить один платний користувач (ARPPU) і один користувач загалом (ARPU)?",
-          base:"ARPPU = Revenue / Paying Users; ARPU = Revenue / Users (у схемі Users = Installs, припущення). Однаковий період для доходу й користувачів.",
-          mistake:"Плутати ARPU і ARPPU: у прикладі $0,80 проти $20,00, різниця у 25 разів. Ділити дохід не на ту групу користувачів."},
+        "arppu":{q:"Скільки в середньому приносить один платний користувач?",
+          base:"ARPPU = Revenue / Paying Users. Однаковий період для доходу й користувачів.",
+          mistake:"Ділити дохід не на платних користувачів, а на всіх."},
+        "arpu":{q:"Скільки в середньому приносить один користувач загалом?",
+          base:"ARPU = Revenue / Users (у схемі Users = Installs, припущення). Однаковий період для доходу й користувачів.",
+          mistake:"Плутати ARPU і ARPPU: різниця може бути в десятки разів. Ділити дохід не на ту групу користувачів."},
         "aov":{q:"Яка середня сума однієї покупки?",
           base:"Revenue / Number of Purchases. Якщо Number of Purchases не введено, схема припускає одну покупку на платного користувача.",
           mistake:"Ділити на Paying Users, коли покупок більше: це вже ARPPU, а не AOV. Змішувати першу покупку з повторними."},

@@ -29,6 +29,7 @@
     --accent-red-bg:#F8E5E2;
     --accent-slate:#46586E;
     --accent-slate-bg:#E7EDF3;
+    --accent-wine-bg:#F6E6EE;
     --accent-sky:#4A97C8;
     --accent-sky-bg:#E3F1F8;
     --accent-indigo:#4A4E94;
@@ -210,10 +211,10 @@
       .d2r-field input:focus-visible{outline:2px solid var(--accent-teal);outline-offset:1px;}
       .d2r-field input[aria-invalid="true"]{border-color:var(--accent-red);background:var(--accent-red-bg);}
       .d2r-formerr{width:100%;font-size:12.5px;color:var(--accent-red);min-height:1.2em;margin:0;}
-      #s10 .wrap{max-width:1320px;}
+      #s10 .wrap{max-width:1550px;}
       .d2r-scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;}
-      .d2r-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px;min-width:1180px;}
-      .d2r-col.d2r-wide{grid-column:span 3;display:grid;grid-template-columns:1fr 1fr 1fr;
+      .d2r-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px;min-width:1475px;}
+      .d2r-col.d2r-wide{grid-column:span 3;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
         grid-auto-flow:column;grid-template-rows:auto repeat(4,auto);}
       .d2r-col.d2r-wide .d2r-colhead{grid-column:1/-1;}
       .d2r-formula, .d2r-title{overflow-wrap:break-word;word-break:normal;hyphens:manual;}
@@ -254,7 +255,33 @@
       .d2r-full b{color:var(--ink);font-weight:600;}
       .d2r-fsub{width:100%;font-family:var(--mono);font-size:11px;color:var(--ink-soft);
         text-transform:uppercase;letter-spacing:.05em;margin:8px 0 -4px;}
-      .d2r-fbtns{display:flex;gap:8px;width:100%;}
+      .d2r-fbtns{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 auto;min-width:0;}
+      .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-fbtns,
+      .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-casecap,
+      .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-fhint{display:none;}
+      .d2r-fgrp{display:flex;flex-wrap:wrap;gap:10px 14px;align-content:flex-start;min-width:0;flex:1 1 100%;padding:8px 10px;border-radius:10px;}
+      .d2r-fgrp > .d2r-fsub{margin:0 0 2px;}
+      .d2r-form > div.d2r-fgrp:nth-of-type(1){background:var(--accent-blue-bg);border-left:3px solid var(--accent-blue);}
+      .d2r-form > div.d2r-fgrp:nth-of-type(2){background:var(--accent-coral-bg);border-left:3px solid var(--accent-coral);}
+      .d2r-form > div.d2r-fgrp:nth-of-type(3){background:var(--accent-amber-bg);border-left:3px solid var(--accent-amber);}
+      .d2r-form > div.d2r-fgrp:nth-of-type(5){background:var(--accent-slate-bg);border-left:3px solid var(--accent-slate);}
+      .d2r-field.st-5{--d2r-fstage:var(--accent-amber);--d2r-fbg:var(--accent-amber-bg);}
+      .d2r-field.st-3{--d2r-fstage:var(--accent-teal);--d2r-fbg:var(--accent-teal-bg);}
+      .d2r-field.st-4{--d2r-fstage:#A23A6B;--d2r-fbg:var(--accent-wine-bg);}
+      .d2r-field.st-5,.d2r-field.st-3,.d2r-field.st-4{background:var(--d2r-fbg);border-left:3px solid var(--d2r-fstage);border-radius:10px;padding:8px 10px;}
+      .d2r-fhint{margin:0;}
+      @media (min-width:640px){
+        .d2r-form > div.d2r-fgrp:nth-of-type(1),
+        .d2r-form > div.d2r-fgrp:nth-of-type(2),
+        .d2r-form > div.d2r-fgrp:nth-of-type(3){flex:1 1 200px;}
+      }
+      @media (min-width:1000px){
+        .d2r-form > div.d2r-fgrp:nth-of-type(1),
+        .d2r-form > div.d2r-fgrp:nth-of-type(2),
+        .d2r-form > div.d2r-fgrp:nth-of-type(3){flex:1 1 30%;}
+        .d2r-form > div.d2r-fgrp:nth-of-type(4){flex:1 1 40%;}
+        .d2r-form > div.d2r-fgrp:nth-of-type(5){flex:1 1 55%;}
+      }
       .d2r-btn{font-size:13px;cursor:pointer;border:1px solid var(--line);border-radius:8px;
         padding:6px 12px;background:var(--bg);color:var(--ink);font-family:inherit;}
       .d2r-btn:hover{border-color:var(--accent-teal);}
@@ -331,128 +358,50 @@
   <div class="wrap">
 
     <style>
-      .d2r-legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;}
-      .d2r-chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink);
-        background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 9px;}
-      .d2r-ico{font-style:normal;font-weight:700;font-size:12px;line-height:1;
-        display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;flex:0 0 auto;}
-      .d2r-ico-in{background:var(--accent-blue-bg);color:var(--accent-blue);border:1.5px solid var(--accent-blue);}
-      .d2r-ico-calc{background:var(--accent-amber-bg);color:var(--accent-amber);border:1.5px dashed var(--accent-amber);}
-      .d2r-ico-need{background:var(--accent-red-bg);color:var(--accent-red);border:1.5px dotted var(--accent-red);}
-      .d2r-optbadge{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);border:1px solid var(--line);
-        border-radius:5px;padding:0 6px;background:var(--bg);}
-      .d2r-modes{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;background:var(--card);
-        border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 14px;}
-      .d2r-modes fieldset{border:none;margin:0;padding:0;display:flex;gap:8px;align-items:center;}
-      .d2r-modes legend{font-family:var(--mono);font-size:11px;color:var(--ink-soft);padding:0;margin-right:6px;}
-      .d2r-mode{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;
-        border:1px solid var(--line);border-radius:8px;padding:6px 12px;background:var(--bg);color:var(--ink);}
-      .d2r-mode:has(input:checked){border-color:var(--accent-teal);background:var(--accent-teal-bg);font-weight:600;}
-      .d2r-mode input{accent-color:var(--accent-teal);margin:0;}
-      .d2r-form{display:none;flex-wrap:wrap;gap:10px 14px;width:100%;margin-top:4px;}
-      .d2r-form.open{display:flex;}
-      .d2r-field{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--ink-soft);}
-      .d2r-field label{font-family:var(--mono);font-size:11px;}
-      .d2r-field input{font-family:var(--mono);font-size:13.5px;color:var(--ink);background:var(--bg);
-        border:1px solid var(--line);border-radius:7px;padding:6px 9px;width:150px;}
-      .d2r-field input:focus-visible{outline:2px solid var(--accent-teal);outline-offset:1px;}
-      .d2r-field input[aria-invalid="true"]{border-color:var(--accent-red);background:var(--accent-red-bg);}
-      .d2r-formerr{width:100%;font-size:12.5px;color:var(--accent-red);min-height:1.2em;margin:0;}
-      #s10 .wrap{max-width:1320px;}
-      .d2r-scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;}
-      .d2r-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px;min-width:1180px;}
-      .d2r-col.d2r-wide{grid-column:span 3;display:grid;grid-template-columns:1fr 1fr 1fr;
-        grid-auto-flow:column;grid-template-rows:auto repeat(4,auto);}
-      .d2r-col.d2r-wide .d2r-colhead{grid-column:1/-1;}
-      .d2r-formula, .d2r-title{overflow-wrap:break-word;word-break:normal;hyphens:manual;}
-      .d2r-col{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 8px;
-        display:flex;flex-direction:column;gap:8px;min-width:0;}
-      .d2r-colhead{font-size:12px;font-weight:700;line-height:1.35;padding:2px 4px 8px;margin:0 0 2px;
-        border-bottom:2px solid var(--d2r-stage,var(--accent-teal));color:var(--ink);}
-      .d2r-colhead small{display:block;font-weight:400;color:var(--ink-soft);font-size:10.5px;}
-      .d2r-node{text-align:left;background:var(--card);color:var(--ink);border-radius:9px;padding:9px 10px 8px;
-        cursor:pointer;font-size:12.5px;line-height:1.4;border:1.5px solid var(--d2r-stage,var(--line));
-        border-left-width:6px;transition:opacity .15s, box-shadow .15s, transform .15s;width:100%;font-family:inherit;}
-      .d2r-node:hover{box-shadow:0 2px 10px rgba(0,0,0,.08);}
-      .d2r-node:focus-visible{outline:2.5px solid var(--accent-teal);outline-offset:2px;}
-      .d2r-node.t-calc{border-style:dashed;border-left-style:solid;}
-      .d2r-node.t-need{border-style:dotted;border-left-style:solid;border-width:2px;border-left-width:6px;border-color:var(--accent-red);background:var(--accent-red-bg);}
-      .d2r-node.t-need .d2r-title,.d2r-node.t-need .d2r-formula{color:var(--accent-red);}
-      .d2r-ico-off{background:var(--bg);color:var(--ink-soft);border:1.5px solid var(--line);}
-      .d2r-node .d2r-kind{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
-        letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px;min-width:0;overflow-wrap:anywhere;}
-      .d2r-node .d2r-title{font-weight:700;font-size:12.5px;display:block;}
-      .d2r-node .d2r-formula{display:block;font-family:var(--mono);font-size:10.8px;color:var(--ink-soft);margin-top:4px;word-break:break-word;}
-      .d2r-node .d2r-val{display:block;font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:4px;word-break:break-word;}
-      .d2r-node.active{box-shadow:0 0 0 2px var(--d2r-stage), inset 0 0 0 1px var(--d2r-stage);}
-      .d2r-node.dep-up{box-shadow:0 0 0 2.5px var(--accent-teal);}
-      .d2r-node.dep-down{box-shadow:0 0 0 2.5px var(--accent-purple);}
-      .d2r-node.dim{opacity:.55;}
-      .d2r-hintline{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin:10px 2px 0;}
-      .d2r-hintline i{font-style:normal;display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
-      .d2r-prose{font-size:13.5px;color:var(--ink-soft);margin:14px 0 0;max-width:680px;}
-      .d2r-detail-fields{margin:0;padding:0;list-style:none;}
-      .d2r-detail-fields li{margin:0 0 9px;font-size:14px;color:var(--ink);}
-      .d2r-detail-fields li:last-child{margin-bottom:0;}
-      .d2r-detail-fields b.flabel{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;
-        text-transform:uppercase;color:var(--detail-color,var(--accent-teal));margin-bottom:2px;}
-      .d2r-tag{font-family:var(--mono);font-size:11px;background:var(--accent-amber-bg);color:var(--accent-amber);
-        border:1px solid var(--accent-amber);border-radius:5px;padding:0 6px;white-space:nowrap;}
-      .d2r-fsub{width:100%;font-family:var(--mono);font-size:11px;color:var(--ink-soft);
-        text-transform:uppercase;letter-spacing:.05em;margin:8px 0 -4px;}
-      .d2r-fbtns{display:flex;gap:8px;width:100%;}
-      .d2r-btn{font-size:13px;cursor:pointer;border:1px solid var(--line);border-radius:8px;
-        padding:6px 12px;background:var(--bg);color:var(--ink);font-family:inherit;}
-      .d2r-btn:hover{border-color:var(--accent-teal);}
-      .d2r-btn:focus-visible{outline:2px solid var(--accent-teal);outline-offset:1px;}
-      .d2r-ferr{font-size:11px;color:var(--accent-red);min-height:1em;margin:0;max-width:190px;}
-      .d2r-der{display:flex;flex-direction:column;gap:2px;background:var(--bg);border:1px solid var(--line);
-        border-radius:7px;padding:6px 9px;min-width:190px;max-width:230px;}
-      .d2r-der .d2r-derlabel{font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
-      .d2r-der output{font-family:var(--mono);font-size:13.5px;color:var(--ink);min-height:1.2em;}
-      .d2r-der .d2r-from{font-size:10.5px;color:var(--ink-soft);}
-      .d2r-chwrap{width:100%;overflow-x:auto;}
-      .d2r-chcap{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin:8px 0 4px;}
-      table.d2r-cht{border-collapse:collapse;font-size:12px;background:var(--card);}
-      table.d2r-cht th,table.d2r-cht td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top;}
-      table.d2r-cht th{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);background:var(--bg);font-weight:400;}
-      table.d2r-cht input{font-family:var(--mono);font-size:12.5px;color:var(--ink);background:var(--bg);
-        border:1px solid var(--line);border-radius:6px;padding:4px 7px;width:92px;}
-      table.d2r-cht input.d2r-chname{width:130px;}
-      table.d2r-cht input:focus-visible{outline:2px solid var(--accent-teal);outline-offset:1px;}
-      table.d2r-cht input[aria-invalid="true"]{border-color:var(--accent-red);background:var(--accent-red-bg);}
-      .d2r-cherr{font-size:11px;color:var(--accent-red);min-height:1em;margin:2px 0 0;}
-      .d2r-ready{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;
-        padding:10px 12px;font-size:13px;color:var(--ink);}
-      .d2r-field input.d2r-needfield{border-color:var(--accent-red);background:var(--accent-red-bg);}
-      .d2r-needfor{font-size:11px;color:var(--accent-red);min-height:1em;margin:0;max-width:230px;}
-      .d2r-der.d2r-missrow{background:var(--accent-red-bg);}
-      .d2r-swatch{display:inline-block;width:20px;height:14px;border-radius:4px;flex:0 0 auto;
-        background:var(--accent-red-bg);border:1.5px dotted var(--accent-red);}
-      .d2r-verdict{background:var(--card);border:1px solid var(--line);border-radius:14px;
-        padding:14px 16px;margin-top:14px;max-width:100%;overflow-wrap:break-word;}
-      .d2r-vhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
-      .d2r-vtitle{font-family:Georgia,serif;font-size:19px;}
-      .d2r-vhead .d2r-btn{margin-left:auto;}
-      .d2r-vprog{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;margin:6px 0 2px;}
-      .d2r-vprog progress{width:220px;max-width:100%;accent-color:var(--accent-teal);}
-      .d2r-vhint{font-size:14px;color:var(--ink-soft);padding:6px 0;}
-      .d2r-verdict details{border-top:1px dashed var(--line);padding:8px 0;}
-      .d2r-verdict details:first-of-type{margin-top:6px;}
-      .d2r-verdict summary{cursor:pointer;font-size:14.5px;font-weight:600;display:flex;align-items:center;gap:8px;list-style:none;}
-      .d2r-verdict summary::-webkit-details-marker{display:none;}
-      .d2r-verdict summary:focus-visible{outline:2.5px solid var(--accent-teal);outline-offset:2px;border-radius:6px;}
-      .d2r-vsec{font-size:13.5px;margin-top:6px;}
-      .d2r-vsec ul{margin:6px 0;padding-left:18px;}
-      .d2r-vsec li{margin-bottom:4px;}
-      .d2r-vsec p{margin:0 0 6px;}
-      .d2r-vstage{font-family:var(--mono);font-size:11px;color:var(--ink-soft);white-space:nowrap;}
-      .d2r-vsub{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin:8px 0 2px;}
-      .d2r-warn{display:block;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 9px;}
-      .d2r-warn i{font-style:normal;margin-right:6px;}
-      .d2r-node.is-key:not(.t-need){background:var(--accent-green-bg);}
-      .d2r-field.is-key input:not([aria-invalid="true"]){background:var(--accent-green-bg);}
-      .d2r-keyswatch{display:inline-block;width:20px;height:14px;border-radius:4px;flex:0 0 auto;background:var(--accent-green-bg);border:1px solid var(--accent-green);}
+      .d2r-decision{
+        --g0:#D64545;
+        --g1:#E67E22;
+        --g2:#E0B73C;
+        --g3:#7FB069;
+        --g4:#2E7D32;
+        margin-top:14px;border-top:1px dashed var(--line);padding:12px 0 4px;}
+      @media (prefers-color-scheme:dark){
+        .d2r-decision{
+          --g0:#E57373;
+          --g1:#F0A35E;
+          --g2:#E8C95C;
+          --g3:#9CCC9C;
+          --g4:#5FA052;
+        }
+      }
+      .d2r-casecap{width:100%;font-size:13.5px;color:var(--ink-soft);margin:2px 0 0;min-height:1.2em;}
+      .d2r-dhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+      .d2r-dtitle{font-family:Georgia,serif;font-size:19px;}
+      .d2r-dtext{font-size:14.5px;margin:0 0 8px;}
+      .d2r-dwarn{margin:0 0 8px;}
+      .d2r-dnote{font-size:13px;color:var(--ink-soft);margin:8px 0 0;}
+      .d2r-gauge{margin:8px 0 4px;}
+      .d2r-gwrap{position:relative;margin:26px 30px 0;}
+      .d2r-gval{position:absolute;top:-25px;transform:translateX(-50%);font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:0 7px;white-space:nowrap;}
+      .d2r-gtrack{position:relative;display:flex;height:26px;}
+      .d2r-gz{display:flex;align-items:center;justify-content:center;min-width:0;overflow:hidden;}
+      .d2r-gz0{background:var(--g0);border-radius:6px 0 0 6px;}
+      .d2r-gz1{background:var(--g1);}
+      .d2r-gz2{background:var(--g2);}
+      .d2r-gz3{background:var(--g3);}
+      .d2r-gz4{background:var(--g4);border-radius:0 6px 6px 0;}
+      .d2r-gt{font-family:var(--mono);font-size:10.5px;color:#1F2421;background:rgba(255,255,255,.82);border-radius:4px;padding:0 4px;white-space:nowrap;}
+      .d2r-gmark{position:absolute;top:-8px;width:3px;height:38px;background:var(--ink);transform:translateX(-50%);}
+      .d2r-gmark::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top:8px solid var(--ink);}
+      .d2r-gmark.over::after{content:"\2192";position:absolute;top:-24px;left:5px;font-weight:700;color:var(--ink);}
+      .d2r-gbounds{position:relative;height:18px;margin-top:3px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+      .d2r-gbounds span{position:absolute;transform:translateX(-50%);}
+      @media (max-width:560px){
+        .d2r-gwrap{margin:24px 22px 0;}
+        .d2r-gt{font-size:9px;padding:0 3px;}
+        .d2r-gval{font-size:11.5px;}
+        .d2r-dtitle{font-size:17px;}
+      }
     </style>
 
     <div class="d2r-legend" aria-label="Легенда типів блоків">
@@ -470,41 +419,53 @@
         <label class="d2r-mode"><input type="radio" name="d2r-mode" value="template" checked>Шаблон (формули)</label>
         <label class="d2r-mode"><input type="radio" name="d2r-mode" value="calc">Розрахунок</label>
       </fieldset>
+      <div class="d2r-fbtns"><button type="button" class="d2r-btn" id="d2r-fill">Приклад даних (кейс А)</button><button type="button" class="d2r-btn" id="d2r-case-b">Кейс Б: повтори</button><button type="button" class="d2r-btn" id="d2r-case-v">Кейс В: пастка</button><button type="button" class="d2r-btn" id="d2r-clear">Очистити</button></div>
+      <p class="d2r-casecap" id="d2r-casecap" aria-live="polite"></p>
+      <p class="d2r-fsub d2r-fhint">Колір блоку відповідає етапу на схемі</p>
       <form class="d2r-form" id="d2r-form" novalidate>
-        <div class="d2r-fbtns"><button type="button" class="d2r-btn" id="d2r-fill">Приклад даних</button><button type="button" class="d2r-btn" id="d2r-clear">Очистити</button></div>
-        <p class="d2r-fsub">Етап 1 · Залучення — базові дані</p>
-        <div class="d2r-field is-key"><label for="d2r-f-installs">Installs</label><input class="d2r-fin" id="d2r-f-installs" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-installs"></p><p class="d2r-needfor" id="d2r-n-installs"></p></div>
-        <div class="d2r-field is-key"><label for="d2r-f-mcost">Marketing Cost, $</label><input class="d2r-fin" id="d2r-f-mcost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-mcost"></p><p class="d2r-needfor" id="d2r-n-mcost"></p></div>
-        <p class="d2r-fsub">Етап 2 · Активація — базові дані</p>
-        <div class="d2r-field"><label for="d2r-f-activated">Activated users (завершили onboarding)</label><input class="d2r-fin" id="d2r-f-activated" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-activated"></p><p class="d2r-needfor" id="d2r-n-activated"></p></div>
-        <p class="d2r-fsub">Етап 5 · Монетизація — базові дані</p>
-        <div class="d2r-field is-key"><label for="d2r-f-paying">Paying Users</label><input class="d2r-fin" id="d2r-f-paying" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-paying"></p><p class="d2r-needfor" id="d2r-n-paying"></p></div>
-        <div class="d2r-field is-key"><label for="d2r-f-revenue">Revenue, $</label><input class="d2r-fin" id="d2r-f-revenue" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-revenue"></p><p class="d2r-needfor" id="d2r-n-revenue"></p></div>
-        <p class="d2r-fsub">Розширені поля (для LTV і маржі)</p>
-        <div class="d2r-field"><label for="d2r-f-purchases">Number of Purchases (етап 5)</label><input class="d2r-fin" id="d2r-f-purchases" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-purchases"></p><p class="d2r-needfor" id="d2r-n-purchases"></p></div>
-        <div class="d2r-field"><label for="d2r-f-cost">Cost, $ (етап 5: собівартість, комісії та інші витрати цього доходу)</label><input class="d2r-fin" id="d2r-f-cost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-cost"></p><p class="d2r-needfor" id="d2r-n-cost"></p></div>
-        <div class="d2r-field is-key"><label for="d2r-f-ustart">Users at Start (етапи 4 і 7, когорта платних)</label><input class="d2r-fin" id="d2r-f-ustart" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustart"></p><p class="d2r-needfor" id="d2r-n-ustart"></p></div>
-        <div class="d2r-field is-key"><label for="d2r-f-ustill">Users Still Active (етапи 4 і 7)</label><input class="d2r-fin" id="d2r-f-ustill" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustill"></p><p class="d2r-needfor" id="d2r-n-ustill"></p></div>
-        <div class="d2r-field"><label for="d2r-f-dau">DAU (етап 3)</label><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
-        <div class="d2r-field"><label for="d2r-f-mau">MAU (етап 3)</label><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
-        <div class="d2r-chwrap">
-          <p class="d2r-chcap">Розбивка за каналами (до 5 рядків)</p>
-          <table class="d2r-cht">
-            <thead><tr><th>Канал</th><th>Marketing Cost, $</th><th>Paying Users</th><th>Revenue, $</th></tr></thead>
-            <tbody>
-              <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name1" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost1" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay1" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev1" type="number" min="0" step="any" value=""></td></tr>
-              <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name2" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost2" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay2" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev2" type="number" min="0" step="any" value=""></td></tr>
-              <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name3" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost3" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay3" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev3" type="number" min="0" step="any" value=""></td></tr>
-              <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name4" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost4" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay4" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev4" type="number" min="0" step="any" value=""></td></tr>
-              <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name5" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost5" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay5" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev5" type="number" min="0" step="any" value=""></td></tr>
-            </tbody>
-          </table>
-          <p class="d2r-cherr" id="d2r-ch-err1"></p>
-          <p class="d2r-cherr" id="d2r-ch-err2"></p>
-          <p class="d2r-cherr" id="d2r-ch-err3"></p>
-          <p class="d2r-cherr" id="d2r-ch-err4"></p>
-          <p class="d2r-cherr" id="d2r-ch-err5"></p>
-          <p class="d2r-cherr" id="d2r-ch-sum"></p>
+        <div class="d2r-fgrp">
+          <p class="d2r-fsub">Етап 1 · Залучення — базові дані</p>
+          <div class="d2r-field is-key"><label for="d2r-f-installs">Installs</label><input class="d2r-fin" id="d2r-f-installs" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-installs"></p><p class="d2r-needfor" id="d2r-n-installs"></p></div>
+          <div class="d2r-field is-key"><label for="d2r-f-mcost">Marketing Cost, $</label><input class="d2r-fin" id="d2r-f-mcost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-mcost"></p><p class="d2r-needfor" id="d2r-n-mcost"></p></div>
+        </div>
+        <div class="d2r-fgrp">
+          <p class="d2r-fsub">Етап 2 · Активація — базові дані</p>
+          <div class="d2r-field"><label for="d2r-f-activated">Activated users (завершили onboarding)</label><input class="d2r-fin" id="d2r-f-activated" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-activated"></p><p class="d2r-needfor" id="d2r-n-activated"></p></div>
+        </div>
+        <div class="d2r-fgrp">
+          <p class="d2r-fsub">Етап 5 · Монетизація — базові дані</p>
+          <div class="d2r-field is-key"><label for="d2r-f-paying">Paying Users</label><input class="d2r-fin" id="d2r-f-paying" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-paying"></p><p class="d2r-needfor" id="d2r-n-paying"></p></div>
+          <div class="d2r-field is-key"><label for="d2r-f-revenue">Revenue, $ (сумарний за 30 днів)</label><input class="d2r-fin" id="d2r-f-revenue" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-revenue"></p><p class="d2r-needfor" id="d2r-n-revenue"></p></div>
+        </div>
+        <div class="d2r-fgrp">
+          <p class="d2r-fsub">Розширені поля (для LTV і маржі)</p>
+          <div class="d2r-field is-key st-5"><label for="d2r-f-purchases">Number of Purchases (етап 5, усі за 30 днів)</label><input class="d2r-fin" id="d2r-f-purchases" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-purchases"></p><p class="d2r-needfor" id="d2r-n-purchases"></p></div>
+          <div class="d2r-field is-key st-5"><label for="d2r-f-cost">Cost, $ (етап 5: собівартість, комісії та інші витрати цього доходу)</label><input class="d2r-fin" id="d2r-f-cost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-cost"></p><p class="d2r-needfor" id="d2r-n-cost"></p></div>
+          <div class="d2r-field is-key st-4"><label for="d2r-f-ustart">Users at Start (етапи 4 і 7, когорта платних)</label><input class="d2r-fin" id="d2r-f-ustart" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustart"></p><p class="d2r-needfor" id="d2r-n-ustart"></p></div>
+          <div class="d2r-field is-key st-4"><label for="d2r-f-ustill">Users Still Active (етапи 4 і 7)</label><input class="d2r-fin" id="d2r-f-ustill" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustill"></p><p class="d2r-needfor" id="d2r-n-ustill"></p></div>
+          <div class="d2r-field st-3"><label for="d2r-f-dau">DAU (етап 3)</label><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
+          <div class="d2r-field st-3"><label for="d2r-f-mau">MAU (етап 3)</label><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
+        </div>
+        <div class="d2r-fgrp">
+          <div class="d2r-chwrap">
+            <p class="d2r-chcap">Розбивка за каналами (до 5 рядків)</p>
+            <table class="d2r-cht">
+              <thead><tr><th>Канал</th><th>Marketing Cost, $</th><th>Paying Users</th><th>Revenue, $</th></tr></thead>
+              <tbody>
+                <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name1" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost1" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay1" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev1" type="number" min="0" step="any" value=""></td></tr>
+                <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name2" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost2" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay2" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev2" type="number" min="0" step="any" value=""></td></tr>
+                <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name3" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost3" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay3" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev3" type="number" min="0" step="any" value=""></td></tr>
+                <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name4" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost4" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay4" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev4" type="number" min="0" step="any" value=""></td></tr>
+                <tr><td><input class="d2r-chname d2r-chin" id="d2r-ch-name5" type="text" value=""></td><td><input class="d2r-chin" id="d2r-ch-cost5" type="number" min="0" step="any" value=""></td><td><input class="d2r-chin" id="d2r-ch-pay5" type="number" min="0" step="1" value=""></td><td><input class="d2r-chin" id="d2r-ch-rev5" type="number" min="0" step="any" value=""></td></tr>
+              </tbody>
+            </table>
+            <p class="d2r-cherr" id="d2r-ch-err1"></p>
+            <p class="d2r-cherr" id="d2r-ch-err2"></p>
+            <p class="d2r-cherr" id="d2r-ch-err3"></p>
+            <p class="d2r-cherr" id="d2r-ch-err4"></p>
+            <p class="d2r-cherr" id="d2r-ch-err5"></p>
+            <p class="d2r-cherr" id="d2r-ch-sum"></p>
+          </div>
         </div>
         <p class="d2r-fsub">Розраховується автоматично</p>
         <div class="d2r-der"><span class="d2r-derlabel">Onboarding completion, %</span><output id="d2r-o-onboarding">—</output><span class="d2r-from" id="d2r-of-onboarding" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
@@ -523,6 +484,10 @@
         <div class="d2r-der"><span class="d2r-derlabel">LTV, $</span><output id="d2r-o-ltv">—</output><span class="d2r-from" id="d2r-of-ltv" data-from="з: ARPPU, Churn rate">з: ARPPU, Churn rate</span></div>
         <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC</span><output id="d2r-o-ltvcac">—</output><span class="d2r-from" id="d2r-of-ltvcac" data-from="з: LTV, CAC">з: LTV, CAC</span></div>
         <div class="d2r-der"><span class="d2r-derlabel">DAU/MAU</span><output id="d2r-o-daumau">—</output><span class="d2r-from" id="d2r-of-daumau" data-from="з: DAU, MAU">з: DAU, MAU</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">LTV (за маржею), $</span><output id="d2r-o-ltvm">—</output><span class="d2r-from" id="d2r-of-ltvm" data-from="з: LTV, Margin">з: LTV, Margin</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC (за маржею)</span><output id="d2r-o-ltvcacm">—</output><span class="d2r-from" id="d2r-of-ltvcacm" data-from="з: LTV (за маржею), CAC">з: LTV (за маржею), CAC</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Net Profit, $</span><output id="d2r-o-netprofit">—</output><span class="d2r-from" id="d2r-of-netprofit" data-from="з: Revenue, Marketing Cost, Cost">з: Revenue, Marketing Cost, Cost</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Payback (періодів по 30 днів)</span><output id="d2r-o-payback">—</output><span class="d2r-from" id="d2r-of-payback" data-from="з: CAC, ARPPU, Margin">з: CAC, ARPPU, Margin</span></div>
         <div class="d2r-ready" id="d2r-ready" aria-live="polite"></div>
       </form>
     </div>
@@ -537,7 +502,8 @@
 
     <div class="d2r-verdict" id="d2r-verdict">
       <div class="d2r-vhead"><span class="d2r-vtitle">Висновок за даними</span><button type="button" class="d2r-btn" id="d2r-copy">Скопіювати як текст</button></div>
-      <div class="d2r-vprog" id="d2r-vprog-w" aria-live="polite"><span id="d2r-vprog-t"></span><progress id="d2r-vprog-b" max="19" value="0"></progress></div>
+      <div class="d2r-vprog" id="d2r-vprog-w" aria-live="polite"><span id="d2r-vprog-t"></span><progress id="d2r-vprog-b" max="24" value="0"></progress></div>
+      <div class="d2r-decision" id="d2r-decision" aria-live="polite" hidden></div>
       <div class="d2r-vhint" id="d2r-vhint" hidden></div>
       <div id="d2r-vsecs" hidden>
         <details open><summary><i class="d2r-ico d2r-ico-in">●</i>Що маємо</summary><div class="d2r-vsec" id="d2r-vs1"></div></details>
@@ -548,7 +514,7 @@
       </div>
     </div>
 
-    <p class="d2r-prose">Як читати схему: зверху вниз у межах смуги етапу — порядок розрахунку. Ланцюжок рішення: Installs → Activated users → Paying Users → Revenue; далі Paying Users + Marketing Cost → CAC, Revenue + Ad Spend → ROAS, а Retention rate / Churn rate + ARPPU → LTV → LTV/CAC. Без правої частини (LTV, Retention rate, Churn rate, Purchase frequency, Margin і ROMI, розбивка по каналах) відповісти, чи масштабувати залучення, неможливо — видно лише перший чек, а не окупність.</p>
+    <p class="d2r-prose">Як читати схему: зверху вниз у межах смуги етапу — порядок розрахунку. Ланцюжок рішення: Installs → Activated users → Paying Users → Revenue (сумарний за 30 днів); далі Paying Users + Marketing Cost → CAC, Revenue + Ad Spend → ROAS, а AOV × Purchase frequency (= ARPPU_період) + Retention rate / Churn rate → LTV → LTV/CAC. Без правої частини (LTV, Retention rate, Churn rate, Purchase frequency, Margin і ROMI, розбивка по каналах) відповісти, чи масштабувати залучення, неможливо — видно лише дохід за 30 днів, а не окупність.</p>
     <p class="hint">клікни на блок схеми (або натисни Enter / Space на клавіатурі)</p>
 
     <script>
@@ -636,7 +602,7 @@
           what:"Частина користувачів повертається і продовжує користуватися продуктом. Рахується по когорті платних користувачів.",
           plan:"З'ясувати, як довго користувачі залишаються з продуктом після першої покупки.",
           expect:"Чим довше утримання, тим довший середній період утримання і тим більший LTV. Окупність CAC залежить саме від цього.",
-          noData:"Невідомо, чи повертаються платні користувачі; відомий лише перший чек, тож LTV і LTV/CAC порахувати неможливо."},
+          noData:"Невідомо, чи повертаються платні користувачі; відомий лише дохід за 30 днів без майбутньої цінності, тож LTV і LTV/CAC порахувати неможливо."},
         {id:"cohort", stage:4, needs:["ustart","ustill"], did:"retention", opt:true, title:"Cohort retention",
           formula:"Cohort retention — той самий Retention rate, але в розрізі когорт (користувачі одного періоду залучення)",
           dependsOn:["paying","retention"],
@@ -659,25 +625,25 @@
           expect:"Paying Users — знаменник CAC і ARPPU та множник Revenue. Малий Paying Users робить CAC захмарним.",
           noData:"Без Paying Users розвалюється весь розрахунок: немає CAC, Revenue, ARPPU, а отже і жодного висновку про масштабування."},
         {id:"aov", stage:5, needs:["revenue","purchases"], did:"aov", title:"Average purchase value (AOV)",
-          formula:"Average purchase value = Total Purchase Revenue / Number of Purchases",
-          dependsOn:[],
-          what:"Скільки в середньому платить користувач за одну покупку — розмір чека.",
-          plan:"Зафіксувати середній чек як другий множник доходу поряд із кількістю платних.",
-          expect:"Більший чек дає більший Revenue з тих самих Paying Users. Але чек без частоти покупок — лише перша покупка.",
-          noData:"Без чека не порахувати Revenue: відомо, скільки людей купило, але невідомо, на яку суму."},
+          formula:"Average purchase value = Total Purchase Revenue (сумарний дохід за 30 днів) / Number of Purchases",
+          dependsOn:["revenue","paying","purchase-freq"],
+          what:"Скільки в середньому платить користувач за одну покупку — розмір чека. Разом із частотою дає ARPPU_період (AOV × freq) і далі LTV.",
+          plan:"Зафіксувати середній чек як перший множник LTV (другий — частота). Revenue тут сумарний за 30 днів.",
+          expect:"Більший чек при тій самій частоті дає більший LTV. Увага: якщо Purchases росте без Revenue, чек падає — перевірте, чи додали повторний дохід.",
+          noData:"Без Purchases чек рахується із припущенням «одна покупка» (AOV = ARPPU), а LTV — консервативно з freq=1."},
         {id:"revenue", stage:5, base:"revenue", title:"Revenue",
-          formula:"Revenue — вхідне число: дохід кампанії, отриманий від конверсій ",
+          formula:"Revenue — вхідне число: сумарний дохід когорти за 30 днів (перші + повторні покупки)",
           dependsOn:["paying","aov"],
-          what:"Дохід від перших покупок когорти: кількість платних помножена на середній чек.",
+          what:"Сумарний дохід когорти за 30 днів: усі покупки (перші + повторні). База для ROAS, ROMI, AOV і ARPPU_період.",
           plan:"Порахувати гроші, які воронка вже принесла, — базу для ROAS і ROMI.",
-          expect:"Revenue покриває Marketing Cost лише частково або повністю на першому чеку. Повна окупність видна тільки через LTV.",
+          expect:"Revenue покриває Marketing Cost лише частково або повністю за 30 днів. Повна окупність видна тільки через LTV.",
           noData:"Без Revenue немає чисельника ROAS і ROMI: невідомо, скільки повертає кожен вкладений долар."},
         {id:"arppu", stage:5, needs:["revenue","paying"], did:"arppu", title:"ARPPU",
-          formula:"ARPPU = Total Revenue / Paying Users",
-          dependsOn:["revenue","paying"],
-          what:"Середній дохід на одного платного користувача. Місток від разового чека до LTV.",
-          plan:"Отримати питомий дохід, який потім множиться на тривалість життя користувача у формулі LTV.",
-          expect:"ARPPU тут дорівнює чеку першої покупки; зростає лише з повторними покупками (Purchase frequency).",
+          formula:"ARPPU_період = Total Revenue (сумарний за 30 днів) / Paying Users = AOV × Purchase frequency",
+          dependsOn:["revenue","paying","aov","purchase-freq"],
+          what:"Середній дохід на одного платного користувача за період. Місток від чека і частоти до LTV.",
+          plan:"Отримати питомий дохід за період, який потім ділиться на Churn у формулі LTV.",
+          expect:"ARPPU_період = AOV × freq: росте або з чеком, або з повторними покупками.",
           noData:"Без питомого доходу формула LTV не має першого множника."},
         {id:"arpu", stage:5, needs:["revenue","installs"], did:"arpu", title:"ARPU",
           formula:"ARPU = Revenue / Users (у схемі Users = Installs)",
@@ -687,19 +653,19 @@
           expect:"ARPU значно менший за ARPPU, бо більшість користувачів не платить.",
           noData:"Без Installs немає знаменника: ARPU не рахується."},
         {id:"purchase-freq", stage:5, needs:["purchases","paying"], did:"pfreq", title:"Purchase frequency",
-          formula:"Purchase frequency = Number of Purchases / Users Who Made Purchases",
+          formula:"Purchase frequency = Number of Purchases (усі за 30 днів) / Users Who Made Purchases",
           dependsOn:["paying"],
-          what:"Як часто платні користувачі купують повторно. Перетворює разовий чек на потік доходу.",
+          what:"Як часто платні користувачі купують повторно. Разом із чеком дає ARPPU_період і далі LTV.",
           plan:"Виміряти повторні покупки — другий (після утримання) ключ до LTV.",
-          expect:"Частота вище 1 означає, що LTV більший за перший чек. Без неї LTV дорівнює одному AOV — найконсервативніша оцінка.",
-          noData:"Без частоти невідомо, чи дохід закінчується першим чеком; LTV за деталізованою формулою порахувати неможливо."},
+          expect:"Частота вище 1 означає, що LTV більший за дохід одного періоду (freq=1). Number of Purchases розкладає ARPPU на AOV і частоту покупок (LTV = AOV × Purchase frequency / Churn = ARPPU_період / Churn). Сама по собі зміна Purchases без зміни Revenue LTV не змінює. LTV росте, лише коли разом із покупками зростає Revenue.",
+          noData:"Без частоти LTV рахується консервативно з freq=1 (припущення «одна покупка»)."},
         {id:"ltv", stage:5, needs:["revenue","paying","ustart","ustill"], did:"ltv", title:"LTV",
-          formula:"LTV = ARPU × середній період утримання; альтернатива: LTV = AOV × Purchase frequency × Customer Lifespan ",
-          dependsOn:["arppu","retention","purchase-freq","churn"],
-          what:"Очікуваний дохід від користувача за все його життя в продукті: питомий дохід, помножений на тривалість.",
-          plan:"Відповісти на головне питання: скільки грошей принесе залучений користувач, а не лише перший чек. Важливо: дохід (ARPPU) і Churn rate мають стосуватися одного й того самого періоду.",
+          formula:"LTV = AOV × Purchase frequency / Churn rate (= ARPPU_період / Churn rate; період утримання ≈ 1 / Churn; якщо Purchases пусте → freq=1)",
+          dependsOn:["aov","purchase-freq","arppu","retention","churn"],
+          what:"Очікуваний дохід від користувача за все його життя в продукті: питомий дохід, помножений на тривалість. Спрощення: ARPPU за період береться як стабільний дохід за кожен наступний період, тому перша покупка (яка буває один раз) враховується повторно і може завищувати LTV. Результат це грубий орієнтир.",
+          plan:"Відповісти на головне питання: скільки грошей принесе залучений користувач, а не лише дохід за 30 днів. Важливо: дохід (ARPPU_період) і Churn rate мають стосуватися одного й того самого періоду (30 днів).",
           expect:"LTV порівнюється з CAC через LTV/CAC. Поки LTV невідомий, масштабування — ставка наосліп.",
-          noData:"Без LTV рішення про масштабування ухвалити неможливо: ROAS показує лише перший чек, а окупність — це LTV проти CAC."},
+          noData:"Без LTV рішення про масштабування ухвалити неможливо: ROAS показує лише дохід за 30 днів, а окупність — це LTV проти CAC."},
         {id:"ltv-cac", stage:5, needs:["revenue","paying","ustart","ustill","mcost"], did:"ltvcac", title:"LTV/CAC",
           formula:"LTV/CAC = LTV / CAC (відношення двох метрик)",
           dependsOn:["ltv","cac"],
@@ -710,17 +676,17 @@
         {id:"roas", stage:5, needs:["revenue","mcost"], did:"roas", title:"ROAS",
           formula:"ROAS = Ad Revenue / Ad Spend; тут Ad Revenue = Revenue, Ad Spend — частина Marketing Cost на рекламу",
           dependsOn:["revenue","marketing-cost","channels"],
-          what:"Скільки доходу повертає кожен долар, вкладений у рекламу. Рахується на першому чеку, без інших витрат бізнесу.",
+          what:"Скільки доходу повертає кожен долар, вкладений у рекламу. Рахується за 30 днів, без інших витрат бізнесу і без майбутньої цінності.",
           plan:"Оцінити ефективність саме рекламного бюджету «тут і зараз».",
-          expect:"ROAS вище 1 — реклама повертається вже першим чеком. Але прибутковість із урахуванням усіх витрат показує лише ROMI.",
+          expect:"ROAS вище 1 — реклама повертається вже доходом за 30 днів. Але прибутковість із урахуванням усіх витрат показує лише ROMI.",
           noData:"Без ROAS невідомо навіть, чи реклама відбивається одразу; масштабування сліпе з першого ж кроку."},
         {id:"romi", stage:5, needs:["revenue","mcost"], did:"romi", title:"ROMI",
           formula:"ROMI (%) = (Revenue − Marketing Cost) / Marketing Cost × 100%",
           dependsOn:["revenue","marketing-cost"],
           what:"Віддача на маркетинговий долар: скільки прибутку дає кожен вкладений у маркетинг долар після вирахування самих маркетингових витрат.",
-          plan:"Порахувати прибутковість першого чеку з урахуванням витрат на залучення.",
-          expect:"Додатний ROMI — перший чек уже прибутковий. Але повну картину дає лише LTV/CAC.",
-          noData:"Без ROMI невідомо, чи перший чек прибутковий. Пам'ятай: ROMI не показує реального прибутку, бо враховує лише маркетингові витрати — собівартість і комісії лишаються за кадром."},
+          plan:"Порахувати прибутковість доходу за 30 днів з урахуванням витрат на залучення.",
+          expect:"Додатний ROMI — дохід за 30 днів уже перевищує витрати. Але повну картину дає лише LTV/CAC.",
+          noData:"Без ROMI невідомо, чи дохід за 30 днів перевищує витрати. Пам'ятай: ROMI не показує реального прибутку, бо враховує лише маркетингові витрати — собівартість і комісії лишаються за кадром."},
         {id:"margin", stage:5, needs:["revenue","cost"], did:"margin", title:"Margin",
           formula:"Margin (%) = (Revenue − Cost) / Revenue × 100%",
           dependsOn:["revenue"],
@@ -728,6 +694,34 @@
           plan:"Перейти від доходу до прибутку: з'ясувати, скільки лишається з кожного долара Revenue.",
           expect:"Вищий Margin — більше лишається з кожного чека. Разом із LTV показує реальну економіку, а не лише оборот.",
           noData:"Без поля Cost порахувати Margin неможливо: відомий дохід, але невідомо, скільки з нього лишається після всіх витрат."},
+        {id:"ltv-margin", stage:5, needs:["revenue","paying","ustart","ustill","cost"], did:"ltvm", title:"LTV (за маржею)",
+          formula:"LTV (за маржею) = LTV × Margin",
+          dependsOn:["ltv","margin"],
+          what:"Скільки прибутку (після собівартості й комісій) приносить платний користувач за весь час життя, а не виручки.",
+          plan:"Отримати прибутковий LTV: помножити LTV за виручкою на маржу і порівнювати з CAC саме його.",
+          expect:"Менший за LTV за виручкою на розмір витрат. Саме з ним порівнюють CAC.",
+          noData:"Без Cost маржа невідома, тому LTV лишається за виручкою і завищений."},
+        {id:"ltv-cac-margin", stage:5, needs:["revenue","paying","ustart","ustill","cost","mcost"], did:"ltvcacm", title:"LTV/CAC (за маржею)",
+          formula:"LTV (за маржею) / CAC",
+          dependsOn:["ltv-margin","cac"],
+          what:"У скільки разів прибуток із користувача за весь час життя перевищує витрати на його залучення.",
+          plan:"Ухвалити рішення: масштабувати, чекати даних або зупинитися — за прибутковим співвідношенням, а не за виручкою.",
+          expect:"Значення вище 1 — прибуток перевищує витрати на залучення. Зони рішення — у блоці «Рішення про масштабування».",
+          noData:"Без прибуткового LTV або CAC рішення за маржею ухвалити неможливо: лишається лише оцінка за виручкою."},
+        {id:"net-profit", stage:5, needs:["revenue","mcost","cost"], did:"netprofit", title:"Net Profit",
+          formula:"Net Profit = Revenue − Marketing Cost − Cost",
+          dependsOn:["revenue","marketing-cost"],
+          what:"Скільки лишилось після реклами й витрат на продукт за кампанію.",
+          plan:"Порахувати підсумок кампанії за 30 днів: від виручки відняти рекламу й витрати на продукт.",
+          expect:"Додатний Net Profit — кампанія окупилась уже за 30 днів. Від'ємний — повернення грошей залежить від повторних доходів (LTV).",
+          noData:"Без Revenue, Marketing Cost або Cost підсумок кампанії порахувати неможливо."},
+        {id:"payback", stage:5, needs:["revenue","paying","mcost"], did:"payback", title:"Payback (термін окупності CAC)",
+          formula:"Payback = CAC / (ARPPU × Margin), у періодах по 30 днів",
+          dependsOn:["cac","arppu","margin"],
+          what:"За скільки періодів по 30 днів повертаються витрати на залучення за рахунок доходу з користувача. Спрощена оцінка: припускає стабільний дохід за кожен наступний період.",
+          plan:"Оцінити швидкість повернення витрат на залучення: на скільки періодів гроші заморожені.",
+          expect:"Менше 1: CAC повертається в межах 30 днів. Більше 1: гроші заморожені на кілька періодів.",
+          noData:"Без Revenue, Paying Users або Marketing Cost окупність порахувати неможливо; без Cost рахується без урахування витрат (Margin = 100%)."},
         {id:"nps-viral", stage:6, info:true, opt:true, title:"NPS / Viral coefficient",
           formula:"NPS (Net Promoter Score) — метрика рекомендацій з переліку ключових метрик етапу 6. Viral coefficient — скільки нових користувачів приводить один існуючий",
           dependsOn:["paying"],
@@ -741,7 +735,7 @@
           what:"Частина користувачів припиняє користуватися продуктом. Це зворотний бік Retention rate: що не утрималось — відтекло.",
           plan:"Виміряти швидкість втрати платних користувачів і через неї оцінити середній період утримання.",
           expect:"Менший Churn rate — довший середній період утримання і більший LTV. Зв'язка «період утримання ≈ 1 / Churn rate» — стандартне спрощення.",
-          noData:"Без Churn rate не оцінити тривалість життя користувача: невідомо, чи повертаються платні, відомий лише перший чек, тож LTV і LTV/CAC порахувати неможливо."}
+          noData:"Без Churn rate не оцінити тривалість життя користувача: невідомо, чи повертаються платні, відомий лише дохід за 30 днів без майбутньої цінності, тож LTV і LTV/CAC порахувати неможливо."}
       ];
       var grid = document.getElementById("d2r-grid");
       var panel = document.getElementById("panel-d2r-detail");
@@ -752,7 +746,7 @@
       var byId = {};
       D2R_NODES.forEach(function(n){ byId[n.id] = n; });
       /* Візуальне ядро рішення (тільки фон, логіку derive/evalNode не чіпає). */
-      var DECISION_KEY = ["marketing-cost","paying","revenue","arppu","retention","churn","cac","ltv","ltv-cac"];
+      var DECISION_KEY = ["marketing-cost","paying","revenue","cost","aov","purchase-freq","arppu","retention","churn","cac","ltv","ltv-cac","ltv-margin","ltv-cac-margin","payback"];
 
       function stageColor(s){ return STAGES[s].color; }
       function fmtInt(x){ return Math.round(x).toLocaleString("uk-UA"); }
@@ -766,6 +760,16 @@
       function fmtDec1(x){ return x.toLocaleString("uk-UA",{minimumFractionDigits:1, maximumFractionDigits:1}); }
       function fmtFrac(x){ return x.toLocaleString("uk-UA",{maximumFractionDigits:4}); }
       function fmtVal(fid, v){ return FIELDS[fid].money ? fmtMoney0(v) : fmtInt(v); }
+      /* Грошове значення завжди зі знаком (для Net Profit). Формат суми — як у решти. */
+      function fmtSignedMoney(v){ return (v < 0 ? "" : "+") + fmtMoney2(v); }
+      /* Нейтральна примітка про повторні покупки: Purchases > Paying. Не міняє статусів і розрахунків. */
+      function repeatNote(raw, D){
+        if(!raw || !D) return "";
+        if(raw.purchases.state !== "ok" || raw.paying.state !== "ok") return "";
+        if(!(raw.purchases.v > raw.paying.v)) return "";
+        if(!D.aov || !D.aov.ok) return "";
+        return "Покупок більше, ніж платних користувачів. Переконайтесь, що Revenue включає дохід від повторних покупок: зараз середній чек (AOV) = " + fmtMoney2(D.aov.v) + ".";
+      }
       function parseVal(str, int){
         var s = String(str === undefined || str === null ? "" : str).replace(/[\s\xa0]/g,"").replace(",",".");
         if(s === "") return {state:"empty", v:null, err:""};
@@ -844,7 +848,7 @@
           else return {ok:false, missing:[FIELDS.purchases.label]};
           if(den === 0) return {ok:false, divZero:true, missing:[]};
           var r = {ok:true, v:rev.v/den, den:den, missing:[]};
-          if(assump) r.note = "припущення: перша покупка";
+          if(assump) r.note = "припущення: одна покупка за 30 днів";
           return r;
         })();
         D.arppu = std(["revenue","paying"], "paying", function(){
@@ -878,11 +882,15 @@
           var q = reqIds(raw, ["revenue","paying","ustart","ustill"]);
           if(q.bad.length) return {ok:false, err:true, missing:q.missing};
           if(q.missing.length) return {ok:false, missing:q.missing};
-          var a = D.arppu, c = D.churn;
+          var a = D.aov, p = D.pfreq, c = D.churn;
           if((a && a.err) || (c && c.err)) return {ok:false, err:true, missing:q.missing};
+          if((p && p.err)) return {ok:false, err:true, missing:q.missing.concat([FIELDS.purchases.label])};
+          if((p && p.divZero) || raw.paying.v === 0) return {ok:false, divZero:true, missing:[]};
           if((a && a.divZero) || (c && c.divZero)) return {ok:false, divZero:true, missing:[]};
           if(c.v === 0) return {ok:false, divZero:true, missing:[], note:"нескінченний період утримання"};
-          return {ok:true, v:a.v*100/c.v, missing:[], note:"«період утримання ≈ 1 / Churn rate» — стандартне спрощення"};
+          var f = (p && p.ok) ? p.v : 1;
+          var note = (p && p.ok) ? "AOV × freq / Churn; = ARPPU_період / Churn" : "припущення: freq=1 (Purchases не введено); = ARPPU / Churn";
+          return {ok:true, v:a.v*f*100/c.v, freq:f, missing:[], note:note};
         })();
         D.ltvcac = (function(){
           var q = reqIds(raw, ["revenue","paying","ustart","ustill","mcost"]);
@@ -893,6 +901,48 @@
           if((l && l.divZero) || (c && c.divZero)) return {ok:false, divZero:true, missing:[]};
           if(c.v === 0) return {ok:false, divZero:true, missing:[]};
           return {ok:true, v:l.v/c.v, missing:[]};
+        })();
+        D.ltvm = (function(){
+          var q = reqIds(raw, ["revenue","paying","ustart","ustill","cost"]);
+          if(q.bad.length) return {ok:false, err:true, missing:q.missing};
+          if(q.missing.length) return {ok:false, missing:q.missing};
+          var l = D.ltv, m = D.margin;
+          if((l && l.err) || (m && m.err)) return {ok:false, err:true, missing:q.missing};
+          if((l && l.divZero) || (m && m.divZero)) return {ok:false, divZero:true, missing:[]};
+          if(!l.ok || !m.ok) return {ok:false, missing:q.missing};
+          return {ok:true, v:l.v*m.v/100, missing:[]};
+        })();
+        D.ltvcacm = (function(){
+          var q = reqIds(raw, ["revenue","paying","ustart","ustill","cost","mcost"]);
+          if(q.bad.length) return {ok:false, err:true, missing:q.missing};
+          if(q.missing.length) return {ok:false, missing:q.missing};
+          var l = D.ltvm, c = D.cac;
+          if((l && l.err) || (c && c.err)) return {ok:false, err:true, missing:q.missing};
+          if((l && l.divZero) || (c && c.divZero)) return {ok:false, divZero:true, missing:[]};
+          if(!l.ok || !c.ok) return {ok:false, missing:q.missing};
+          if(c.v === 0) return {ok:false, divZero:true, missing:[]};
+          return {ok:true, v:l.v/c.v, missing:[]};
+        })();
+        D.netprofit = (function(){
+          var q = reqIds(raw, ["revenue","mcost","cost"]);
+          if(q.bad.length) return {ok:false, err:true, missing:q.missing};
+          if(q.missing.length) return {ok:false, missing:q.missing};
+          return {ok:true, v:raw.revenue.v-raw.mcost.v-raw.cost.v, missing:[]};
+        })();
+        D.payback = (function(){
+          var q = reqIds(raw, ["revenue","paying","mcost"]);
+          if(q.bad.length) return {ok:false, err:true, missing:q.missing};
+          if(q.missing.length) return {ok:false, missing:q.missing};
+          if(raw.cost.state === "bad") return {ok:false, err:true, missing:q.missing.concat([FIELDS.cost.label])};
+          var c = D.cac, a = D.arppu, m = D.margin;
+          if((c && c.err) || (a && a.err)) return {ok:false, err:true, missing:q.missing};
+          if((c && c.divZero) || (a && a.divZero)) return {ok:false, divZero:true, missing:[]};
+          if(!c.ok || !a.ok) return {ok:false, missing:q.missing};
+          var mf = (m && m.ok) ? m.v/100 : 1;
+          if(a.v*mf === 0) return {ok:false, divZero:true, missing:[]};
+          var r = {ok:true, v:c.v/(a.v*mf), missing:[]};
+          if(!(m && m.ok)) r.note = "припущення: без урахування Cost";
+          return r;
         })();
         D.daumau = std(["dau","mau"], "mau", function(){
           return {ok:true, v:raw.dau.v/raw.mau.v};
@@ -937,6 +987,15 @@
         }
         return warns;
       }
+      /* М'яке попередження: Users at Start і Paying Users — одна когорта (платні в день 0),
+         але поля вводяться незалежно. Не блокує розрахунок і не змінює його. */
+      function cohortCheck(raw){
+        var warns = [];
+        if(raw.ustart.state === "ok" && raw.paying.state === "ok" && raw.ustart.v !== raw.paying.v){
+          warns.push({label:"Users at Start / Paying Users", err:"Users at Start = Paying Users, Day 0. Зараз " + fmtInt(raw.ustart.v) + " ≠ " + fmtInt(raw.paying.v) + ": CAC рахується на " + fmtInt(raw.paying.v) + ", а Churn на " + fmtInt(raw.ustart.v) + ". Перевірте, чи це та сама когорта."});
+        }
+        return warns;
+      }
       function aovNeedIds(raw){
         if(raw.revenue.state !== "ok") return ["revenue"];
         if(raw.purchases.state === "ok" || raw.paying.state === "ok") return [];
@@ -961,13 +1020,17 @@
         if(n.id === "cohort") return "Cohort retention — той самий Retention rate по когорті";
         if(n.id === "conv-purchase") return "Conversion rate (purchase) = Paying Users / Activated users × 100";
         if(n.id === "paying") return "Paying Users (вхідне число)";
-        if(n.id === "aov") return "AOV = Revenue / Number of Purchases";
+        if(n.id === "aov") return "AOV = Revenue (сумарний) / Number of Purchases";
         if(n.id === "revenue") return "Revenue (вхідне число)";
-        if(n.id === "arppu") return "ARPPU = Revenue / Paying Users";
+        if(n.id === "arppu") return "ARPPU_період = Revenue (сумарний) / Paying Users = AOV × freq";
         if(n.id === "arpu") return "ARPU = Revenue / Installs (припущення: Users = Installs)";
-        if(n.id === "purchase-freq") return "Purchase frequency = Number of Purchases / Paying Users";
-        if(n.id === "ltv") return "LTV = ARPPU × (1 / Churn rate) · «період утримання ≈ 1 / Churn rate» — стандартне спрощення";
+        if(n.id === "purchase-freq") return "Purchase frequency = Number of Purchases (усі) / Paying Users";
+        if(n.id === "ltv") return "LTV = AOV × Purchase frequency / Churn rate (= ARPPU_період / Churn rate) · «період утримання ≈ 1 / Churn rate» — стандартне спрощення; якщо Purchases пусте → freq=1";
         if(n.id === "ltv-cac") return "LTV/CAC = LTV / CAC";
+        if(n.id === "ltv-margin") return "LTV (за маржею) = LTV × Margin";
+        if(n.id === "ltv-cac-margin") return "LTV/CAC (за маржею) = LTV (за маржею) / CAC";
+        if(n.id === "net-profit") return "Net Profit = Revenue − Marketing Cost − Cost";
+        if(n.id === "payback") return "Payback = CAC / (ARPPU × Margin), у періодах по 30 днів · спрощена оцінка";
         if(n.id === "roas") return "ROAS = Revenue / Marketing Cost (припущення: Ad Spend = Marketing Cost)";
         if(n.id === "romi") return "ROMI = (Revenue − Marketing Cost) / Marketing Cost × 100";
         if(n.id === "margin") return "Margin = (Revenue − Cost) / Revenue × 100";
@@ -988,18 +1051,26 @@
         switch(n.id){
           case "onboarding": return "Onboarding completion = " + I("activated") + " / " + I("installs") + " × 100 = " + fmtPct1(D.onboarding.v);
           case "conv-purchase": return "Conversion rate (purchase) = " + I("paying") + " / " + I("activated") + " × 100 = " + fmtPct1(D.conv.v);
-          case "aov": return "AOV = " + fmtMoney0(raw.revenue.v) + " / " + fmtInt(D.aov.den) + " = " + fmtMoney2(D.aov.v) + (D.aov.note ? " (" + D.aov.note + ")" : "");
+          case "aov": return "AOV = " + fmtMoney0(raw.revenue.v) + " / " + fmtInt(D.aov.den) + " = " + fmtMoney2(D.aov.v) + (D.aov.note ? " (" + D.aov.note + ")" : "") + (repeatNote(raw, D) ? " " + repeatNote(raw, D) : "");
           case "arppu": return "ARPPU = " + fmtMoney0(raw.revenue.v) + " / " + I("paying") + " = " + fmtMoney2(D.arppu.v);
           case "arpu": return arpuText(raw, D);
           case "cac": return "CAC = " + fmtMoney0(raw.mcost.v) + " / " + I("paying") + " = " + fmtMoney2(D.cac.v);
           case "roas": return "ROAS = " + fmtMoney0(raw.revenue.v) + " / " + fmtMoney0(raw.mcost.v) + " = " + fmtMult(D.roas.v) + " (припущення: Ad Spend = Marketing Cost)";
           case "romi": return "ROMI = (" + fmtMoney0(raw.revenue.v) + " − " + fmtMoney0(raw.mcost.v) + ") / " + fmtMoney0(raw.mcost.v) + " × 100 = " + fmtPct1(D.romi.v);
           case "margin": return "Margin = (" + fmtMoney0(raw.revenue.v) + " − " + fmtMoney0(raw.cost.v) + ") / " + fmtMoney0(raw.revenue.v) + " × 100 = " + fmtPct1(D.margin.v);
-          case "purchase-freq": return "Purchase frequency = " + I("purchases") + " / " + I("paying") + " = " + fmtMult(D.pfreq.v);
+          case "purchase-freq": return "Purchase frequency = " + I("purchases") + " / " + I("paying") + " = " + fmtMult(D.pfreq.v) + (repeatNote(raw, D) ? " " + repeatNote(raw, D) : "");
           case "retention": case "cohort": return (n.id === "cohort" ? "Cohort retention = " : "Retention rate = ") + I("ustill") + " / " + I("ustart") + " × 100 = " + fmtPct1(D.retention.v);
           case "churn": return "Churn rate = (" + I("ustart") + " − " + I("ustill") + ") / " + I("ustart") + " × 100 = " + fmtPct1(D.churn.v);
-          case "ltv": return "LTV = " + fmtDec2(D.arppu.v) + " × (1 / " + fmtFrac(D.churn.v/100) + ") = " + fmtMoney2(D.ltv.v);
+          case "ltv": return "LTV = " + fmtDec2(D.aov.v) + " × " + fmtMult(D.ltv.freq) + " / " + fmtFrac(D.churn.v/100) + " = " + fmtMoney2(D.ltv.v) + (D.ltv.note ? " (" + D.ltv.note + ")" : "") + (repeatNote(raw, D) ? " " + repeatNote(raw, D) : "");
           case "ltv-cac": return "LTV/CAC = " + fmtDec2(D.ltv.v) + " / " + fmtDec2(D.cac.v) + " = " + fmtMult(D.ltvcac.v);
+          case "ltv-margin": return "LTV (за маржею) = " + fmtMoney2(D.ltv.v) + " × " + fmtPct1(D.margin.v) + " = " + fmtMoney2(D.ltvm.v);
+          case "ltv-cac-margin": return "LTV/CAC (за маржею) = " + fmtDec2(D.ltvm.v) + " / " + fmtDec2(D.cac.v) + " = " + fmtMult(D.ltvcacm.v);
+          case "net-profit": return "Net Profit = " + fmtMoney0(raw.revenue.v) + " − " + fmtMoney0(raw.mcost.v) + " − " + fmtMoney0(raw.cost.v) + " = " + fmtSignedMoney(D.netprofit.v);
+          case "payback": {
+            var pbmt = (D.margin && D.margin.ok) ? fmtPct1(D.margin.v) : "100%";
+            var pbpu = Number.isInteger(D.payback.v) ? plural(D.payback.v, ["період","періоди","періодів"]) : "періоду";
+            return "Payback = " + fmtDec2(D.cac.v) + " / (" + fmtDec2(D.arppu.v) + " × " + pbmt + ") = " + fmtMult(D.payback.v) + " " + pbpu + (D.payback.note ? " (" + D.payback.note + ")" : "");
+          }
           case "dau-mau": return "DAU/MAU = " + I("dau") + " / " + I("mau") + " = " + fmtDec2(D.daumau.v);
           default: return templateSub(n);
         }
@@ -1056,7 +1127,7 @@
             h.appendChild(t);
             var sm = document.createElement("small");
             var count = D2R_NODES.filter(function(n){ return n.stage === stage; }).length;
-            if(count > 6){ col.classList.add("d2r-wide"); }
+            if(count > 6){ col.classList.add("d2r-wide"); col.style.gridTemplateRows = "auto repeat(" + Math.ceil(count/4) + ",auto)"; }
             sm.textContent = "блоків: " + count;
             h.appendChild(sm);
             col.appendChild(h);
@@ -1132,6 +1203,10 @@
         ["churn","d2r-o-churn", function(d){ return fmtPct1(d.v); }],
         ["ltv","d2r-o-ltv", function(d){ return fmtMoney2(d.v); }],
         ["ltvcac","d2r-o-ltvcac", function(d){ return fmtMult(d.v); }],
+        ["ltvm","d2r-o-ltvm", function(d){ return fmtMoney2(d.v); }],
+        ["ltvcacm","d2r-o-ltvcacm", function(d){ return fmtMult(d.v); }],
+        ["netprofit","d2r-o-netprofit", function(d){ return fmtSignedMoney(d.v); }],
+        ["payback","d2r-o-payback", function(d){ return fmtMult(d.v); }],
         ["daumau","d2r-o-daumau", function(d){ return fmtDec2(d.v); }]
       ];
       function refreshDerived(D){
@@ -1175,10 +1250,10 @@
         activated:"Без Activated users воронка розривається посередині: не рахуються Onboarding completion і Conversion rate (purchase).",
         paying:"Без Paying Users немає чисельника монетизації: не рахуються Conversion rate (purchase), ARPPU, CAC і Purchase frequency.",
         revenue:"Без Revenue немає чисельника доходу: не рахуються AOV, ARPPU, ARPU, ROAS, ROMI і Margin.",
-        purchases:"Без Number of Purchases не рахується Purchase frequency, а AOV рахується із припущенням «одна покупка на платного користувача».",
+        purchases:"Number of Purchases розкладає ARPPU на AOV і частоту покупок (LTV = AOV × Purchase frequency / Churn = ARPPU_період / Churn). Сама по собі зміна Purchases без зміни Revenue LTV не змінює. LTV росте, лише коли разом із покупками зростає Revenue.",
         cost:"Без Cost невідомо, скільки з виручки залишається після витрат (Margin); ROAS і ROMI враховують лише маркетингові витрати.",
-        ustart:"Без Users at Start немає бази когорти: не рахуються Retention rate і Churn rate, а отже LTV і LTV/CAC; відомий лише дохід першої покупки.",
-        ustill:"Без Users Still Active невідомо, скільки користувачів когорти лишилось: не рахуються Retention rate і Churn rate, а отже LTV і LTV/CAC; відомий лише дохід першої покупки.",
+        ustart:"Без Users at Start немає бази когорти: не рахуються Retention rate і Churn rate, а отже LTV і LTV/CAC; відомий лише дохід за 30 днів без майбутньої цінності.",
+        ustill:"Без Users Still Active невідомо, скільки користувачів когорти лишилось: не рахуються Retention rate і Churn rate, а отже LTV і LTV/CAC; відомий лише дохід за 30 днів без майбутньої цінності.",
         channels:"Без розбивки по каналах невідомо, які канали окупаються; CAC і ROAS відомі лише в цілому."
       };
       var D2R_GROUPS = [
@@ -1231,6 +1306,7 @@
           if(raw[fid].state === "bad") fix.push({label:FIELDS[fid].label, err:raw[fid].err});
         });
         channelSumCheck(raw, ch).forEach(function(w){ fix.push(w); });
+        cohortCheck(raw).forEach(function(w){ fix.push(w); });
         return {groups:groups, fix:fix};
       }
       function verdictFacts(raw, D, ch){
@@ -1250,6 +1326,9 @@
           L.push(D.margin.v >= 0 ?
             "Margin = " + fmtPct1(D.margin.v) + ": після врахування Cost залишається " + fmtPct1(D.margin.v) + " виручки." :
             "Margin = " + fmtPct1(D.margin.v) + ": витрати перевищують виручку.");
+        }
+        if(D.aov.ok && D.pfreq.ok && D.arppu.ok && D.pfreq.v > 1){
+          L.push("Зв’язка покупок узгоджена: AOV " + fmtMoney2(D.aov.v) + " × freq " + fmtMult(D.pfreq.v) + " = ARPPU_період " + fmtMoney2(D.arppu.v) + ". Зростання покупок без зростання доходу знижує AOV — перевірте, що Revenue містить повторний дохід за ті самі 30 днів.");
         }
         var clauses = [], trans = [];
         if(raw.installs.state === "ok" && raw.activated.state === "ok" && raw.installs.v > 0){
@@ -1276,7 +1355,7 @@
           var rel = r >= 1 ?
             "у " + (Number.isInteger(r) ? r + " " + plural(r, ["раз","рази","разів"]) : fmtMult(r) + " раза") + " більший за CAC" :
             "становить " + fmtMult(r) + " від CAC";
-          L.push("LTV/CAC = " + fmtMult(r) + ": LTV (" + fmtMoney2(D.ltv.v) + ") " + rel + ". (LTV за спрощенням 1 / Churn rate)");
+          L.push("LTV/CAC = " + fmtMult(r) + ": LTV (" + fmtMoney2(D.ltv.v) + ") " + rel + ". (LTV = AOV × freq / Churn)" + (repeatNote(raw, D) ? " " + repeatNote(raw, D) : ""));
         }
         if(ch.length >= 2){
           var parts = [];
@@ -1321,6 +1400,84 @@
         groups.sort(function(a,b){ return b.blocks.length - a.blocks.length; });
         return groups;
       }
+      var D2R_DECISIONS = [
+        "Не масштабувати: кожен залучений користувач збитковий",
+        "Не масштабувати: спершу покращити утримання, чек або CAC",
+        "Масштабувати обережно, малими кроками",
+        "Можна масштабувати",
+        "Дуже вигідно: можна швидко збільшувати бюджет"
+      ];
+      var D2R_ZONES = ["менше 1","1-2","2-3","3-5","5+"];
+      var D2R_SCALE_NOTE = "Шкала є орієнтиром (найкраще працює для підписок і додатків з повторними платежами). Для інших моделей порогові значення можуть бути іншими.";
+      function decisionZone(v){
+        if(v < 1) return 0;
+        if(v < 2) return 1;
+        if(v < 3) return 2;
+        if(v < 5) return 3;
+        return 4;
+      }
+      function decisionBasis(raw, D){
+        if(!raw || !D) return null;
+        if(D.ltvcacm && D.ltvcacm.ok) return {kind:"margin", v:D.ltvcacm.v};
+        if(D.ltvcac && D.ltvcac.ok) return {kind:"revenue", v:D.ltvcac.v};
+        return {kind:"missing"};
+      }
+      function decisionMissingLabels(raw){
+        return ["revenue","paying","ustart","ustill","mcost","cost"].filter(function(fid){
+          return raw[fid].state === "empty";
+        }).map(function(fid){ return FIELDS[fid].label; });
+      }
+      function decisionAria(v, z){
+        var t = D2R_DECISIONS[z];
+        return "LTV/CAC = " + fmtMult(v) + ", зона " + D2R_ZONES[z] + ": " + t.charAt(0).toLowerCase() + t.slice(1);
+      }
+      function gaugeHTML(v, z){
+        var max = 6;
+        var pos = (Math.max(0, Math.min(v, max))/max*100).toFixed(1);
+        var over = v > max;
+        var segs = [["d2r-gz0","<1"],["d2r-gz1","1-2"],["d2r-gz2","2-3"],["d2r-gz3","3-5"],["d2r-gz4","5+"]];
+        var flex = [1,1,1,2,1];
+        var g = "<div class=\"d2r-gauge\" role=\"img\" aria-label=\"" + esc(decisionAria(v, z)) + "\">";
+        g += "<div class=\"d2r-gwrap\">";
+        g += "<div class=\"d2r-gval\" style=\"left:" + pos + "%\">" + esc(fmtMult(v)) + (over ? " &#8594;" : "") + "</div>";
+        g += "<div class=\"d2r-gtrack\">";
+        segs.forEach(function(s, i){ g += "<span class=\"d2r-gz " + s[0] + "\" style=\"flex:" + flex[i] + "\"><span class=\"d2r-gt\">" + esc(s[1]) + "</span></span>"; });
+        g += "<span class=\"d2r-gmark" + (over ? " over" : "") + "\" style=\"left:" + pos + "%\"></span>";
+        g += "</div>";
+        g += "<div class=\"d2r-gbounds\"><span style=\"left:16.7%\">1</span><span style=\"left:33.3%\">2</span><span style=\"left:50%\">3</span><span style=\"left:83.3%\">5</span></div>";
+        g += "</div></div>";
+        return g;
+      }
+      function decisionHTML(raw, D){
+        var b = decisionBasis(raw, D);
+        var h = "<div class=\"d2r-dhead\"><span class=\"d2r-dtitle\">Рішення про масштабування</span></div>";
+        if(!b || b.kind === "missing"){
+          var miss = decisionMissingLabels(raw);
+          h += "<p class=\"d2r-dtext\"><strong>Рішення ще не можна ухвалити.</strong> " +
+            (miss.length ? esc("Не вистачає: " + miss.join(", ") + ". Див. «Чого бракує».") : esc("LTV/CAC не обчислюється: ділення на нуль або помилка в полях.")) + "</p>";
+          return h;
+        }
+        var z = decisionZone(b.v);
+        var basisTxt = b.kind === "margin" ? "LTV/CAC (за маржею)" : "LTV/CAC (за виручкою)";
+        h += "<p class=\"d2r-dtext\"><strong>" + esc(D2R_DECISIONS[z]) + ".</strong> " + esc(basisTxt + " = " + fmtMult(b.v) + ", зона " + D2R_ZONES[z] + ".") + "</p>";
+        if(b.kind === "revenue"){
+          h += "<p class=\"d2r-dwarn\"><span class=\"d2r-warn\"><i>⚠</i>" + esc("LTV за виручкою, може бути завищений. Введіть Cost.") + "</span></p>";
+        }
+        h += gaugeHTML(b.v, z);
+        h += "<p class=\"d2r-dnote\">" + esc(D2R_SCALE_NOTE) + "</p>";
+        return h;
+      }
+      function renderDecision(){
+        var box = document.getElementById("d2r-decision");
+        if(!box) return;
+        if(mode === "template" || !STATE.raw || allEmpty(STATE.raw, STATE.ch)){
+          box.hidden = true;
+          box.innerHTML = "";
+          return;
+        }
+        box.hidden = false;
+        box.innerHTML = decisionHTML(STATE.raw, STATE.D);
+      }
       function allEmpty(raw, ch){
         return ch.length === 0 && FIDS.every(function(fid){ return raw[fid].state === "empty"; });
       }
@@ -1331,6 +1488,7 @@
         var progB = document.getElementById("d2r-vprog-b");
         var progW = document.getElementById("d2r-vprog-w");
         if(!hint || !secs) return;
+        renderDecision();
         if(mode === "template" || !STATE.raw){
           hint.hidden = false;
           hint.textContent = "Перейдіть у режим «Розрахунок», щоб побачити висновок за вашими даними.";
@@ -1431,6 +1589,18 @@
         s5.forEach(function(g){
           T.push("- Заповніть " + g.labels.join(" і ") + " → розблокує " + g.blocks.length + " " + plural(g.blocks.length, ["блок","блоки","блоків"]) + ": " + g.blocks.join(", "));
         });
+        T.push("6. Рішення про масштабування");
+        var decB = decisionBasis(raw, D);
+        if(!decB || decB.kind === "missing"){
+          var decMiss = decisionMissingLabels(raw);
+          T.push("- Рішення ще не можна ухвалити." + (decMiss.length ? " Не вистачає: " + decMiss.join(", ") + "." : " LTV/CAC не обчислюється."));
+        } else {
+          var decZ = decisionZone(decB.v);
+          var decBasis = decB.kind === "margin" ? "LTV/CAC (за маржею)" : "LTV/CAC (за виручкою)";
+          T.push("- " + D2R_DECISIONS[decZ] + ". " + decBasis + " = " + fmtMult(decB.v) + ", зона " + D2R_ZONES[decZ] + ".");
+          if(decB.kind === "revenue") T.push("- LTV за виручкою, може бути завищений. Введіть Cost.");
+          T.push("- Шкала: менше 1 / 1-2 / 2-3 / 3-5 / 5+. " + D2R_SCALE_NOTE);
+        }
         return T.join("\n");
       }
       function update(){
@@ -1500,8 +1670,8 @@
         return seen;
       }
       /* Розшифровка назв метрик: [англійською, українською] */
-var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення застосунку"], "marketing-cost": ["Marketing Cost / Ad Spend", "Маркетингові витрати / Рекламні витрати"], "cac": ["Customer Acquisition Cost", "Вартість залучення клієнта"], "channels": ["Acquisition Channels Breakdown", "Розбивка за каналами залучення"], "onboarding": ["Onboarding Completion Rate", "Частка користувачів, що завершили onboarding"], "activated": ["Activated Users / Activation Rate", "Активовані користувачі / Рівень активації"], "dau-mau": ["Daily Active Users / Monthly Active Users", "Щоденні / щомісячні активні користувачі (DAU/MAU)"], "retention": ["Retention Rate", "Рівень утримання користувачів"], "cohort": ["Cohort Retention", "Утримання когорти користувачів"], "conv-purchase": ["Conversion Rate (purchase)", "Конверсія в покупку"], "paying": ["Paying Users", "Платні користувачі"], "aov": ["Average Order Value (AOV)", "Середній чек (середня сума покупки)"], "revenue": ["Revenue", "Дохід (виручка)"], "arppu": ["Average Revenue Per Paying User", "Середній дохід на платного користувача"], "arpu": ["Average Revenue Per User", "Середній дохід на користувача"], "purchase-freq": ["Purchase Frequency", "Частота покупок"], "ltv": ["Customer Lifetime Value", "Цінність клієнта за весь час життя"], "ltv-cac": ["LTV to CAC ratio", "Співвідношення LTV до CAC"], "roas": ["Return on Ad Spend", "Віддача від рекламних витрат"], "romi": ["Return on Marketing Investment", "Рентабельність маркетингових інвестицій"], "margin": ["Margin", "Маржа (маржинальність)"], "nps-viral": ["Net Promoter Score / Viral Coefficient", "Індекс лояльності клієнтів / Вірусний коефіцієнт"], "churn": ["Churn Rate", "Відтік користувачів"]};
-/* Статичні нотатки для 11 ключових метрик: питання, база розрахунку, типова помилка. */
+var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення застосунку"], "marketing-cost": ["Marketing Cost / Ad Spend", "Маркетингові витрати / Рекламні витрати"], "cac": ["Customer Acquisition Cost", "Вартість залучення клієнта"], "channels": ["Acquisition Channels Breakdown", "Розбивка за каналами залучення"], "onboarding": ["Onboarding Completion Rate", "Частка користувачів, що завершили onboarding"], "activated": ["Activated Users / Activation Rate", "Активовані користувачі / Рівень активації"], "dau-mau": ["Daily Active Users / Monthly Active Users", "Щоденні / щомісячні активні користувачі (DAU/MAU)"], "retention": ["Retention Rate", "Рівень утримання користувачів"], "cohort": ["Cohort Retention", "Утримання когорти користувачів"], "conv-purchase": ["Conversion Rate (purchase)", "Конверсія в покупку"], "paying": ["Paying Users", "Платні користувачі"], "aov": ["Average Order Value (AOV)", "Середній чек (середня сума покупки)"], "revenue": ["Revenue", "Дохід (виручка)"], "arppu": ["Average Revenue Per Paying User", "Середній дохід на платного користувача"], "arpu": ["Average Revenue Per User", "Середній дохід на користувача"], "purchase-freq": ["Purchase Frequency", "Частота покупок"], "ltv": ["Customer Lifetime Value", "Цінність клієнта за весь час життя"], "ltv-cac": ["LTV to CAC ratio", "Співвідношення LTV до CAC"], "roas": ["Return on Ad Spend", "Віддача від рекламних витрат"], "romi": ["Return on Marketing Investment", "Рентабельність маркетингових інвестицій"], "margin": ["Margin", "Маржа (маржинальність)"], "ltv-margin": ["Margin-adjusted LTV", "LTV з урахуванням маржі"], "ltv-cac-margin": ["LTV to CAC ratio (margin-based)", "Співвідношення LTV до CAC за маржею"], "net-profit": ["Net Profit", "Чистий прибуток кампанії"], "payback": ["CAC Payback Period", "Термін окупності CAC"], "nps-viral": ["Net Promoter Score / Viral Coefficient", "Індекс лояльності клієнтів / Вірусний коефіцієнт"], "churn": ["Churn Rate", "Відтік користувачів"]};
+/* Статичні нотатки для 16 ключових метрик: питання, база розрахунку, типова помилка. */
       var D2R_METRIC_NOTES = {
         "conv-purchase":{q:"Яка частина активованих користувачів дійшла до першої покупки?",
           base:"Чисельник: Paying Users. Знаменник: Activated users (в інших джерелах формула з Total Users; у цій схемі й задачі база саме Activated users). Період: одна й та сама група новачків.",
@@ -1525,7 +1695,7 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
           base:"ARPU = Revenue / Users (у схемі Users = Installs, припущення). Однаковий період для доходу й користувачів.",
           mistake:"Плутати ARPU і ARPPU: різниця може бути в десятки разів. Ділити дохід не на ту групу користувачів."},
         "aov":{q:"Яка середня сума однієї покупки?",
-          base:"Revenue / Number of Purchases. Якщо Number of Purchases не введено, схема припускає одну покупку на платного користувача.",
+          base:"Revenue (сумарний за 30 днів) / Number of Purchases (усі за 30 днів). Якщо Number of Purchases не введено, схема припускає одну покупку на платного користувача (AOV = ARPPU).",
           mistake:"Ділити на Paying Users, коли покупок більше: це вже ARPPU, а не AOV. Змішувати першу покупку з повторними."},
         "retention":{q:"Яка частина користувачів лишається активною через певний час?",
           base:"Чисельник: Users Still Active. Знаменник: Users at Start, одна когорта на фіксовану дату. Період обов'язково вказувати (наприклад, Day 1, Day 7, Month 1: позначення зі стандартної практики).",
@@ -1534,11 +1704,23 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
           base:"Чисельник: Users at Start − Users Still Active (тобто ті, хто пішов). Знаменник: Users at Start. Значення залежить від періоду: місячний Churn rate не дорівнює тижневому.",
           mistake:"Брати Churn rate за інший період, ніж дохід у LTV. Включати до Users at Start тих, хто прийшов уже всередині періоду."},
         "ltv":{q:"Скільки доходу приносить один користувач за весь час із продуктом?",
-          base:"ARPPU × (1 / Churn rate); спрощення (в інших джерелах: LTV = ARPU × середній період утримання). ARPPU і Churn rate мають бути за один і той самий період (місяць із місяцем). LTV тут рахується на платного користувача (ARPPU), бо його порівнюють із CAC на платного; ARPU зі стандартної формули ділить дохід на всіх користувачів і дав би в 25 разів менше значення ($0,80 замість $20,00 у прикладі).",
-          mistake:"Брати дохід за місяць, а Churn rate за рік або навпаки. Рахувати LTV лише з першого чека, коли даних про повернення немає. Churn rate = 0 дає нескінченний період утримання, тому LTV не визначений."},
+          base:"LTV = AOV × Purchase frequency / Churn rate = ARPPU_період / Churn rate (період утримання ≈ 1 / Churn). Revenue і Purchases — сумарні за один і той самий період (30 днів). Якщо Purchases не введено, freq=1. LTV тут на платного користувача (ARPPU_період), бо його порівнюють із CAC на платного. Спрощення: ARPPU за період береться як стабільний дохід за кожен наступний період, тому перша покупка (яка буває один раз) враховується повторно і може завищувати LTV. Результат це грубий орієнтир.",
+          mistake:"Брати дохід за місяць, а Churn rate за рік або навпаки. Рахувати LTV лише з доходу за 30 днів без повторних покупок, коли дані про повернення є. Churn rate = 0 дає нескінченний період утримання, тому LTV не визначений."},
         "ltv-cac":{q:"Чи окупається залучення клієнта його цінністю за весь час?",
           base:"LTV / CAC, обидва на платного користувача й для однієї когорти або каналу.",
-          mistake:"Порівнювати LTV і CAC різних каналів чи когорт. Забувати, що LTV тут рахується з доходу, а не з прибутку. Робити висновок «добре/погано» без порогових значень: їх не задано."}
+          mistake:"Порівнювати LTV і CAC різних каналів чи когорт. Забувати, що LTV тут рахується з доходу, а не з прибутку. Робити висновок «добре/погано» без порогових значень: їх не задано."},
+        "ltv-margin":{q:"Скільки прибутку приносить платний користувач за весь час життя?",
+          base:"LTV (за маржею) = LTV × Margin. LTV — за виручкою, Margin = (Revenue − Cost) / Revenue, усі за один період.",
+          mistake:"Порівнювати з CAC LTV за виручкою, коли відома маржа: рішення виходить завищеним, бо витрати не враховано."},
+        "ltv-cac-margin":{q:"Чи окупається залучення прибутком із клієнта за весь час?",
+          base:"LTV (за маржею) / CAC, обидва на платного користувача й для однієї когорти або каналу.",
+          mistake:"Змішувати бази: брати LTV за виручкою, а CAC за маржею, або навпаки. Брати LTV і CAC різних когорт чи каналів."},
+        "net-profit":{q:"Скільки заробила (або втратила) кампанія за 30 днів?",
+          base:"Net Profit = Revenue − Marketing Cost − Cost, усі складові за один і той самий період.",
+          mistake:"Віднімати лише рекламу й забувати про Cost: виходить виручка мінус реклама, а не прибуток кампанії."},
+        "payback":{q:"Як швидко повертаються витрати на залучення користувача?",
+          base:"Payback = CAC / (ARPPU × Margin), у періодах по 30 днів. Без Cost Margin = 100% (припущення).",
+          mistake:"Читати payback як точний термін: це спрощена оцінка, що припускає стабільний дохід за кожен наступний період."}
       };
       function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
       function nameList(ids){
@@ -1611,24 +1793,42 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
           else { refreshSubs(); if(activeId) renderPanel(activeId); }
         });
       });
+      function setCaseCap(t){ var c = document.getElementById("d2r-casecap"); if(c) c.textContent = t || ""; }
       document.querySelectorAll(".d2r-fin, .d2r-chin").forEach(function(el){
-        el.addEventListener("input", function(){ if(mode === "calc") update(); });
+        el.addEventListener("input", function(){ setCaseCap(""); if(mode === "calc") update(); });
       });
-      document.getElementById("d2r-fill").addEventListener("click", function(){
+      function fillBase(purchases, revenue){
         setVal("installs","10000"); setVal("mcost","5000"); setVal("activated","4000");
-        setVal("paying","400"); setVal("revenue","8000"); setVal("purchases","400");
+        setVal("paying","400"); setVal("revenue",revenue); setVal("purchases",purchases);
         setVal("cost","2000"); setVal("ustart","400"); setVal("ustill","300");
         setVal("dau","1200"); setVal("mau","4000");
-        var chData = [["Канал A","2500","250","5000"],["Канал B","1500","100","2000"],["Канал C","1000","50","1000"]];
+        var rev = Number(revenue) || 0;
+        var rB = Math.round(rev * 2 / 8);
+        var rC = Math.round(rev * 1 / 8);
+        var rA = rev - rB - rC;
+        var chData = [["Канал A","2500","250",String(rA)],["Канал B","1500","100",String(rB)],["Канал C","1000","50",String(rC)]];
         for(var i = 1; i <= 5; i++){
           var row = chData[i - 1] || ["","","",""];
           setId("d2r-ch-name"+i,row[0]); setId("d2r-ch-cost"+i,row[1]); setId("d2r-ch-pay"+i,row[2]); setId("d2r-ch-rev"+i,row[3]);
         }
         if(mode === "calc") update();
+      }
+      document.getElementById("d2r-fill").addEventListener("click", function(){
+        fillBase("400","8000");
+        setCaseCap("Кейс А: разові покупки (Purchases = Paying, Revenue = $8 000).");
+      });
+      document.getElementById("d2r-case-b").addEventListener("click", function(){
+        fillBase("1000","20000");
+        setCaseCap("Кейс Б: повтори, дані узгоджені (1000 покупок, Revenue = $20 000).");
+      });
+      document.getElementById("d2r-case-v").addEventListener("click", function(){
+        fillBase("1000","8000");
+        setCaseCap("Кейс В: покупок більше, а Revenue не зріс, тому AOV упав до $8. Перевірте, чи додано дохід від повторних покупок.");
       });
       document.getElementById("d2r-clear").addEventListener("click", function(){
         FIDS.forEach(function(fid){ setVal(fid,""); });
         for(var i = 1; i <= 5; i++){ setId("d2r-ch-name"+i,""); setId("d2r-ch-cost"+i,""); setId("d2r-ch-pay"+i,""); setId("d2r-ch-rev"+i,""); }
+        setCaseCap("");
         if(mode === "calc") update();
       });
       buildGrid();

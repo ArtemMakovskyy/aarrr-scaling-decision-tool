@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Як користуватися калькулятором AARRR</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%231E7A63'/%3E%3Ctext x='50' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='30' font-weight='bold' fill='%23fff'%3EA%3C/text%3E%3Ctext x='50' y='70' text-anchor='middle' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='%23fff'%3E→R%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%23E67E22'/%3E%3Ctext x='50' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='30' font-weight='bold' fill='%23fff'%3EA%3C/text%3E%3Ctext x='50' y='70' text-anchor='middle' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='%23fff'%3E→R%3C/text%3E%3C/svg%3E">
 <style>
   :root{
     color-scheme:light dark;
@@ -235,6 +235,7 @@
         <li><a href="#fields">Поля за етапами</a></li>
         <li><a href="#verdict">Як читати висновок</a></li>
         <li><a href="#limits">Обмеження</a></li>
+        <li><a href="#timeline">Часова шкала і періоди</a></li>
       </ol>
     </nav>
   </div>
@@ -356,6 +357,50 @@
     <div class="guide-head"><span class="guide-num">07</span><h2 id="h-limits">Обмеження</h2></div>
     <div class="guide-body">
       <p>LTV = AOV × Purchase frequency / Churn = ARPPU_період / Churn, де Revenue і Purchases — сумарні за один і той самий період (30 днів). Без Number of Purchases частота = 1. Формула коректна лише для моделей з повторними платежами (підписка, повторні покупки). Для разової покупки LTV дорівнює доходу за 30 днів (freq = 1, Churn = 100%). Purchases без Revenue не ростить LTV: якщо додали повтори в штуках, додайте і повторний дохід, інакше AOV впаде.</p>
+    </div>
+  </div>
+</section>
+
+<section class="guide" id="timeline" aria-labelledby="h-timeline">
+  <div class="wrap">
+    <div class="guide-head"><span class="guide-num">08</span><h2 id="h-timeline">Часова шкала і періоди</h2></div>
+    <div class="guide-body">
+      <p>Кампанія → Day 0 (день першої покупки) → Дні 1–30 (вікно спостереження) → Day 30 → Прогноз за весь час життя. Факт за 30 днів — це AOV, ARPPU, ARPU, частота покупок, ROAS, ROMI, Margin, Net Profit, Retention (Day 30 / Day 0) і Churn. Прогноз — це LTV, LTV/CAC, версії за маржею і Payback.</p>
+      <p>Припущення прогнозу: горизонт ≈ 1 / Churn періодів по 30 днів (Churn 25% → 4 періоди ≈ 120 днів); Churn і дохід за період лишаються стабільними. Фактично підтверджено лише перші 30 днів.</p>
+      <div class="table-scroll">
+        <table class="ht-fields">
+          <thead><tr><th scope="col">Показник</th><th scope="col">Тип (вхід / факт / прогноз)</th><th scope="col">Період</th></tr></thead>
+          <tbody>
+            <tr><td>Installs</td><td>вхід</td><td>за кампанію</td></tr>
+            <tr><td>Marketing Cost</td><td>вхід</td><td>за кампанію</td></tr>
+            <tr><td>Activated users</td><td>вхід</td><td>за кампанію</td></tr>
+            <tr><td>Onboarding completion</td><td>факт</td><td>за кампанію</td></tr>
+            <tr><td>Conversion rate (purchase)</td><td>факт</td><td>за кампанію (від Activated users до покупки)</td></tr>
+            <tr><td>Paying Users</td><td>вхід</td><td>Day 0, у день першої покупки (когорта платних)</td></tr>
+            <tr><td>CAC</td><td>факт</td><td>за кампанію: Marketing Cost / Paying Users (обидва з однієї кампанії)</td></tr>
+            <tr><td>Розбивка по каналах</td><td>факт</td><td>за кампанію, у розрізі каналів</td></tr>
+            <tr><td>Revenue</td><td>вхід</td><td>сумарно за 30 днів після першої покупки</td></tr>
+            <tr><td>Purchase frequency</td><td>факт</td><td>за 30 днів</td></tr>
+            <tr><td>AOV</td><td>факт</td><td>за 30 днів</td></tr>
+            <tr><td>ARPPU</td><td>факт</td><td>за 30 днів, на платного користувача</td></tr>
+            <tr><td>ARPU</td><td>факт</td><td>за 30 днів, на всіх (база Installs)</td></tr>
+            <tr><td>ROAS</td><td>факт</td><td>за 30 днів</td></tr>
+            <tr><td>ROMI</td><td>факт</td><td>за 30 днів</td></tr>
+            <tr><td>Margin</td><td>факт</td><td>за 30 днів</td></tr>
+            <tr><td>Net Profit</td><td>факт</td><td>за 30 днів, не прогноз</td></tr>
+            <tr><td>Retention rate</td><td>факт</td><td>Day 30 / Day 0, за один період (30 днів)</td></tr>
+            <tr><td>Churn rate</td><td>факт</td><td>за 30 днів, 1 − Retention</td></tr>
+            <tr><td>Cohort retention</td><td>факт</td><td>по когортах за кілька періодів</td></tr>
+            <tr><td>DAU/MAU</td><td>факт</td><td>DAU за день (середнє за 30 днів), MAU за 30 днів</td></tr>
+            <tr><td>LTV</td><td>прогноз</td><td>за весь час життя ≈ 1 / Churn періодів по 30 днів</td></tr>
+            <tr><td>LTV/CAC</td><td>прогноз</td><td>те саме</td></tr>
+            <tr><td>LTV (за маржею)</td><td>прогноз</td><td>те саме, у прибутку</td></tr>
+            <tr><td>LTV/CAC (за маржею)</td><td>прогноз</td><td>те саме</td></tr>
+            <tr><td>Payback</td><td>прогноз</td><td>оцінка в періодах по 30 днів</td></tr>
+            <tr><td>NPS / Viral coefficient</td><td>факт</td><td>за період спостереження (не входить у розрахунки)</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </section>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AARRR + юніт-економіка: калькулятор рішення про масштабування</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%231E7A63'/%3E%3Ctext x='50' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='30' font-weight='bold' fill='%23fff'%3EA%3C/text%3E%3Ctext x='50' y='70' text-anchor='middle' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='%23fff'%3E→R%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%23E67E22'/%3E%3Ctext x='50' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='30' font-weight='bold' fill='%23fff'%3EA%3C/text%3E%3Ctext x='50' y='70' text-anchor='middle' font-family='Arial,sans-serif' font-size='20' font-weight='bold' fill='%23fff'%3E→R%3C/text%3E%3C/svg%3E">
 <style>
 
   :root{
@@ -167,6 +167,15 @@
     font-size:13px;
   }
 
+  .detail-inner code.d2r-fcode{
+    display:block;
+    white-space:pre-line;
+    padding:8px 10px;
+    margin-top:4px;
+  }
+
+  .detail-inner code.d2r-fcode + code.d2r-fcode{margin-top:6px;}
+
 
   footer{
     padding:40px 24px 20px;
@@ -245,7 +254,7 @@
       .d2r-hintline i{font-style:normal;display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
       .d2r-prose{font-size:13.5px;color:var(--ink-soft);margin:14px 0 0;max-width:680px;}
       .d2r-detail-fields{margin:0;padding:0;list-style:none;}
-      .d2r-detail-fields li{margin:0 0 9px;font-size:14px;color:var(--ink);}
+      .d2r-detail-fields li{margin:0 0 9px;font-size:14px;color:var(--ink);white-space:pre-line;}
       .d2r-detail-fields li:last-child{margin-bottom:0;}
       .d2r-detail-fields b.flabel{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.05em;
         text-transform:uppercase;color:var(--detail-color,var(--accent-teal));margin-bottom:2px;}
@@ -334,6 +343,46 @@
       .d2r-node.is-key:not(.t-need){background:var(--accent-green-bg);}
       .d2r-field.is-key input:not([aria-invalid="true"]){background:var(--accent-green-bg);}
       .d2r-keyswatch{display:inline-block;width:20px;height:14px;border-radius:4px;flex:0 0 auto;background:var(--accent-green-bg);border:1px solid var(--accent-green);}
+      :root{
+        --d2r-ptag-bg:#FFFFFF;
+        --d2r-ptag-ink:#3F4440;
+        --d2r-ptag-line:#C9C4B4;
+        --d2r-tl-bg:#FFFFFF;
+        --d2r-tl-ink:#1F2421;
+        --d2r-tl-soft:#5B6059;
+        --d2r-tl-line:#D8D4C8;
+      }
+      @media (prefers-color-scheme:dark){
+        :root{
+          --d2r-ptag-bg:#22261F;
+          --d2r-ptag-ink:#D6DCD1;
+          --d2r-ptag-line:#4A5245;
+          --d2r-tl-bg:#22261F;
+          --d2r-tl-ink:#EDEFE9;
+          --d2r-tl-soft:#A9B0A4;
+          --d2r-tl-line:#353B32;
+        }
+      }
+      .d2r-ptag{display:inline-block;font-family:var(--mono);font-size:10.5px;line-height:1.5;color:var(--d2r-ptag-ink);
+        background:var(--d2r-ptag-bg);border:1px solid var(--d2r-ptag-line);border-radius:5px;padding:0 6px;margin-left:6px;
+        vertical-align:middle;white-space:nowrap;}
+      .d2r-ptag-forecast{border-style:dashed;border-width:1.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+      .d2r-timeline{list-style:none;display:flex;flex-wrap:nowrap;gap:4px 0;width:100%;margin:8px 0 0;padding:8px 12px;
+        background:var(--d2r-tl-bg);border:1px solid var(--d2r-tl-line);border-radius:10px;color:var(--d2r-tl-ink);}
+      .d2r-timeline li{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:1px;padding:0 10px;font-size:11.5px;line-height:1.4;}
+      .d2r-timeline li + li{border-left:1px solid var(--d2r-tl-line);}
+      .d2r-timeline li strong{font-size:12px;}
+      .d2r-timeline li span{font-family:var(--mono);font-size:10.5px;color:var(--d2r-tl-soft);}
+      .d2r-tlegend{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%;margin:6px 0 0;font-family:var(--mono);font-size:10.5px;color:var(--d2r-tl-soft);}
+      .d2r-tlegend .d2r-tchip{display:inline-block;background:var(--d2r-tl-bg);color:var(--d2r-tl-ink);border:1px solid var(--d2r-tl-line);border-radius:5px;padding:0 6px;}
+      .d2r-tlegend .d2r-tchip-fact{border-style:solid;}
+      .d2r-tlegend .d2r-tchip-prog{border-style:dashed;font-weight:700;text-transform:uppercase;}
+      @media (max-width:640px){
+        .d2r-timeline{flex-direction:column;flex-wrap:wrap;}
+        .d2r-timeline li + li{border-left:none;border-top:1px solid var(--d2r-tl-line);padding-top:6px;}
+        .d2r-timeline li{padding:4px 2px;}
+        .d2r-ptag{white-space:normal;margin-left:0;margin-top:2px;align-self:flex-start;}
+      }
     
 </style>
 </head>
@@ -421,30 +470,38 @@
       </fieldset>
       <div class="d2r-fbtns"><button type="button" class="d2r-btn" id="d2r-fill">Приклад даних (кейс А)</button><button type="button" class="d2r-btn" id="d2r-case-b">Кейс Б: повтори</button><button type="button" class="d2r-btn" id="d2r-case-v">Кейс В: пастка</button><button type="button" class="d2r-btn" id="d2r-clear">Очистити</button></div>
       <p class="d2r-casecap" id="d2r-casecap" aria-live="polite"></p>
+      <ol class="d2r-timeline" role="list" aria-label="Часова шкала: від кампанії до прогнозу">
+        <li><strong>Кампанія →</strong><span>Installs, Marketing Cost, Activated</span></li>
+        <li><strong>Day 0 →</strong><span>Paying Users, Users at Start</span></li>
+        <li><strong>Дні 1–30 →</strong><span>Revenue, Purchases, Cost</span></li>
+        <li><strong>Day 30 →</strong><span>Users Still Active</span></li>
+        <li><strong>Прогноз</strong><span>LTV, LTV/CAC, Payback</span></li>
+      </ol>
+      <p class="d2r-tlegend">Типи: <span class="d2r-tchip">вхід</span> <span class="d2r-tchip d2r-tchip-fact">факт</span> <span class="d2r-tchip d2r-tchip-prog">прогноз</span></p>
       <p class="d2r-fsub d2r-fhint">Колір блоку відповідає етапу на схемі</p>
       <form class="d2r-form" id="d2r-form" novalidate>
         <div class="d2r-fgrp">
           <p class="d2r-fsub">Етап 1 · Залучення — базові дані</p>
-          <div class="d2r-field is-key"><label for="d2r-f-installs">Installs</label><input class="d2r-fin" id="d2r-f-installs" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-installs"></p><p class="d2r-needfor" id="d2r-n-installs"></p></div>
-          <div class="d2r-field is-key"><label for="d2r-f-mcost">Marketing Cost, $</label><input class="d2r-fin" id="d2r-f-mcost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-mcost"></p><p class="d2r-needfor" id="d2r-n-mcost"></p></div>
+          <div class="d2r-field is-key"><label for="d2r-f-installs">Installs</label><span class="d2r-ptag" data-field="installs">кампанія</span><input class="d2r-fin" id="d2r-f-installs" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-installs"></p><p class="d2r-needfor" id="d2r-n-installs"></p></div>
+          <div class="d2r-field is-key"><label for="d2r-f-mcost">Marketing Cost, $</label><span class="d2r-ptag" data-field="mcost">кампанія</span><input class="d2r-fin" id="d2r-f-mcost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-mcost"></p><p class="d2r-needfor" id="d2r-n-mcost"></p></div>
         </div>
         <div class="d2r-fgrp">
           <p class="d2r-fsub">Етап 2 · Активація — базові дані</p>
-          <div class="d2r-field"><label for="d2r-f-activated">Activated users (завершили onboarding)</label><input class="d2r-fin" id="d2r-f-activated" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-activated"></p><p class="d2r-needfor" id="d2r-n-activated"></p></div>
+          <div class="d2r-field"><label for="d2r-f-activated">Activated users (завершили onboarding)</label><span class="d2r-ptag" data-field="activated">кампанія</span><input class="d2r-fin" id="d2r-f-activated" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-activated"></p><p class="d2r-needfor" id="d2r-n-activated"></p></div>
         </div>
         <div class="d2r-fgrp">
           <p class="d2r-fsub">Етап 5 · Монетизація — базові дані</p>
-          <div class="d2r-field is-key"><label for="d2r-f-paying">Paying Users</label><input class="d2r-fin" id="d2r-f-paying" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-paying"></p><p class="d2r-needfor" id="d2r-n-paying"></p></div>
-          <div class="d2r-field is-key"><label for="d2r-f-revenue">Revenue, $ (сумарний за 30 днів)</label><input class="d2r-fin" id="d2r-f-revenue" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-revenue"></p><p class="d2r-needfor" id="d2r-n-revenue"></p></div>
+          <div class="d2r-field is-key"><label for="d2r-f-paying">Paying Users</label><span class="d2r-ptag" data-field="paying">Day 0</span><input class="d2r-fin" id="d2r-f-paying" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-paying"></p><p class="d2r-needfor" id="d2r-n-paying"></p></div>
+          <div class="d2r-field is-key"><label for="d2r-f-revenue">Revenue, $ (сумарний за 30 днів)</label><span class="d2r-ptag" data-field="revenue">30 днів</span><input class="d2r-fin" id="d2r-f-revenue" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-revenue"></p><p class="d2r-needfor" id="d2r-n-revenue"></p></div>
         </div>
         <div class="d2r-fgrp">
           <p class="d2r-fsub">Розширені поля (для LTV і маржі)</p>
-          <div class="d2r-field is-key st-5"><label for="d2r-f-purchases">Number of Purchases (етап 5, усі за 30 днів)</label><input class="d2r-fin" id="d2r-f-purchases" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-purchases"></p><p class="d2r-needfor" id="d2r-n-purchases"></p></div>
-          <div class="d2r-field is-key st-5"><label for="d2r-f-cost">Cost, $ (етап 5: собівартість, комісії та інші витрати цього доходу)</label><input class="d2r-fin" id="d2r-f-cost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-cost"></p><p class="d2r-needfor" id="d2r-n-cost"></p></div>
-          <div class="d2r-field is-key st-4"><label for="d2r-f-ustart">Users at Start (етапи 4 і 7, когорта платних)</label><input class="d2r-fin" id="d2r-f-ustart" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustart"></p><p class="d2r-needfor" id="d2r-n-ustart"></p></div>
-          <div class="d2r-field is-key st-4"><label for="d2r-f-ustill">Users Still Active (етапи 4 і 7)</label><input class="d2r-fin" id="d2r-f-ustill" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustill"></p><p class="d2r-needfor" id="d2r-n-ustill"></p></div>
-          <div class="d2r-field st-3"><label for="d2r-f-dau">DAU (етап 3)</label><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
-          <div class="d2r-field st-3"><label for="d2r-f-mau">MAU (етап 3)</label><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
+          <div class="d2r-field is-key st-5"><label for="d2r-f-purchases">Number of Purchases (етап 5, усі за 30 днів)</label><span class="d2r-ptag" data-field="purchases">30 днів</span><input class="d2r-fin" id="d2r-f-purchases" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-purchases"></p><p class="d2r-needfor" id="d2r-n-purchases"></p></div>
+          <div class="d2r-field is-key st-5"><label for="d2r-f-cost">Cost, $ (етап 5: собівартість, комісії та інші витрати цього доходу)</label><span class="d2r-ptag" data-field="cost">30 днів</span><input class="d2r-fin" id="d2r-f-cost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-cost"></p><p class="d2r-needfor" id="d2r-n-cost"></p></div>
+          <div class="d2r-field is-key st-4"><label for="d2r-f-ustart">Users at Start (етапи 4 і 7, когорта платних)</label><span class="d2r-ptag" data-field="ustart">Day 0 (= Paying Users)</span><input class="d2r-fin" id="d2r-f-ustart" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustart"></p><p class="d2r-needfor" id="d2r-n-ustart"></p></div>
+          <div class="d2r-field is-key st-4"><label for="d2r-f-ustill">Users Still Active (етапи 4 і 7)</label><span class="d2r-ptag" data-field="ustill">Day 30, купили ще раз</span><input class="d2r-fin" id="d2r-f-ustill" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustill"></p><p class="d2r-needfor" id="d2r-n-ustill"></p></div>
+          <div class="d2r-field st-3"><label for="d2r-f-dau">DAU (етап 3)</label><span class="d2r-ptag" data-field="dau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за день, середнє за 30 днів</span><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
+          <div class="d2r-field st-3"><label for="d2r-f-mau">MAU (етап 3)</label><span class="d2r-ptag" data-field="mau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за 30 днів</span><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
         </div>
         <div class="d2r-fgrp">
           <div class="d2r-chwrap">
@@ -468,26 +525,26 @@
           </div>
         </div>
         <p class="d2r-fsub">Розраховується автоматично</p>
-        <div class="d2r-der"><span class="d2r-derlabel">Onboarding completion, %</span><output id="d2r-o-onboarding">—</output><span class="d2r-from" id="d2r-of-onboarding" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Activation rate</span><output id="d2r-o-activation">—</output><span class="d2r-from" id="d2r-of-activation" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Conversion rate (purchase), %</span><output id="d2r-o-conv">—</output><span class="d2r-from" id="d2r-of-conv" data-from="з: Activated users, Paying Users">з: Activated users, Paying Users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Average purchase value (AOV), $</span><output id="d2r-o-aov">—</output><span class="d2r-from" id="d2r-of-aov" data-from="з: Revenue, Number of Purchases">з: Revenue, Number of Purchases</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">ARPPU, $</span><output id="d2r-o-arppu">—</output><span class="d2r-from" id="d2r-of-arppu" data-from="з: Revenue, Paying Users">з: Revenue, Paying Users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">ARPU, $</span><output id="d2r-o-arpu">—</output><span class="d2r-from" id="d2r-of-arpu" data-from="з: Revenue, Installs">з: Revenue, Installs</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">CAC, $</span><output id="d2r-o-cac">—</output><span class="d2r-from" id="d2r-of-cac" data-from="з: Marketing Cost, Paying Users">з: Marketing Cost, Paying Users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">ROAS</span><output id="d2r-o-roas">—</output><span class="d2r-from" id="d2r-of-roas" data-from="з: Revenue, Marketing Cost">з: Revenue, Marketing Cost</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">ROMI, %</span><output id="d2r-o-romi">—</output><span class="d2r-from" id="d2r-of-romi" data-from="з: Revenue, Marketing Cost">з: Revenue, Marketing Cost</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Margin, %</span><output id="d2r-o-margin">—</output><span class="d2r-from" id="d2r-of-margin" data-from="з: Revenue, Cost">з: Revenue, Cost</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Purchase frequency</span><output id="d2r-o-pfreq">—</output><span class="d2r-from" id="d2r-of-pfreq" data-from="з: Number of Purchases, Paying Users">з: Number of Purchases, Paying Users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Retention rate, %</span><output id="d2r-o-retention">—</output><span class="d2r-from" id="d2r-of-retention" data-from="з: Users at Start, Users Still Active">з: Users at Start, Users Still Active</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Churn rate, %</span><output id="d2r-o-churn">—</output><span class="d2r-from" id="d2r-of-churn" data-from="з: Users at Start, Users Still Active">з: Users at Start, Users Still Active</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">LTV, $</span><output id="d2r-o-ltv">—</output><span class="d2r-from" id="d2r-of-ltv" data-from="з: ARPPU, Churn rate">з: ARPPU, Churn rate</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC</span><output id="d2r-o-ltvcac">—</output><span class="d2r-from" id="d2r-of-ltvcac" data-from="з: LTV, CAC">з: LTV, CAC</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">DAU/MAU</span><output id="d2r-o-daumau">—</output><span class="d2r-from" id="d2r-of-daumau" data-from="з: DAU, MAU">з: DAU, MAU</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">LTV (за маржею), $</span><output id="d2r-o-ltvm">—</output><span class="d2r-from" id="d2r-of-ltvm" data-from="з: LTV, Margin">з: LTV, Margin</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC (за маржею)</span><output id="d2r-o-ltvcacm">—</output><span class="d2r-from" id="d2r-of-ltvcacm" data-from="з: LTV (за маржею), CAC">з: LTV (за маржею), CAC</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Net Profit, $</span><output id="d2r-o-netprofit">—</output><span class="d2r-from" id="d2r-of-netprofit" data-from="з: Revenue, Marketing Cost, Cost">з: Revenue, Marketing Cost, Cost</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Payback (періодів по 30 днів)</span><output id="d2r-o-payback">—</output><span class="d2r-from" id="d2r-of-payback" data-from="з: CAC, ARPPU, Margin">з: CAC, ARPPU, Margin</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Onboarding completion, %</span><span class="d2r-ptag" data-der="onboarding">кампанія</span><output id="d2r-o-onboarding">—</output><span class="d2r-from" id="d2r-of-onboarding" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Activation rate</span><span class="d2r-ptag" data-der="activation">кампанія</span><output id="d2r-o-activation">—</output><span class="d2r-from" id="d2r-of-activation" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Conversion rate (purchase), %</span><span class="d2r-ptag" data-der="conv">кампанія</span><output id="d2r-o-conv">—</output><span class="d2r-from" id="d2r-of-conv" data-from="з: Activated users, Paying Users">з: Activated users, Paying Users</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Average purchase value (AOV), $</span><span class="d2r-ptag" data-der="aov">факт, 30 днів</span><output id="d2r-o-aov">—</output><span class="d2r-from" id="d2r-of-aov" data-from="з: Revenue, Number of Purchases">з: Revenue, Number of Purchases</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">ARPPU, $</span><span class="d2r-ptag" data-der="arppu">факт, 30 днів</span><output id="d2r-o-arppu">—</output><span class="d2r-from" id="d2r-of-arppu" data-from="з: Revenue, Paying Users">з: Revenue, Paying Users</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">ARPU, $</span><span class="d2r-ptag" data-der="arpu">факт, 30 днів</span><output id="d2r-o-arpu">—</output><span class="d2r-from" id="d2r-of-arpu" data-from="з: Revenue, Installs">з: Revenue, Installs</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">CAC, $</span><span class="d2r-ptag" data-der="cac">кампанія</span><output id="d2r-o-cac">—</output><span class="d2r-from" id="d2r-of-cac" data-from="з: Marketing Cost, Paying Users">з: Marketing Cost, Paying Users</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">ROAS</span><span class="d2r-ptag" data-der="roas">факт, 30 днів</span><output id="d2r-o-roas">—</output><span class="d2r-from" id="d2r-of-roas" data-from="з: Revenue, Marketing Cost">з: Revenue, Marketing Cost</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">ROMI, %</span><span class="d2r-ptag" data-der="romi">факт, 30 днів</span><output id="d2r-o-romi">—</output><span class="d2r-from" id="d2r-of-romi" data-from="з: Revenue, Marketing Cost">з: Revenue, Marketing Cost</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Margin, %</span><span class="d2r-ptag" data-der="margin">факт, 30 днів</span><output id="d2r-o-margin">—</output><span class="d2r-from" id="d2r-of-margin" data-from="з: Revenue, Cost">з: Revenue, Cost</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Purchase frequency</span><span class="d2r-ptag" data-der="pfreq">факт, 30 днів</span><output id="d2r-o-pfreq">—</output><span class="d2r-from" id="d2r-of-pfreq" data-from="з: Number of Purchases, Paying Users">з: Number of Purchases, Paying Users</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Retention rate, %</span><span class="d2r-ptag" data-der="retention">Day 30 / Day 0</span><output id="d2r-o-retention">—</output><span class="d2r-from" id="d2r-of-retention" data-from="з: Users at Start, Users Still Active">з: Users at Start, Users Still Active</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Churn rate, %</span><span class="d2r-ptag" data-der="churn">за 30 днів</span><output id="d2r-o-churn">—</output><span class="d2r-from" id="d2r-of-churn" data-from="з: Users at Start, Users Still Active">з: Users at Start, Users Still Active</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">LTV, $</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltv">ПРОГНОЗ</span><output id="d2r-o-ltv">—</output><span class="d2r-from" id="d2r-of-ltv" data-from="з: ARPPU, Churn rate">з: ARPPU, Churn rate</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvcac">ПРОГНОЗ</span><output id="d2r-o-ltvcac">—</output><span class="d2r-from" id="d2r-of-ltvcac" data-from="з: LTV, CAC">з: LTV, CAC</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">DAU/MAU</span><span class="d2r-ptag" data-der="daumau">30 днів</span><output id="d2r-o-daumau">—</output><span class="d2r-from" id="d2r-of-daumau" data-from="з: DAU, MAU">з: DAU, MAU</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">LTV (за маржею), $</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvm">ПРОГНОЗ</span><output id="d2r-o-ltvm">—</output><span class="d2r-from" id="d2r-of-ltvm" data-from="з: LTV, Margin">з: LTV, Margin</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC (за маржею)</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvcacm">ПРОГНОЗ</span><output id="d2r-o-ltvcacm">—</output><span class="d2r-from" id="d2r-of-ltvcacm" data-from="з: LTV (за маржею), CAC">з: LTV (за маржею), CAC</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Net Profit, $</span><span class="d2r-ptag" data-der="netprofit">факт, 30 днів</span><output id="d2r-o-netprofit">—</output><span class="d2r-from" id="d2r-of-netprofit" data-from="з: Revenue, Marketing Cost, Cost">з: Revenue, Marketing Cost, Cost</span></div>
+        <div class="d2r-der"><span class="d2r-derlabel">Payback (періодів по 30 днів)</span><span class="d2r-ptag d2r-ptag-forecast" data-der="payback">ПРОГНОЗ (оцінка)</span><output id="d2r-o-payback">—</output><span class="d2r-from" id="d2r-of-payback" data-from="з: CAC, ARPPU, Margin">з: CAC, ARPPU, Margin</span></div>
         <div class="d2r-ready" id="d2r-ready" aria-live="polite"></div>
       </form>
     </div>
@@ -547,190 +604,194 @@
       var SUMMARY_IDS = ["ltv","ltv-cac","retention","churn","purchase-freq","margin","channels"];
       /* Єдине місце редагування текстів: id, stage, title, formula, dependsOn, base/needs + 5 текстових полів. Статус блока обчислюється з needs, поле type видалено. */
       var D2R_NODES = [
-        {id:"installs", stage:1, base:"installs", title:"Installs",
+        {id:"installs", stage:1, base:"installs", title:"Installs", kind:"вхід", period:"за кампанію",
           formula:"Installs — вхідне число: кількість встановлень / залучених користувачів",
           dependsOn:[],
           what:"Користувачі вперше контактують із продуктом: бачать рекламу, переходять і встановлюють. Це початок воронки — усі наступні кроки рахуються від цього числа.",
           plan:"Порахувати, скільки користувачів ми привели, і зафіксувати базу для всіх конверсій нижче.",
           expect:"Більше Installs — ширший верх воронки. Але сам по собі обсяг нічого не каже про якість: успіх видно лише через активацію та покупку.",
           noData:"Без Installs немає знаменника для всіх конверсій: не можна порахувати ні Activation rate, ні CAC, ні ROAS."},
-        {id:"marketing-cost", stage:1, base:"mcost", title:"Marketing Cost / Ad Spend",
+        {id:"marketing-cost", stage:1, base:"mcost", title:"Marketing Cost / Ad Spend", kind:"вхід", period:"за кампанію",
           formula:"Marketing Cost — витрати на маркетинг; Ad Spend — частина витрат саме на рекламу ",
           dependsOn:[],
           what:"Ми витрачаємо гроші на залучення: реклама (Ad Spend) плюс решта маркетингових витрат. Це чисельник вартості залучення.",
           plan:"Зафіксувати повні витрати на залучення, щоб порівняти їх із доходом, який ці користувачі принесуть.",
           expect:"Витрати мають сенс лише у порівнянні з доходом: ознака успіху — ROAS вище 1, а згодом окупність через LTV/CAC.",
           noData:"Без витрат неможливо порахувати CAC, ROAS і ROMI — невідомо, скільки коштує кожен користувач і кожна покупка."},
-        {id:"cac", stage:1, needs:["mcost","paying"], did:"cac", title:"CAC",
+        {id:"cac", stage:1, needs:["mcost","paying"], did:"cac", title:"CAC", kind:"факт", period:"за кампанію: Marketing Cost / Paying Users (обидва з однієї кампанії)",
           formula:"CAC = Marketing Cost / Paying Users (в інших джерелах: Marketing Cost / New Customers; тут нові клієнти = Paying Users)",
           dependsOn:["marketing-cost","paying","channels"],
-          what:"Вартість одного платного користувача: ділимо всі витрати на залучення на кількість тих, хто дійшов до покупки.",
+          what:"Вартість одного платного користувача: ділимо всі витрати на залучення на кількість тих, хто дійшов до покупки. Marketing Cost і Paying Users беруться з однієї кампанії.",
           plan:"З'ясувати ціну результату, а не ціну кліку: скільки коштує один Paying Users.",
           expect:"CAC добрий лише у парі з LTV: рішення про масштабування дає зв'язка LTV/CAC, а не сам CAC.",
           noData:"Без CAC не з чим порівнювати LTV: невідомо, чи повертає користувач витрати на своє залучення."},
-        {id:"channels", stage:1, title:"Розбивка по каналах",
+        {id:"channels", stage:1, title:"Розбивка по каналах", kind:"факт", period:"за кампанію, у розрізі каналів",
           formula:"Зріз даних, а не окрема метрика: ті самі CAC / ROAS, пораховані окремо по кожному каналу",
           dependsOn:[],
           what:"Загальні Installs і Marketing Cost розкладаються по каналах залучення: видно, який канал дає дешеві встановлення, а який — платних користувачів.",
           plan:"Перевірити гіпотезу, що канали різняться якістю, і знайти ті, куди вигідно масштабувати бюджет.",
           expect:"Ознака успіху — відомий найкращий канал за CAC і ROAS. Проблема — усереднення: один поганий канал ховається за середнім числом.",
           noData:"Без розбивки по каналах масштабувати нічого конкретного: невідомо, куди саме лити бюджет, середній CAC вводить в оману."},
-        {id:"onboarding", stage:2, needs:["installs","activated"], did:"onboarding", title:"Onboarding completion",
+        {id:"onboarding", stage:2, needs:["installs","activated"], did:"onboarding", title:"Onboarding completion", kind:"факт", period:"за кампанію",
           formula:"Onboarding completion — частка новачків, що пройшли онбординг (за логікою воронки: пройшли онбординг / Installs)",
           dependsOn:["installs"],
           what:"Новачок знайомиться з продуктом: реєстрація, перші дії, підказки. Частина проходить цей шлях, частина губиться одразу.",
           plan:"Спростити перший досвід, щоб більше залучених доходили до моменту, коли продукт показує цінність.",
           expect:"Високий Onboarding completion розширює базу для покупки. Низький — перше вузьке місце: проблема ще до монетизації.",
           noData:"Без нього незрозуміло, де губляться користувачі: чи не дійшли вони до продукту, чи дійшли, але не купили."},
-        {id:"activated", stage:2, base:"activated", title:"Activated users (Activation rate)",
+        {id:"activated", stage:2, base:"activated", title:"Activated users (Activation rate)", kind:"вхід", period:"за кампанію",
           formula:"Activation rate: Activated Users / Registered Users × 100%; тут база — Installs: Activation rate = Activated users / Installs",
           dependsOn:["installs","onboarding"],
           what:"Користувачі, які виконали ключову дію і відчули першу цінність. Це вже не трафік, а люди, що зрозуміли продукт.",
           plan:"Виміряти частку тих, хто дійшов до цінності, і скоротити час до першої активації.",
           expect:"Активовані лишаються довше і частіше купують. Низька активація передбачає низькі Retention rate і Conversion rate (purchase).",
           noData:"Без активації плутаються причини: низькі покупки можуть означати як поганий онбординг, так і поганий оффер."},
-        {id:"dau-mau", stage:3, needs:["dau","mau"], did:"daumau", opt:true, title:"DAU/MAU",
+        {id:"dau-mau", stage:3, needs:["dau","mau"], did:"daumau", opt:true, title:"DAU/MAU", kind:"факт", period:"DAU за день (середнє за 30 днів), MAU за 30 днів",
           formula:"DAU/MAU = DAU / MAU",
           dependsOn:["activated"],
-          what:"Наскільки продукт став звичкою: яка частка місячної аудиторії заходить щодня. Регулярна взаємодія передує поверненням і покупкам.",
+          what:"Наскільки продукт став звичкою: яка частка місячної аудиторії заходить щодня. Регулярна взаємодія передує поверненням і покупкам. DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів.",
           plan:"Перевірити, чи продукт використовують регулярно, а не один раз після встановлення.",
           expect:"Вищий DAU/MAU — частіші контакти з оффером і кращі шанси на утримання. Блок додатковий: для рішення про масштабування достатньо воронки.",
           noData:"Без нього просто менше контексту про звичку. На висновок про окупність це не впливає — він не входить у формули CAC, ROAS і LTV."},
-        {id:"retention", stage:4, needs:["ustart","ustill"], did:"retention", title:"Retention rate",
+        {id:"retention", stage:4, needs:["ustart","ustill"], did:"retention", title:"Retention rate", kind:"факт", period:"Day 30 / Day 0, за один період (30 днів)",
           formula:"Retention rate (%) = Users Still Active / Users at Start × 100%",
           dependsOn:["paying"],
-          what:"Частина користувачів повертається і продовжує користуватися продуктом. Рахується по когорті платних користувачів.",
+          what:"Частина користувачів повертається і продовжує користуватися продуктом. Рахується по когорті платних користувачів. Рахується за один період: Users Still Active (Day 30) / Users at Start (Day 0).",
           plan:"З'ясувати, як довго користувачі залишаються з продуктом після першої покупки.",
           expect:"Чим довше утримання, тим довший середній період утримання і тим більший LTV. Окупність CAC залежить саме від цього.",
           noData:"Невідомо, чи повертаються платні користувачі; відомий лише дохід за 30 днів без майбутньої цінності, тож LTV і LTV/CAC порахувати неможливо."},
-        {id:"cohort", stage:4, needs:["ustart","ustill"], did:"retention", opt:true, title:"Cohort retention",
+        {id:"cohort", stage:4, needs:["ustart","ustill"], did:"retention", opt:true, title:"Cohort retention", kind:"факт", period:"по когортах за кілька періодів",
           formula:"Cohort retention — той самий Retention rate, але в розрізі когорт (користувачі одного періоду залучення)",
           dependsOn:["paying","retention"],
           what:"Утримання в розрізі когорт: кожен набір залучених відстежується окремо по періодах. Видно, чи нові когорти кращі за старі.",
           plan:"Порівняти когорти між собою і зрозуміти, чи покращення продукту реально подовжують життя користувача.",
           expect:"Стабільні або зростаючі криві когорт — ознака, що масштабувати можна. Падаючі — масштабування заллє гроші у діряве відро.",
           noData:"Без когорт середній Retention rate змішує старих і нових: невідомо, чи продукт стає кращим і яку когорту масштабуємо."},
-        {id:"conv-purchase", stage:5, needs:["activated","paying"], did:"conv", title:"Conversion rate (purchase)",
+        {id:"conv-purchase", stage:5, needs:["activated","paying"], did:"conv", title:"Conversion rate (purchase)", kind:"факт", period:"за кампанію (від Activated users до покупки)",
           formula:"Conversion rate (%) = Users Who Made a Purchase / Total Users × 100%. В інших джерелах база — Total Users; у цій схемі і в задачі база — Activated users (ті, хто завершив onboarding), тому Paying Users = Activated users × Conversion rate (purchase)",
           dependsOn:["activated"],
           what:"Частка користувачів, які зробили покупку всередині продукту. Момент, коли інтерес перетворюється на гроші.",
           plan:"Виміряти, яка частка активованих доводить справу до покупки, і тестувати оффер.",
           expect:"Вища конверсія дає більше Paying Users з тих самих Installs і знижує CAC без додаткових витрат на трафік.",
           noData:"Без конверсії не пов'язати трафік із грошима: Paying Users, Revenue і CAC порахувати неможливо."},
-        {id:"paying", stage:5, base:"paying", title:"Paying Users",
+        {id:"paying", stage:5, base:"paying", title:"Paying Users", kind:"вхід", period:"Day 0, у день першої покупки (когорта платних)",
           formula:"Paying Users — вхідне число: кількість користувачів, які зробили покупку",
           dependsOn:["activated","conv-purchase"],
           what:"Кількість людей, що дійшли через усю воронку до покупки: встановили, активувалися, заплатили.",
           plan:"Отримати головне число воронки — скільки платних дає кожна тисяча залучених.",
           expect:"Paying Users — знаменник CAC і ARPPU та множник Revenue. Малий Paying Users робить CAC захмарним.",
           noData:"Без Paying Users розвалюється весь розрахунок: немає CAC, Revenue, ARPPU, а отже і жодного висновку про масштабування."},
-        {id:"aov", stage:5, needs:["revenue","purchases"], did:"aov", title:"Average purchase value (AOV)",
+        {id:"aov", stage:5, needs:["revenue","purchases"], did:"aov", title:"Average purchase value (AOV)", kind:"факт", period:"за 30 днів",
           formula:"Average purchase value = Total Purchase Revenue (сумарний дохід за 30 днів) / Number of Purchases",
           dependsOn:["revenue","paying","purchase-freq"],
           what:"Скільки в середньому платить користувач за одну покупку — розмір чека. Разом із частотою дає ARPPU_період (AOV × freq) і далі LTV.",
           plan:"Зафіксувати середній чек як перший множник LTV (другий — частота). Revenue тут сумарний за 30 днів.",
           expect:"Більший чек при тій самій частоті дає більший LTV. Увага: якщо Purchases росте без Revenue, чек падає — перевірте, чи додали повторний дохід.",
           noData:"Без Purchases чек рахується із припущенням «одна покупка» (AOV = ARPPU), а LTV — консервативно з freq=1."},
-        {id:"revenue", stage:5, base:"revenue", title:"Revenue",
+        {id:"revenue", stage:5, base:"revenue", title:"Revenue", kind:"вхід", period:"сумарно за 30 днів після першої покупки",
           formula:"Revenue — вхідне число: сумарний дохід когорти за 30 днів (перші + повторні покупки)",
           dependsOn:["paying","aov"],
           what:"Сумарний дохід когорти за 30 днів: усі покупки (перші + повторні). База для ROAS, ROMI, AOV і ARPPU_період.",
           plan:"Порахувати гроші, які воронка вже принесла, — базу для ROAS і ROMI.",
           expect:"Revenue покриває Marketing Cost лише частково або повністю за 30 днів. Повна окупність видна тільки через LTV.",
           noData:"Без Revenue немає чисельника ROAS і ROMI: невідомо, скільки повертає кожен вкладений долар."},
-        {id:"arppu", stage:5, needs:["revenue","paying"], did:"arppu", title:"ARPPU",
+        {id:"arppu", stage:5, needs:["revenue","paying"], did:"arppu", title:"ARPPU", kind:"факт", period:"за 30 днів, на платного користувача",
           formula:"ARPPU_період = Total Revenue (сумарний за 30 днів) / Paying Users = AOV × Purchase frequency",
           dependsOn:["revenue","paying","aov","purchase-freq"],
           what:"Середній дохід на одного платного користувача за період. Місток від чека і частоти до LTV.",
           plan:"Отримати питомий дохід за період, який потім ділиться на Churn у формулі LTV.",
           expect:"ARPPU_період = AOV × freq: росте або з чеком, або з повторними покупками.",
           noData:"Без питомого доходу формула LTV не має першого множника."},
-        {id:"arpu", stage:5, needs:["revenue","installs"], did:"arpu", title:"ARPU",
+        {id:"arpu", stage:5, needs:["revenue","installs"], did:"arpu", title:"ARPU", kind:"факт", period:"за 30 днів, на всіх (база Installs)",
           formula:"ARPU = Revenue / Users (у схемі Users = Installs)",
           dependsOn:["revenue","installs"],
-          what:"Середній дохід на одного користувача, враховуючи всіх, а не лише платних.",
+          what:"Середній дохід на одного користувача, враховуючи всіх, а не лише платних. За 30 днів; база Installs (припущення).",
           plan:"Зафіксувати середній дохід на одного користувача для оцінки віддачі всього залучення.",
           expect:"ARPU значно менший за ARPPU, бо більшість користувачів не платить.",
           noData:"Без Installs немає знаменника: ARPU не рахується."},
-        {id:"purchase-freq", stage:5, needs:["purchases","paying"], did:"pfreq", title:"Purchase frequency",
+        {id:"purchase-freq", stage:5, needs:["purchases","paying"], did:"pfreq", title:"Purchase frequency", kind:"факт", period:"за 30 днів",
           formula:"Purchase frequency = Number of Purchases (усі за 30 днів) / Users Who Made Purchases",
           dependsOn:["paying"],
           what:"Як часто платні користувачі купують повторно. Разом із чеком дає ARPPU_період і далі LTV.",
           plan:"Виміряти повторні покупки — другий (після утримання) ключ до LTV.",
           expect:"Частота вище 1 означає, що LTV більший за дохід одного періоду (freq=1). Number of Purchases розкладає ARPPU на AOV і частоту покупок (LTV = AOV × Purchase frequency / Churn = ARPPU_період / Churn). Сама по собі зміна Purchases без зміни Revenue LTV не змінює. LTV росте, лише коли разом із покупками зростає Revenue.",
           noData:"Без частоти LTV рахується консервативно з freq=1 (припущення «одна покупка»)."},
-        {id:"ltv", stage:5, needs:["revenue","paying","ustart","ustill"], did:"ltv", title:"LTV",
-          formula:"LTV = AOV × Purchase frequency / Churn rate (= ARPPU_період / Churn rate; період утримання ≈ 1 / Churn; якщо Purchases пусте → freq=1)",
+        {id:"ltv", stage:5, needs:["revenue","paying","ustart","ustill"], did:"ltv", title:"LTV", kind:"прогноз", period:"за весь час життя ≈ 1 / Churn періодів по 30 днів",
+          formula:"LTV = ARPPU за 30 днів / Churn,\nде ARPPU за 30 днів = AOV × Purchase frequency (у прикладі: 8 000 / 400 = $20);\nсередній час життя в періодах по 30 днів = 1 / Churn, де 1 — це вся когорта цілком (у прикладі: Churn 25%, тобто 1 / 0,25 = 4 періоди ≈ 120 днів);\nбез кількості покупок частота = 1 (у прикладі: 400 покупок / 400 платних = 1);\nтоді LTV = 20 / 0,25 = $80.",
+          alts:["LTV = AOV × частота покупок × середній час життя — коли відомий спостережений час життя когорти, замість 1 / Churn.",
+            "LTV = сума середнього доходу когорти за кожен період її життя — коли є довга історія, без припущення про стабільний Churn.",
+            "LTV = сума (дохід періоду × retention періоду) по всіх періодах — коли є покрокова крива утримання.",
+            "LTV за маржею = LTV × Margin — той самий розрахунок, але від прибутку, а не виручки."],
           dependsOn:["aov","purchase-freq","arppu","retention","churn"],
-          what:"Очікуваний дохід від користувача за все його життя в продукті: питомий дохід, помножений на тривалість. Спрощення: ARPPU за період береться як стабільний дохід за кожен наступний період, тому перша покупка (яка буває один раз) враховується повторно і може завищувати LTV. Результат це грубий орієнтир.",
+          what:"Очікуваний дохід від користувача за все його життя в продукті: питомий дохід, помножений на тривалість. Спрощення: ARPPU за період береться як стабільний дохід за кожен наступний період, тому перша покупка (яка буває один раз) враховується повторно і може завищувати LTV. Результат це грубий орієнтир. Це прогноз, а не фактичний дохід: фактично відомі лише перші 30 днів. Горизонт ≈ 1 / Churn періодів по 30 днів (Churn 25% → 4 періоди ≈ 120 днів). Припущення: Churn і дохід за період стабільні.",
           plan:"Відповісти на головне питання: скільки грошей принесе залучений користувач, а не лише дохід за 30 днів. Важливо: дохід (ARPPU_період) і Churn rate мають стосуватися одного й того самого періоду (30 днів).",
           expect:"LTV порівнюється з CAC через LTV/CAC. Поки LTV невідомий, масштабування — ставка наосліп.",
           noData:"Без LTV рішення про масштабування ухвалити неможливо: ROAS показує лише дохід за 30 днів, а окупність — це LTV проти CAC."},
-        {id:"ltv-cac", stage:5, needs:["revenue","paying","ustart","ustill","mcost"], did:"ltvcac", title:"LTV/CAC",
+        {id:"ltv-cac", stage:5, needs:["revenue","paying","ustart","ustill","mcost"], did:"ltvcac", title:"LTV/CAC", kind:"прогноз", period:"те саме",
           formula:"LTV/CAC = LTV / CAC (відношення двох метрик)",
           dependsOn:["ltv","cac"],
-          what:"Підсумок економіки залучення: у скільки разів дохід із користувача перевищує витрати на нього.",
+          what:"Підсумок економіки залучення: у скільки разів дохід із користувача перевищує витрати на нього. Це прогноз: LTV береться на горизонті ≈ 1 / Churn періодів по 30 днів, тоді як CAC відомий уже зараз.",
           plan:"Ухвалити рішення: масштабувати, чекати даних або зупинитися й лагодити воронку.",
           expect:"Значення вище 1 — заробляємо більше, ніж витрачаємо. Але сам поріг не задано — це загальна логіка, а не бенчмарк.",
           noData:"Без цього відношення немає висновку: окремо хороший CAC або окремо хороший LTV нічого не доводять."},
-        {id:"roas", stage:5, needs:["revenue","mcost"], did:"roas", title:"ROAS",
+        {id:"roas", stage:5, needs:["revenue","mcost"], did:"roas", title:"ROAS", kind:"факт", period:"за 30 днів",
           formula:"ROAS = Ad Revenue / Ad Spend; тут Ad Revenue = Revenue, Ad Spend — частина Marketing Cost на рекламу",
           dependsOn:["revenue","marketing-cost","channels"],
           what:"Скільки доходу повертає кожен долар, вкладений у рекламу. Рахується за 30 днів, без інших витрат бізнесу і без майбутньої цінності.",
           plan:"Оцінити ефективність саме рекламного бюджету «тут і зараз».",
           expect:"ROAS вище 1 — реклама повертається вже доходом за 30 днів. Але прибутковість із урахуванням усіх витрат показує лише ROMI.",
           noData:"Без ROAS невідомо навіть, чи реклама відбивається одразу; масштабування сліпе з першого ж кроку."},
-        {id:"romi", stage:5, needs:["revenue","mcost"], did:"romi", title:"ROMI",
+        {id:"romi", stage:5, needs:["revenue","mcost"], did:"romi", title:"ROMI", kind:"факт", period:"за 30 днів",
           formula:"ROMI (%) = (Revenue − Marketing Cost) / Marketing Cost × 100%",
           dependsOn:["revenue","marketing-cost"],
           what:"Віддача на маркетинговий долар: скільки прибутку дає кожен вкладений у маркетинг долар після вирахування самих маркетингових витрат.",
           plan:"Порахувати прибутковість доходу за 30 днів з урахуванням витрат на залучення.",
           expect:"Додатний ROMI — дохід за 30 днів уже перевищує витрати. Але повну картину дає лише LTV/CAC.",
           noData:"Без ROMI невідомо, чи дохід за 30 днів перевищує витрати. Пам'ятай: ROMI не показує реального прибутку, бо враховує лише маркетингові витрати — собівартість і комісії лишаються за кадром."},
-        {id:"margin", stage:5, needs:["revenue","cost"], did:"margin", title:"Margin",
+        {id:"margin", stage:5, needs:["revenue","cost"], did:"margin", title:"Margin", kind:"факт", period:"за 30 днів",
           formula:"Margin (%) = (Revenue − Cost) / Revenue × 100%",
           dependsOn:["revenue"],
-          what:"Частка прибутку в доході після вирахування витрат: собівартості, комісій магазинів застосунків та інших витрат, пов'язаних із цим доходом.",
+          what:"Частка прибутку в доході після вирахування витрат: собівартості, комісій магазинів застосунків та інших витрат, пов'язаних із цим доходом. Рахується за дохід і витрати тих самих 30 днів.",
           plan:"Перейти від доходу до прибутку: з'ясувати, скільки лишається з кожного долара Revenue.",
           expect:"Вищий Margin — більше лишається з кожного чека. Разом із LTV показує реальну економіку, а не лише оборот.",
           noData:"Без поля Cost порахувати Margin неможливо: відомий дохід, але невідомо, скільки з нього лишається після всіх витрат."},
-        {id:"ltv-margin", stage:5, needs:["revenue","paying","ustart","ustill","cost"], did:"ltvm", title:"LTV (за маржею)",
+        {id:"ltv-margin", stage:5, needs:["revenue","paying","ustart","ustill","cost"], did:"ltvm", title:"LTV (за маржею)", kind:"прогноз", period:"те саме, у прибутку",
           formula:"LTV (за маржею) = LTV × Margin",
           dependsOn:["ltv","margin"],
-          what:"Скільки прибутку (після собівартості й комісій) приносить платний користувач за весь час життя, а не виручки.",
+          what:"Скільки прибутку (після собівартості й комісій) приносить платний користувач за весь час життя, а не виручки. Це прогноз прибутку на горизонті ≈ 1 / Churn періодів по 30 днів, а не фактичний прибуток.",
           plan:"Отримати прибутковий LTV: помножити LTV за виручкою на маржу і порівнювати з CAC саме його.",
           expect:"Менший за LTV за виручкою на розмір витрат. Саме з ним порівнюють CAC.",
           noData:"Без Cost маржа невідома, тому LTV лишається за виручкою і завищений."},
-        {id:"ltv-cac-margin", stage:5, needs:["revenue","paying","ustart","ustill","cost","mcost"], did:"ltvcacm", title:"LTV/CAC (за маржею)",
+        {id:"ltv-cac-margin", stage:5, needs:["revenue","paying","ustart","ustill","cost","mcost"], did:"ltvcacm", title:"LTV/CAC (за маржею)", kind:"прогноз", period:"те саме",
           formula:"LTV (за маржею) / CAC",
           dependsOn:["ltv-margin","cac"],
-          what:"У скільки разів прибуток із користувача за весь час життя перевищує витрати на його залучення.",
+          what:"У скільки разів прибуток із користувача за весь час життя перевищує витрати на його залучення. Це прогноз: LTV береться на горизонті ≈ 1 / Churn періодів по 30 днів, тоді як CAC відомий уже зараз.",
           plan:"Ухвалити рішення: масштабувати, чекати даних або зупинитися — за прибутковим співвідношенням, а не за виручкою.",
           expect:"Значення вище 1 — прибуток перевищує витрати на залучення. Зони рішення — у блоці «Рішення про масштабування».",
           noData:"Без прибуткового LTV або CAC рішення за маржею ухвалити неможливо: лишається лише оцінка за виручкою."},
-        {id:"net-profit", stage:5, needs:["revenue","mcost","cost"], did:"netprofit", title:"Net Profit",
+        {id:"net-profit", stage:5, needs:["revenue","mcost","cost"], did:"netprofit", title:"Net Profit", kind:"факт", period:"за 30 днів, не прогноз",
           formula:"Net Profit = Revenue − Marketing Cost − Cost",
           dependsOn:["revenue","marketing-cost"],
-          what:"Скільки лишилось після реклами й витрат на продукт за кампанію.",
+          what:"Скільки лишилось після реклами й витрат на продукт за кампанію. Фактичний результат за 30 днів після першої покупки, не прогноз: дохід після 30-го дня сюди не входить.",
           plan:"Порахувати підсумок кампанії за 30 днів: від виручки відняти рекламу й витрати на продукт.",
           expect:"Додатний Net Profit — кампанія окупилась уже за 30 днів. Від'ємний — повернення грошей залежить від повторних доходів (LTV).",
           noData:"Без Revenue, Marketing Cost або Cost підсумок кампанії порахувати неможливо."},
-        {id:"payback", stage:5, needs:["revenue","paying","mcost"], did:"payback", title:"Payback (термін окупності CAC)",
+        {id:"payback", stage:5, needs:["revenue","paying","mcost"], did:"payback", title:"Payback (термін окупності CAC)", kind:"прогноз", period:"оцінка в періодах по 30 днів",
           formula:"Payback = CAC / (ARPPU × Margin), у періодах по 30 днів",
           dependsOn:["cac","arppu","margin"],
           what:"За скільки періодів по 30 днів повертаються витрати на залучення за рахунок доходу з користувача. Спрощена оцінка: припускає стабільний дохід за кожен наступний період.",
           plan:"Оцінити швидкість повернення витрат на залучення: на скільки періодів гроші заморожені.",
           expect:"Менше 1: CAC повертається в межах 30 днів. Більше 1: гроші заморожені на кілька періодів.",
           noData:"Без Revenue, Paying Users або Marketing Cost окупність порахувати неможливо; без Cost рахується без урахування витрат (Margin = 100%)."},
-        {id:"nps-viral", stage:6, info:true, opt:true, title:"NPS / Viral coefficient",
+        {id:"nps-viral", stage:6, info:true, opt:true, title:"NPS / Viral coefficient", kind:"факт", period:"за період спостереження (не входить у розрахунки)",
           formula:"NPS (Net Promoter Score) — метрика рекомендацій з переліку ключових метрик етапу 6. Viral coefficient — скільки нових користувачів приводить один існуючий",
           dependsOn:["paying"],
           what:"Задоволені користувачі рекомендують продукт: NPS міряє готовність радити, Viral coefficient — скільки нових приводять рекомендації.",
           plan:"Перевірити, чи продукт сам приводить користувачів і чи це знижує ефективний CAC.",
           expect:"Сильні рекомендації здешевлюють зростання. Блок додатковий: на математику окупності він не впливає напряму.",
           noData:"Без нього просто не видно безплатного зростання. Висновок про окупність платного залучення це не змінює."},
-        {id:"churn", stage:7, needs:["ustart","ustill"], did:"churn", title:"Churn rate",
-          formula:"Churn rate (%) = Users Who Left / Users at Period Start × 100%; Churn rate обернений до Retention rate",
+        {id:"churn", stage:7, needs:["ustart","ustill"], did:"churn", title:"Churn rate", kind:"факт", period:"за 30 днів, 1 − Retention",
+          formula:"Churn rate (%) = Users Who Left / Users at Period Start × 100%; Churn rate обернений до Retention rate. Churn rate = 1 − Retention rate; за той самий період, від Day 0 до Day 30.",
           dependsOn:["retention"],
           what:"Частина користувачів припиняє користуватися продуктом. Це зворотний бік Retention rate: що не утрималось — відтекло.",
           plan:"Виміряти швидкість втрати платних користувачів і через неї оцінити середній період утримання.",
@@ -747,6 +808,23 @@
       D2R_NODES.forEach(function(n){ byId[n.id] = n; });
       /* Візуальне ядро рішення (тільки фон, логіку derive/evalNode не чіпає). */
       var DECISION_KEY = ["marketing-cost","paying","revenue","cost","aov","purchase-freq","arppu","retention","churn","cac","ltv","ltv-cac","ltv-margin","ltv-cac-margin","payback"];
+      /* Єдине джерело коротких тегів періоду для підписів (п. 2–3, п. 6).
+         Довгі kind/period живуть у D2R_NODES; тут лише короткі підписи, якими JS синхронізує span.d2r-ptag. */
+      var D2R_FIELD_PTAG = {installs:"кампанія",mcost:"кампанія",activated:"кампанія",paying:"Day 0",revenue:"30 днів",purchases:"30 днів",cost:"30 днів",ustart:"Day 0 (= Paying Users)",ustill:"Day 30, купили ще раз",dau:"за день, середнє за 30 днів",mau:"за 30 днів"};
+      var D2R_DER_PTAG = {onboarding:"кампанія",activation:"кампанія",conv:"кампанія",aov:"факт, 30 днів",arppu:"факт, 30 днів",arpu:"факт, 30 днів",cac:"кампанія",roas:"факт, 30 днів",romi:"факт, 30 днів",margin:"факт, 30 днів",pfreq:"факт, 30 днів",retention:"Day 30 / Day 0",churn:"за 30 днів",ltv:"ПРОГНОЗ",ltvcac:"ПРОГНОЗ",daumau:"30 днів",ltvm:"ПРОГНОЗ",ltvcacm:"ПРОГНОЗ",netprofit:"факт, 30 днів",payback:"ПРОГНОЗ (оцінка)"};
+      var D2R_NODE_PTAG = {installs:"кампанія","marketing-cost":"кампанія",activated:"кампанія",onboarding:"кампанія","conv-purchase":"кампанія",paying:"Day 0",cac:"кампанія",channels:"за кампанію, у розрізі каналів",revenue:"30 днів","purchase-freq":"факт, 30 днів",aov:"факт, 30 днів",arppu:"факт, 30 днів",arpu:"факт, 30 днів",roas:"факт, 30 днів",romi:"факт, 30 днів",margin:"факт, 30 днів","net-profit":"факт, 30 днів",retention:"Day 30 / Day 0",churn:"за 30 днів",cohort:"по когортах за кілька періодів","dau-mau":"30 днів",ltv:"ПРОГНОЗ","ltv-cac":"ПРОГНОЗ","ltv-margin":"ПРОГНОЗ","ltv-cac-margin":"ПРОГНОЗ",payback:"ПРОГНОЗ (оцінка)","nps-viral":"за період спостереження"};
+      function nodePtag(id){ return D2R_NODE_PTAG[id] || ""; }
+      /* Синхронізувати span.d2r-ptag із єдиного джерела (тексти в HTML — той самий вміст, JS — канон). */
+      function syncPtags(){
+        document.querySelectorAll(".d2r-ptag[data-field]").forEach(function(el){
+          var t = D2R_FIELD_PTAG[el.getAttribute("data-field")];
+          if(t) el.textContent = t;
+        });
+        document.querySelectorAll(".d2r-ptag[data-der]").forEach(function(el){
+          var t = D2R_DER_PTAG[el.getAttribute("data-der")];
+          if(t){ el.textContent = t; el.classList.toggle("d2r-ptag-forecast", t.indexOf("ПРОГНОЗ") === 0); }
+        });
+      }
 
       function stageColor(s){ return STAGES[s].color; }
       function fmtInt(x){ return Math.round(x).toLocaleString("uk-UA"); }
@@ -1274,7 +1352,7 @@
         D2R_GROUPS.forEach(function(g){
           var items = [];
           g.fids.forEach(function(fid){
-            if(raw[fid].state === "ok") items.push({k:FIELDS[fid].label, v:fmtVal(fid, raw[fid].v)});
+            if(raw[fid].state === "ok") items.push({k:FIELDS[fid].label, v:fmtVal(fid, raw[fid].v), tag:D2R_FIELD_PTAG[fid] || ""});
           });
           if(items.length) groups.push({label:g.label, items:items});
         });
@@ -1288,7 +1366,7 @@
           if(e.st !== "calc") return;
           var dd = (n.id === "channels") ? {ok:true} : D[n.did];
           if(n.id !== "channels" && (!dd || !dd.ok)) return;
-          list.push({title:n.title, sub:e.sub, stage:STAGES[n.stage].name});
+          list.push({title:n.title, sub:e.sub, stage:STAGES[n.stage].name, tag:nodePtag(n.id)});
         });
         return list;
       }
@@ -1448,6 +1526,19 @@
         g += "</div></div>";
         return g;
       }
+      function forecastText(raw, D){
+        if(!D || !D.churn || !D.churn.ok || !(D.churn.v > 0)) return "";
+        var N = 100 / D.churn.v;
+        var Ns = fmtDec1(N);
+        var Dd = Math.round(N * 30);
+        var pw = plural(Math.round(N), ["період","періоди","періодів"]);
+        var s = "Це прогноз: LTV враховує ≈ " + Ns + " " + pw + " по 30 днів (≈ " + fmtInt(Dd) + " днів), де N = 1 / Churn (одне число після коми), D = N × 30 (ціле).";
+        var conf = [];
+        if(D.roas && D.roas.ok) conf.push("ROAS = " + fmtMult(D.roas.v));
+        if(D.netprofit && D.netprofit.ok) conf.push("Net Profit = " + fmtSignedMoney(D.netprofit.v));
+        if(conf.length) s += " Фактично підтверджено лише перші 30 днів: " + conf.join(", ") + ".";
+        return s;
+      }
       function decisionHTML(raw, D){
         var b = decisionBasis(raw, D);
         var h = "<div class=\"d2r-dhead\"><span class=\"d2r-dtitle\">Рішення про масштабування</span></div>";
@@ -1460,6 +1551,8 @@
         var z = decisionZone(b.v);
         var basisTxt = b.kind === "margin" ? "LTV/CAC (за маржею)" : "LTV/CAC (за виручкою)";
         h += "<p class=\"d2r-dtext\"><strong>" + esc(D2R_DECISIONS[z]) + ".</strong> " + esc(basisTxt + " = " + fmtMult(b.v) + ", зона " + D2R_ZONES[z] + ".") + "</p>";
+        var fc = forecastText(raw, D);
+        if(fc) h += "<p class=\"d2r-dtext\">" + esc(fc) + "</p>";
         if(b.kind === "revenue"){
           h += "<p class=\"d2r-dwarn\"><span class=\"d2r-warn\"><i>⚠</i>" + esc("LTV за виручкою, може бути завищений. Введіть Cost.") + "</span></p>";
         }
@@ -1517,11 +1610,11 @@
         if(progB){ progB.max = mand.length; progB.value = x; progB.setAttribute("aria-valuenow", x); progB.setAttribute("aria-valuemax", mand.length); }
         var h1 = verdictHave(raw);
         document.getElementById("d2r-vs1").innerHTML = "<ul>" + h1.map(function(g){
-          return "<li><strong>" + esc("Етап " + g.label) + ":</strong> " + esc(g.items.map(function(i){ return i.k + " = " + i.v; }).join("; ")) + "</li>";
+          return "<li><strong>" + esc("Етап " + g.label) + ":</strong> " + esc(g.items.map(function(i){ return i.k + " = " + i.v + (i.tag ? " (" + i.tag + ")" : ""); }).join("; ")) + "</li>";
         }).join("") + "</ul>";
         var c2 = verdictCalc(raw, D, ch);
         document.getElementById("d2r-vs2").innerHTML = c2.length ? "<ul>" + c2.map(function(e){
-          return "<li><strong>" + esc(e.title) + "</strong> — " + esc(e.sub) + " <span class=\"d2r-vstage\">· Етап " + esc(e.stage) + "</span></li>";
+          return "<li><strong>" + esc(e.title) + "</strong> — " + esc(e.sub + (e.tag ? " (" + e.tag + ")" : "")) + " <span class=\"d2r-vstage\">· Етап " + esc(e.stage) + "</span></li>";
         }).join("") + "</ul>" : "<p>Поки нічого не розраховано: заповніть базові поля.</p>";
         var m3 = verdictMissing(raw, D, ch);
         var h3 = "";
@@ -1564,12 +1657,12 @@
         });
         var T = ["Висновок за даними", "Обов'язкових показників із даними: " + x + " із " + mand.length + ".", "1. Що маємо"];
         verdictHave(raw).forEach(function(g){
-          T.push("- Етап " + g.label + ": " + g.items.map(function(i){ return i.k + " = " + i.v; }).join("; "));
+          T.push("- Етап " + g.label + ": " + g.items.map(function(i){ return i.k + " = " + i.v + (i.tag ? " (" + i.tag + ")" : ""); }).join("; "));
         });
         T.push("2. Що розраховано");
         var c2 = verdictCalc(raw, D, ch);
         if(!c2.length) T.push("- Поки нічого не розраховано.");
-        c2.forEach(function(e){ T.push("- " + e.title + " — " + e.sub + " · Етап " + e.stage); });
+        c2.forEach(function(e){ T.push("- " + e.title + " — " + e.sub + (e.tag ? " (" + e.tag + ")" : "") + " · Етап " + e.stage); });
         T.push("3. Чого бракує");
         var m3 = verdictMissing(raw, D, ch);
         if(!m3.groups.length && !m3.fix.length) T.push("- Усі обов'язкові дані введено.");
@@ -1598,6 +1691,8 @@
           var decZ = decisionZone(decB.v);
           var decBasis = decB.kind === "margin" ? "LTV/CAC (за маржею)" : "LTV/CAC (за виручкою)";
           T.push("- " + D2R_DECISIONS[decZ] + ". " + decBasis + " = " + fmtMult(decB.v) + ", зона " + D2R_ZONES[decZ] + ".");
+          var fcT = forecastText(raw, D);
+          if(fcT) T.push("- " + fcT);
           if(decB.kind === "revenue") T.push("- LTV за виручкою, може бути завищений. Введіть Cost.");
           T.push("- Шкала: менше 1 / 1-2 / 2-3 / 3-5 / 5+. " + D2R_SCALE_NOTE);
         }
@@ -1704,7 +1799,7 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
           base:"Чисельник: Users at Start − Users Still Active (тобто ті, хто пішов). Знаменник: Users at Start. Значення залежить від періоду: місячний Churn rate не дорівнює тижневому.",
           mistake:"Брати Churn rate за інший період, ніж дохід у LTV. Включати до Users at Start тих, хто прийшов уже всередині періоду."},
         "ltv":{q:"Скільки доходу приносить один користувач за весь час із продуктом?",
-          base:"LTV = AOV × Purchase frequency / Churn rate = ARPPU_період / Churn rate (період утримання ≈ 1 / Churn). Revenue і Purchases — сумарні за один і той самий період (30 днів). Якщо Purchases не введено, freq=1. LTV тут на платного користувача (ARPPU_період), бо його порівнюють із CAC на платного. Спрощення: ARPPU за період береться як стабільний дохід за кожен наступний період, тому перша покупка (яка буває один раз) враховується повторно і може завищувати LTV. Результат це грубий орієнтир.",
+          base:"Чисельник: ARPPU — виручка за 30 днів / платні користувачі (у прикладі: 8 000 / 400 = $20).\nЗнаменник: Churn — частка платних, що пішли за ті самі 30 днів (у прикладі: (400 − 300) / 400 = 25%).\nRevenue і Purchases — сумарні за один і той самий період.\nБез кількості покупок частота = 1 (у прикладі: 400 / 400 = 1).\nLTV виходить на платного користувача, тому його порівнюють з CAC на платного (у прикладі: CAC = 5 000 / 400 = $12,50).\nЦе груба оцінка: дохід і відтік далі вважаються незмінними, а перша покупка враховується в кожному періоді повторно.",
           mistake:"Брати дохід за місяць, а Churn rate за рік або навпаки. Рахувати LTV лише з доходу за 30 днів без повторних покупок, коли дані про повернення є. Churn rate = 0 дає нескінченний період утримання, тому LTV не визначений."},
         "ltv-cac":{q:"Чи окупається залучення клієнта його цінністю за весь час?",
           base:"LTV / CAC, обидва на платного користувача й для однієї когорти або каналу.",
@@ -1758,12 +1853,14 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
 (D2R_FULLNAMES[n.id] ? "<p class=\"d2r-full\"><b>" + esc(n.title) + "</b> — " + esc(D2R_FULLNAMES[n.id][0]) + " — " + esc(D2R_FULLNAMES[n.id][1]) + "</p>" : "") +
           "<ul class=\"d2r-detail-fields\">" +
           "<li><b class=\"flabel\">Етап</b>Етап " + esc(STAGES[n.stage].name) + ((n.opt || n.info) ? " · <span class=\"d2r-tag\">додатково</span>" : "") + "</li>" +
+          "<li><b class=\"flabel\">Період і тип</b>" + esc((n.kind || "") + (n.kind && n.period ? " · " : "") + (n.period || "")) + "</li>" +
           "<li><b class=\"flabel\">Статус</b>" + esc(e.status) + "</li>" +
           (mn ? "<li><b class=\"flabel\">На яке питання відповідає</b>" + esc(mn.q) + "</li>" : "") +
           "<li><b class=\"flabel\">Що відбувається</b>" + esc(n.what) + "</li>" +
           "<li><b class=\"flabel\">Що плануємо</b>" + esc(n.plan) + "</li>" +
           "<li><b class=\"flabel\">Чого очікуємо</b>" + esc(n.expect) + "</li>" +
-          "<li><b class=\"flabel\">Формула / визначення</b><code>" + esc(n.formula) + "</code></li>" +
+          "<li><b class=\"flabel\">Формула / визначення</b><code class=\"d2r-fcode\">" + esc(n.formula) + "</code></li>" +
+          (n.alts ? "<li><b class=\"flabel\">Інші способи розрахунку</b>" + n.alts.map(function(a){ return "<code class=\"d2r-fcode\">" + esc(a) + "</code>"; }).join("") + "</li>" : "") +
           (mn ? "<li><b class=\"flabel\">База розрахунку</b>" + esc(mn.base) + "</li>" +
           "<li><b class=\"flabel\">Типова помилка</b><span class=\"d2r-warn\"><i>⚠</i>" + esc(mn.mistake) + "</span></li>" : "") +
           "<li><b class=\"flabel\">Від чого залежить → на що впливає</b>Залежить від: " + nameList(n.dependsOn) + ". Впливає на: " + nameList(D2R_NODES.filter(function(x){ return x.dependsOn.indexOf(n.id) !== -1; }).map(function(x){ return x.id; })) + ".</li>" +
@@ -1832,6 +1929,7 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
         if(mode === "calc") update();
       });
       buildGrid();
+      syncPtags();
       renderVerdict();
       var copyBtn = document.getElementById("d2r-copy");
       if(copyBtn) copyBtn.addEventListener("click", function(){

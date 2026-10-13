@@ -267,6 +267,8 @@
       .d2r-fbtns{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 auto;min-width:0;}
       .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-fbtns,
       .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-casecap,
+      .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-casehelp,
+      .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-casecmp,
       .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-fhint{display:none;}
       .d2r-fgrp{display:flex;flex-wrap:wrap;gap:10px 14px;align-content:flex-start;min-width:0;flex:1 1 100%;padding:8px 10px;border-radius:10px;}
       .d2r-fgrp > .d2r-fsub{margin:0 0 2px;}
@@ -424,6 +426,19 @@
         }
       }
       .d2r-casecap{width:100%;font-size:13.5px;color:var(--ink-soft);margin:2px 0 0;min-height:1.2em;}
+      .d2r-casehelp{width:100%;margin:2px 0 0;padding-left:20px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);}
+      .d2r-casehelp li{margin-bottom:2px;}
+      .d2r-casecmp{width:100%;margin:6px 0 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
+      .d2r-casecmp summary{cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;align-items:center;gap:8px;}
+      .d2r-casecmp summary::-webkit-details-marker{display:none;}
+      .d2r-casecmp summary:focus-visible{outline:2.5px solid var(--accent-teal);outline-offset:2px;border-radius:6px;}
+      .d2r-casecmp-scroll{overflow-x:auto;margin-top:8px;}
+      table.d2r-casecmp-t{border-collapse:collapse;font-size:12.5px;background:var(--card);color:var(--ink);min-width:520px;width:100%;}
+      table.d2r-casecmp-t th,table.d2r-casecmp-t td{border:1px solid var(--line);padding:6px 9px;text-align:right;white-space:nowrap;}
+      table.d2r-casecmp-t th:first-child,table.d2r-casecmp-t td:first-child{text-align:left;}
+      table.d2r-casecmp-t thead th{font-family:var(--mono);font-size:11px;color:var(--ink-soft);background:var(--bg);font-weight:400;}
+      table.d2r-casecmp-t tbody th{font-weight:600;color:var(--ink);background:var(--bg);font-size:12.5px;text-align:left;}
+      .d2r-casecmp-sum{font-size:13px;color:var(--ink-soft);margin:8px 0 0;}
       .d2r-dhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
       .d2r-dtitle{font-family:Georgia,serif;font-size:19px;}
       .d2r-dtext{font-size:14.5px;margin:0 0 8px;}
@@ -486,7 +501,30 @@
         <label class="d2r-mode"><input type="radio" name="d2r-mode" value="template" checked>Шаблон (формули)</label>
         <label class="d2r-mode"><input type="radio" name="d2r-mode" value="calc">Розрахунок</label>
       </fieldset>
-      <div class="d2r-fbtns"><button type="button" class="d2r-btn" id="d2r-fill">Приклад даних (кейс А)</button><button type="button" class="d2r-btn" id="d2r-case-b">Кейс Б: повтори</button><button type="button" class="d2r-btn" id="d2r-case-v">Кейс В: пастка</button><button type="button" class="d2r-btn" id="d2r-clear">Очистити</button></div>
+      <div class="d2r-fbtns"><button type="button" class="d2r-btn" id="d2r-fill" title="Разові покупки: Purchases = Paying Users. База для порівняння.">Приклад даних (кейс А)</button><button type="button" class="d2r-btn" id="d2r-case-b" title="Повторні покупки, і Revenue зростає разом з ними. Дані узгоджені.">Кейс Б: повтори</button><button type="button" class="d2r-btn" id="d2r-case-v" title="Покупок багато, а Revenue не зріс, тому чек «падає». Навчальна пастка.">Кейс В: пастка</button><button type="button" class="d2r-btn" id="d2r-clear">Очистити</button></div>
+      <ul class="d2r-casehelp">
+        <li><b>А:</b> Разові покупки: Purchases = Paying Users. База для порівняння.</li>
+        <li><b>Б:</b> Повторні покупки, і Revenue зростає разом з ними. Дані узгоджені.</li>
+        <li><b>В:</b> Покупок багато, а Revenue не зріс, тому чек «падає». Навчальна пастка.</li>
+      </ul>
+      <details class="d2r-casecmp">
+        <summary>Порівняння кейсів А, Б, В</summary>
+        <div class="d2r-casecmp-scroll">
+          <table class="d2r-casecmp-t" aria-label="Порівняння кейсів А, Б, В">
+            <thead><tr><th scope="col">Показник</th><th scope="col">А</th><th scope="col">Б</th><th scope="col">В</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Purchases</th><td data-cmp="purchases" data-case="a">—</td><td data-cmp="purchases" data-case="b">—</td><td data-cmp="purchases" data-case="v">—</td></tr>
+              <tr><th scope="row">Revenue</th><td data-cmp="revenue" data-case="a">—</td><td data-cmp="revenue" data-case="b">—</td><td data-cmp="revenue" data-case="v">—</td></tr>
+              <tr><th scope="row">AOV</th><td data-cmp="aov" data-case="a">—</td><td data-cmp="aov" data-case="b">—</td><td data-cmp="aov" data-case="v">—</td></tr>
+              <tr><th scope="row">Purchase frequency</th><td data-cmp="pfreq" data-case="a">—</td><td data-cmp="pfreq" data-case="b">—</td><td data-cmp="pfreq" data-case="v">—</td></tr>
+              <tr><th scope="row">ARPPU</th><td data-cmp="arppu" data-case="a">—</td><td data-cmp="arppu" data-case="b">—</td><td data-cmp="arppu" data-case="v">—</td></tr>
+              <tr><th scope="row">LTV</th><td data-cmp="ltv" data-case="a">—</td><td data-cmp="ltv" data-case="b">—</td><td data-cmp="ltv" data-case="v">—</td></tr>
+              <tr><th scope="row" title="За маржею, якщо Cost заданий, інакше за виручкою">LTV/CAC</th><td data-cmp="ltvcac" data-case="a">—</td><td data-cmp="ltvcac" data-case="b">—</td><td data-cmp="ltvcac" data-case="v">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="d2r-casecmp-sum">Кількість покупок сама нічого не покращує: LTV росте, лише коли разом з покупками зростає Revenue.</p>
+      </details>
       <p class="d2r-casecap" id="d2r-casecap" aria-live="polite"></p>
       <ol class="d2r-timeline" role="list" aria-label="Часова шкала: від кампанії до прогнозу">
         <li><strong>Кампанія →</strong><span>Installs, Marketing Cost, Activated</span></li>
@@ -2228,14 +2266,55 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
         });
       });
       function setCaseCap(t){ var c = document.getElementById("d2r-casecap"); if(c) c.textContent = t || ""; }
+      /* Єдине джерело базових даних кейсів А/Б/В (Purchases/Revenue задає кожен кейс окремо).
+         Читають і fillBase (кнопки), і caseRaw (таблиця порівняння), щоб не розійшлися. */
+      var D2R_CASE_BASE = {installs:"10000", mcost:"5000", activated:"4000", paying:"400",
+        cost:"2000", ustart:"400", ustill:"300", dau:"1200", mau:"4000"};
+      /* Порівняння кейсів А/Б/В: чистий розрахунок через derive/decisionBasis; DOM-поля і STATE не чіпає. */
+      var D2R_CASES = [
+        {key:"a", purchases:400, revenue:8000},
+        {key:"b", purchases:1000, revenue:20000},
+        {key:"v", purchases:1000, revenue:8000}
+      ];
+      function caseRaw(purchases, revenue){
+        function ok(v){ return {state:"ok", v:Number(v), err:""}; }
+        var b = D2R_CASE_BASE;
+        return {installs:ok(b.installs), mcost:ok(b.mcost), activated:ok(b.activated), paying:ok(b.paying),
+          revenue:ok(revenue), purchases:ok(purchases), cost:ok(b.cost),
+          ustart:ok(b.ustart), ustill:ok(b.ustill), dau:ok(b.dau), mau:ok(b.mau)};
+      }
+      function renderCaseCmp(){
+        var cells = document.querySelectorAll("[data-cmp][data-case]");
+        if(!cells.length) return;
+        D2R_CASES.forEach(function(c){
+          var raw = caseRaw(c.purchases, c.revenue);
+          var D = derive(raw);
+          var basis = decisionBasis(raw, D);
+          var vals = {
+            purchases: fmtInt(c.purchases),
+            revenue: fmtMoney2(c.revenue),
+            aov: (D.aov && D.aov.ok) ? fmtMoney2(D.aov.v) : DASH,
+            pfreq: (D.pfreq && D.pfreq.ok) ? fmtMult(D.pfreq.v) : DASH,
+            arppu: (D.arppu && D.arppu.ok) ? fmtMoney2(D.arppu.v) : DASH,
+            ltv: (D.ltv && D.ltv.ok) ? fmtMoney2(D.ltv.v) : DASH,
+            ltvcac: (basis && basis.kind !== "missing" && isFinite(basis.v)) ? fmtMult(basis.v) : DASH
+          };
+          cells.forEach(function(td){
+            if(td.getAttribute("data-case") !== c.key) return;
+            var k = td.getAttribute("data-cmp");
+            if(vals[k] !== undefined) td.textContent = vals[k];
+          });
+        });
+      }
       document.querySelectorAll(".d2r-fin, .d2r-chin").forEach(function(el){
         el.addEventListener("input", function(){ setCaseCap(""); if(mode === "calc") update(); });
       });
       function fillBase(purchases, revenue){
-        setVal("installs","10000"); setVal("mcost","5000"); setVal("activated","4000");
-        setVal("paying","400"); setVal("revenue",revenue); setVal("purchases",purchases);
-        setVal("cost","2000"); setVal("ustart","400"); setVal("ustill","300");
-        setVal("dau","1200"); setVal("mau","4000");
+        var b = D2R_CASE_BASE;
+        setVal("installs",b.installs); setVal("mcost",b.mcost); setVal("activated",b.activated);
+        setVal("paying",b.paying); setVal("revenue",revenue); setVal("purchases",purchases);
+        setVal("cost",b.cost); setVal("ustart",b.ustart); setVal("ustill",b.ustill);
+        setVal("dau",b.dau); setVal("mau",b.mau);
         var rev = Number(revenue) || 0;
         var rB = Math.round(rev * 2 / 8);
         var rC = Math.round(rev * 1 / 8);
@@ -2267,6 +2346,7 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
       });
       buildGrid();
       syncPtags();
+      renderCaseCmp();
       renderVerdict();
       var copyBtn = document.getElementById("d2r-copy");
       if(copyBtn) copyBtn.addEventListener("click", function(){

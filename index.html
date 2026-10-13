@@ -407,7 +407,7 @@
   <div class="wrap">
 
     <style>
-      .d2r-decision{
+      .d2r-decision, .d2r-chblock{
         --g0:#D64545;
         --g1:#E67E22;
         --g2:#E0B73C;
@@ -415,7 +415,7 @@
         --g4:#2E7D32;
         margin-top:14px;border-top:1px dashed var(--line);padding:12px 0 4px;}
       @media (prefers-color-scheme:dark){
-        .d2r-decision{
+        .d2r-decision, .d2r-chblock{
           --g0:#E57373;
           --g1:#F0A35E;
           --g2:#E8C95C;
@@ -445,11 +445,29 @@
       .d2r-gmark.over::after{content:"\2192";position:absolute;top:-24px;left:5px;font-weight:700;color:var(--ink);}
       .d2r-gbounds{position:relative;height:18px;margin-top:3px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
       .d2r-gbounds span{position:absolute;transform:translateX(-50%);}
+      .d2r-chblock{margin-top:12px;border-top:1px dashed var(--line);padding:10px 0 4px;}
+      .d2r-chesc{font-size:13px;color:var(--ink-soft);margin:6px 0 8px;}
+      .d2r-chcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px;max-width:100%;}
+      .d2r-chcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0;overflow-wrap:break-word;}
+      .d2r-chcname{font-weight:700;font-size:14px;margin:0 0 4px;}
+      .d2r-chmeta{font-family:var(--mono);font-size:12px;margin:0 0 3px;overflow-wrap:break-word;}
+      .d2r-chverdict{font-size:13.5px;margin:6px 0 0;}
+      .d2r-chtop{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent-green);background:var(--accent-green-bg);border:1px solid var(--accent-green);border-radius:5px;padding:0 6px;display:inline-block;margin-bottom:4px;}
+      .d2r-chgauge{margin:6px 0 2px;}
+      .d2r-chgauge .d2r-gwrap{margin:24px 12px 0;}
+      .d2r-chsum{font-size:13.5px;margin:8px 0 0;}
+      .d2r-imp{margin-top:12px;border-top:1px dashed var(--line);padding:10px 0 4px;}
+      .d2r-impesc{font-size:13px;color:var(--ink-soft);margin:6px 0 8px;}
+      .d2r-senlist{margin:6px 0;padding-left:18px;font-size:13.5px;}
+      .d2r-senlist li{margin-bottom:4px;}
+      .d2r-botlist{margin:6px 0;padding-left:18px;font-size:13.5px;}
+      .d2r-botlist li{margin-bottom:4px;}
       @media (max-width:560px){
         .d2r-gwrap{margin:24px 22px 0;}
         .d2r-gt{font-size:9px;padding:0 3px;}
         .d2r-gval{font-size:11.5px;}
         .d2r-dtitle{font-size:17px;}
+        .d2r-chcards{grid-template-columns:1fr;}
       }
     </style>
 
@@ -561,6 +579,8 @@
       <div class="d2r-vhead"><span class="d2r-vtitle">Висновок за даними</span><button type="button" class="d2r-btn" id="d2r-copy">Скопіювати як текст</button></div>
       <div class="d2r-vprog" id="d2r-vprog-w" aria-live="polite"><span id="d2r-vprog-t"></span><progress id="d2r-vprog-b" max="24" value="0"></progress></div>
       <div class="d2r-decision" id="d2r-decision" aria-live="polite" hidden></div>
+      <div class="d2r-chblock" id="d2r-chblock" aria-live="polite" hidden></div>
+      <div class="d2r-imp" id="d2r-imp" aria-live="polite" hidden></div>
       <div class="d2r-vhint" id="d2r-vhint" hidden></div>
       <div id="d2r-vsecs" hidden>
         <details open><summary><i class="d2r-ico d2r-ico-in">●</i>Що маємо</summary><div class="d2r-vsec" id="d2r-vs1"></div></details>
@@ -1243,10 +1263,6 @@
           })(s);
         }
       }
-      function blockSub(n){
-        if(!STATE.raw || mode === "template") return templateSub(n);
-        return evalNode(n, STATE.raw, STATE.D, STATE.ch).sub;
-      }
       function paintNode(b){
         var n = byId[b.getAttribute("data-d2r")];
         if(!n) return;
@@ -1402,9 +1418,13 @@
             "ROMI = " + fmtPct1(D.romi.v) + ": виручка нижча за маркетингові витрати на " + fmtPct1(Math.abs(D.romi.v)) + ".");
         }
         if(D.margin.ok){
-          L.push(D.margin.v >= 0 ?
-            "Margin = " + fmtPct1(D.margin.v) + ": після врахування Cost залишається " + fmtPct1(D.margin.v) + " виручки." :
-            "Margin = " + fmtPct1(D.margin.v) + ": витрати перевищують виручку.");
+          if(D.margin.v > 0){
+            L.push("Margin = " + fmtPct1(D.margin.v) + ": після врахування Cost залишається " + fmtPct1(D.margin.v) + " виручки.");
+          } else if(D.margin.v === 0){
+            L.push("Margin = " + fmtPct1(D.margin.v) + ": витрати дорівнюють виручці, прибутку немає.");
+          } else {
+            L.push("Margin = " + fmtPct1(D.margin.v) + ": витрати перевищують виручку.");
+          }
         }
         if(D.aov.ok && D.pfreq.ok && D.arppu.ok && D.pfreq.v > 1){
           L.push("Зв’язка покупок узгоджена: AOV " + fmtMoney2(D.aov.v) + " × freq " + fmtMult(D.pfreq.v) + " = ARPPU_період " + fmtMoney2(D.arppu.v) + ". Зростання покупок без зростання доходу знижує AOV — перевірте, що Revenue містить повторний дохід за ті самі 30 днів.");
@@ -1561,16 +1581,320 @@
         h += "<p class=\"d2r-dnote\">" + esc(D2R_SCALE_NOTE) + "</p>";
         return h;
       }
+      /* Чистий перерахунок LTV/CAC тими самими формулами, що й derive: LTV = AOV × freq / Churn. */
+      function calcLtvcacFromParams(aovV, freqV, churnPctV, cacV, marginPctV){
+        if(!(aovV >= 0) || !(freqV > 0) || !(churnPctV > 0) || !(cacV > 0)) return null;
+        var ltv = aovV * freqV * 100 / churnPctV;
+        if(marginPctV !== null && marginPctV !== undefined) ltv = ltv * marginPctV / 100;
+        var r = ltv / cacV;
+        return isFinite(r) ? r : null;
+      }
+      function channelAria(name, v, z){
+        return "Канал " + name + ": LTV/CAC = " + fmtMult(v) + ", зона " + D2R_ZONES[z];
+      }
+      function channelGaugeHTML(name, v, z){
+        var max = 6;
+        var pos = (Math.max(0, Math.min(v, max))/max*100).toFixed(1);
+        var over = v > max;
+        var segs = [["d2r-gz0","<1"],["d2r-gz1","1-2"],["d2r-gz2","2-3"],["d2r-gz3","3-5"],["d2r-gz4","5+"]];
+        var flex = [1,1,1,2,1];
+        var g = "<div class=\"d2r-gauge\" role=\"img\" aria-label=\"" + esc(channelAria(name, v, z)) + "\">";
+        g += "<div class=\"d2r-gwrap\">";
+        g += "<div class=\"d2r-gval\" style=\"left:" + pos + "%\">" + esc(fmtMult(v)) + (over ? " &#8594;" : "") + "</div>";
+        g += "<div class=\"d2r-gtrack\">";
+        segs.forEach(function(s, i){ g += "<span class=\"d2r-gz " + s[0] + "\" style=\"flex:" + flex[i] + "\"><span class=\"d2r-gt\">" + esc(s[1]) + "</span></span>"; });
+        g += "<span class=\"d2r-gmark" + (over ? " over" : "") + "\" style=\"left:" + pos + "%\"></span>";
+        g += "</div>";
+        g += "<div class=\"d2r-gbounds\"><span style=\"left:16.7%\">1</span><span style=\"left:33.3%\">2</span><span style=\"left:50%\">3</span><span style=\"left:83.3%\">5</span></div>";
+        g += "</div></div>";
+        return g;
+      }
+      function channelRows(raw, D, ch){
+        var sumC = 0, sumR = 0, i;
+        for(i = 0; i < ch.length; i++){ sumC += ch[i].cost; sumR += ch[i].rev; }
+        var churnOk = !!(D && D.churn && D.churn.ok && D.churn.v > 0);
+        var churnPct = churnOk ? D.churn.v : null;
+        var marginKnown = !!(D && D.margin && D.margin.ok);
+        var marginV = marginKnown ? D.margin.v : null;
+        var rows = ch.map(function(r){
+          var cacV = r.paying > 0 ? r.cost / r.paying : null;
+          var roasV = r.cost > 0 ? r.rev / r.cost : null;
+          var romiV = r.cost > 0 ? (r.rev - r.cost) / r.cost * 100 : null;
+          var shareC = sumC > 0 ? r.cost / sumC * 100 : null;
+          var shareR = sumR > 0 ? r.rev / sumR * 100 : null;
+          var arppuC = r.paying > 0 ? r.rev / r.paying : null;
+          var ltvC = null, ltvcacC = null, zoneC = null;
+          if(cacV !== null && arppuC !== null && churnOk){
+            var ltvRev = arppuC * 100 / churnPct;
+            ltvC = marginKnown ? ltvRev * marginV / 100 : ltvRev;
+            if(cacV > 0 && isFinite(ltvC)) ltvcacC = ltvC / cacV;
+            else ltvcacC = null;
+            if(ltvcacC !== null && isFinite(ltvcacC)) zoneC = decisionZone(ltvcacC);
+            else ltvcacC = null;
+          }
+          return {name:r.name, cost:r.cost, paying:r.paying, rev:r.rev, cac:cacV, roas:roasV, romi:romiV, shareC:shareC, shareR:shareR, ltv:ltvC, ltvcac:ltvcacC, zone:zoneC, verdict:"ok", topBy:[]};
+        });
+        var bestRoas = null, bestLtv = null;
+        rows.forEach(function(x){
+          if(x.paying === 0) x.verdict = "nodata-pay";
+          else if(x.cost === 0) x.verdict = "nodata-cost";
+        });
+        rows.forEach(function(x){
+          if(x.verdict === "nodata-pay" || x.verdict === "nodata-cost") return;
+          if(x.roas !== null && (bestRoas === null || x.roas > bestRoas.roas)) bestRoas = x;
+          if(x.ltvcac !== null && (bestLtv === null || x.ltvcac > bestLtv.ltvcac)) bestLtv = x;
+        });
+        var withLtv = rows.filter(function(x){ return x.ltvcac !== null; });
+        var homo = false;
+        if(withLtv.length >= 2){
+          homo = withLtv.every(function(x){ return x.zone === withLtv[0].zone; });
+        } else if(bestRoas){
+          var wr = rows.filter(function(x){ return x.roas !== null && x.verdict !== "nodata-pay" && x.verdict !== "nodata-cost"; });
+          homo = wr.length >= 2 && wr.every(function(x){ return x.roas === wr[0].roas; });
+        }
+        rows.forEach(function(x){
+          if(x.verdict === "nodata-pay" || x.verdict === "nodata-cost") return;
+          var loss30 = (x.roas !== null && x.roas < 1) || (x.romi !== null && x.romi < 0);
+          var lossLtv = !loss30 && x.ltvcac !== null && x.ltvcac < 1;
+          if(loss30) x.verdict = "loss30";
+          else if(lossLtv) x.verdict = "lossLtv";
+          else x.verdict = "ok";
+        });
+        if(!homo){
+          if(bestLtv && bestRoas && bestLtv.name === bestRoas.name){
+            if(bestLtv.verdict === "ok"){ bestLtv.verdict = "top"; bestLtv.topBy = ["ROAS", "LTV/CAC"]; }
+          } else {
+            if(bestRoas && bestRoas.verdict === "ok"){ bestRoas.verdict = "top"; bestRoas.topBy = ["ROAS"]; }
+            if(bestLtv && bestLtv.verdict === "ok" && (!bestRoas || bestLtv.name !== bestRoas.name)){ bestLtv.verdict = "top"; bestLtv.topBy = ["LTV/CAC"]; }
+          }
+        }
+        var lossShare = 0, hasLoss = false;
+        rows.forEach(function(x){
+          if((x.verdict === "loss30" || x.verdict === "lossLtv") && x.shareC !== null){ lossShare += x.shareC; hasLoss = true; }
+        });
+        return {rows:rows, sumC:sumC, sumR:sumR, churnOk:churnOk, churnPct:churnPct, marginKnown:marginKnown, marginV:marginV, homo:homo, lossShare:hasLoss ? lossShare : null};
+      }
+      function channelTopLabel(topBy){
+        var hasR = topBy && topBy.indexOf("ROAS") !== -1;
+        var hasL = topBy && topBy.indexOf("LTV/CAC") !== -1;
+        if(hasR && hasL) return "найкращий за ROAS і LTV/CAC";
+        if(hasR) return "найкращий за ROAS";
+        if(hasL) return "найкращий за LTV/CAC";
+        return "найкращий канал";
+      }
+      function channelVerdictText(v){
+        if(v === "loss30") return "Не окупається за 30 днів. Перевірте утримання цього каналу або перегляньте бюджет.";
+        if(v === "lossLtv") return "Збитковий навіть із урахуванням прогнозу: кандидат на скорочення бюджету.";
+        if(v === "top") return "Кандидат на збільшення бюджету.";
+        if(v === "nodata-cost") return "Недостатньо даних: витрати каналу дорівнюють нулю, ROAS і ROMI не визначені.";
+        if(v === "nodata-pay") return "Немає платних користувачів у каналі, CAC не визначений.";
+        return "Без ознак збитковості за 30 днів і за прогнозом.";
+      }
+      function channelBlockHTML(raw, D, ch){
+        if(!ch || ch.length < 2) return "";
+        var cr = channelRows(raw, D, ch);
+        var h = "<div class=\"d2r-dhead\"><span class=\"d2r-dtitle\">Канали: хто окупається</span></div>";
+        h += "<p class=\"d2r-chesc\">Орієнтир, а не гарантія. Припущення: Churn і маржа однакові для всіх каналів" + (cr.marginKnown ? " (LTV каналу за маржею: (Revenue / Paying) / Churn × Margin / CAC)." : " (LTV каналу за виручкою: (Revenue / Paying) / Churn / CAC).") + "</p>";
+        if(!cr.churnOk) h += "<p class=\"d2r-chesc\">Шкала LTV/CAC недоступна: бракує Churn (Users at Start / Users Still Active). Показано лише CAC / ROAS / ROMI.</p>";
+        h += "<div class=\"d2r-chcards\">";
+        cr.rows.forEach(function(x){
+          var cacT = x.cac !== null ? fmtMoney2(x.cac) : "— (ділення на нуль: Paying Users = 0)";
+          var roasT = x.roas !== null ? fmtDec1(x.roas) : "— (ділення на нуль: Cost = 0)";
+          var romiT = x.romi !== null ? fmtPct1(x.romi) : "— (ділення на нуль: Cost = 0)";
+          var shCT = x.shareC !== null ? fmtPct1(x.shareC) : "—";
+          var shRT = x.shareR !== null ? fmtPct1(x.shareR) : "—";
+          h += "<div class=\"d2r-chcard\"><p class=\"d2r-chcname\">" + esc(x.name) + "</p>";
+          if(x.verdict === "top") h += "<span class=\"d2r-chtop\">" + esc(channelTopLabel(x.topBy)) + "</span>";
+          h += "<p class=\"d2r-chmeta\">CAC = " + esc(cacT) + "; ROAS = " + esc(roasT) + "; ROMI = " + esc(romiT) + "</p>";
+          h += "<p class=\"d2r-chmeta\">Частка бюджету " + esc(shCT) + "; частка доходу " + esc(shRT) + "</p>";
+          if(x.ltvcac !== null) h += "<div class=\"d2r-chgauge\">" + channelGaugeHTML(x.name, x.ltvcac, x.zone) + "<p class=\"d2r-chmeta\">LTV/CAC ≈ " + esc(fmtMult(x.ltvcac)) + " (зона " + esc(D2R_ZONES[x.zone]) + ")</p></div>";
+          h += "<p class=\"d2r-chverdict\">" + esc(channelVerdictText(x.verdict)) + "</p></div>";
+        });
+        h += "</div>";
+        if(cr.homo) h += "<p class=\"d2r-chsum\">Канали однорідні за орієнтовним LTV/CAC (одна зона): різниця між каналами невелика.</p>";
+        if(cr.lossShare !== null) h += "<p class=\"d2r-chsum\">Канали зі збитковим вердиктом займають " + esc(fmtPct1(cr.lossShare)) + " бюджету.</p>";
+        else h += "<p class=\"d2r-chsum\">Збиткових каналів за вердиктом немає.</p>";
+        return h;
+      }
+      function channelBlockText(raw, D, ch){
+        var T = [];
+        if(!ch || ch.length < 2) return T;
+        var cr = channelRows(raw, D, ch);
+        cr.rows.forEach(function(x){
+          var cacT = x.cac !== null ? fmtMoney2(x.cac) : "— (ділення на нуль)";
+          var roasT = x.roas !== null ? fmtDec1(x.roas) : "— (ділення на нуль)";
+          var romiT = x.romi !== null ? fmtPct1(x.romi) : "— (ділення на нуль)";
+          var shCT = x.shareC !== null ? fmtPct1(x.shareC) : "—";
+          var shRT = x.shareR !== null ? fmtPct1(x.shareR) : "—";
+          var s = "- " + x.name + ": CAC = " + cacT + "; ROAS = " + roasT + "; ROMI = " + romiT + "; частка бюджету " + shCT + "; частка доходу " + shRT;
+          if(x.ltvcac !== null) s += "; LTV/CAC ≈ " + fmtMult(x.ltvcac) + " (зона " + D2R_ZONES[x.zone] + ")";
+          var vt = channelVerdictText(x.verdict);
+          if(x.verdict === "top" && x.topBy && x.topBy.length){
+            vt = "Кандидат на збільшення бюджету (" + channelTopLabel(x.topBy) + ").";
+          }
+          s += ". " + vt;
+          T.push(s);
+        });
+        T.push("- Припущення: Churn і маржа однакові для всіх каналів" + (cr.marginKnown ? " (за маржею)." : " (за виручкою)."));
+        if(!cr.churnOk) T.push("- Шкала LTV/CAC недоступна: бракує Churn.");
+        if(cr.homo) T.push("- Канали однорідні за орієнтовним LTV/CAC (одна зона).");
+        if(cr.lossShare !== null) T.push("- Канали зі збитковим вердиктом займають " + fmtPct1(cr.lossShare) + " бюджету.");
+        else T.push("- Збиткових каналів за вердиктом немає.");
+        return T;
+      }
+      function sensitivityData(raw, D){
+        var b = decisionBasis(raw, D);
+        if(!b || b.kind === "missing" || !isFinite(b.v)) return null;
+        if(!D.aov || !D.aov.ok || !D.churn || !D.churn.ok || !(D.churn.v > 0) || !D.cac || !D.cac.ok || !(D.cac.v > 0)) return null;
+        var aovV = D.aov.v;
+        var hasFreq = !!(D.pfreq && D.pfreq.ok);
+        var freqV = hasFreq ? D.pfreq.v : 1;
+        var churnV = D.churn.v, cacV = D.cac.v;
+        var marginV = (b.kind === "margin" && D.margin && D.margin.ok) ? D.margin.v : null;
+        function mk(key, label, nv){
+          if(nv === null || nv === undefined || !isFinite(nv)) return null;
+          var d = (b.v > 0) ? (nv - b.v) / b.v * 100 : null;
+          return {key:key, label:label, was:b.v, now:nv, delta:(d !== null && isFinite(d)) ? d : null};
+        }
+        var sc = [];
+        var s;
+        if(b.v <= 0){
+          if(marginV !== null){
+            s = mk("margin", "Маржа +10 в. п.: " + fmtPct1(marginV) + " → " + fmtPct1(marginV + 10), calcLtvcacFromParams(aovV, freqV, churnV, cacV, marginV + 10));
+            if(s) sc.push(s);
+          }
+          return {base:b.v, kind:b.kind, list:sc};
+        }
+        s = mk("churn", "Churn −10%: " + fmtPct1(churnV) + " → " + fmtPct1(churnV * 0.9), calcLtvcacFromParams(aovV, freqV, churnV * 0.9, cacV, marginV));
+        if(s) sc.push(s);
+        s = mk("arppu", "ARPPU +10% (чек або частота покупок): " + fmtMoney2(aovV * freqV) + " → " + fmtMoney2(aovV * freqV * 1.1), calcLtvcacFromParams(aovV * 1.1, freqV, churnV, cacV, marginV));
+        if(s) sc.push(s);
+        s = mk("cac", "CAC −10%: " + fmtMoney2(cacV) + " → " + fmtMoney2(cacV * 0.9), calcLtvcacFromParams(aovV, freqV, churnV, cacV * 0.9, marginV));
+        if(s) sc.push(s);
+        if(marginV !== null && marginV * 1.1 <= 100){
+          s = mk("margin", "Маржа +10% (відносно): " + fmtPct1(marginV) + " → " + fmtPct1(marginV * 1.1), calcLtvcacFromParams(aovV, freqV, churnV, cacV, marginV * 1.1));
+          if(s) sc.push(s);
+        }
+        return {base:b.v, kind:b.kind, list:sc};
+      }
+      function bottleneckData(raw, D){
+        var pts = [];
+        if(D && D.margin && D.margin.ok && D.margin.v <= 0){
+          pts.push("Margin ≤ 0 (" + fmtPct1(D.margin.v) + "): спершу вивести маржу в плюс. Блок «Margin».");
+        }
+        var trans = [];
+        if(raw.installs.state === "ok" && raw.activated.state === "ok" && raw.installs.v > 0){
+          trans.push({name:"Installs → Activated users", loss:100 - raw.activated.v / raw.installs.v * 100});
+        }
+        if(raw.activated.state === "ok" && raw.paying.state === "ok" && raw.activated.v > 0){
+          trans.push({name:"Activated users → Paying Users", loss:100 - raw.paying.v / raw.activated.v * 100});
+        }
+        if(trans.length >= 2 && trans[0].loss !== trans[1].loss){
+          var worst = trans[0].loss > trans[1].loss ? trans[0] : trans[1];
+          var blk = worst.name === "Installs → Activated users" ? "Activated users (Activation rate)" : "Conversion rate (purchase)";
+          pts.push("Найбільша втрата — на переході " + worst.name + " (втрачено " + fmtPct1(worst.loss) + "). Блок «" + blk + "». Варто покращувати онбординг і активацію або оффер і шлях до покупки відповідно.");
+        }
+        if(D.arppu && D.arppu.ok && D.cac && D.cac.ok && D.arppu.v < D.cac.v){
+          pts.push("ARPPU (" + fmtMoney2(D.arppu.v) + ") менший за CAC (" + fmtMoney2(D.cac.v) + "). Блоки «ARPPU» / «CAC». Варто покращувати чек, частоту покупок або утримання чи здешевлювати залучення.");
+        }
+        if(!pts.length) return ["Явного вузького місця за цими правилами не виявлено."];
+        return pts.slice(0, 3);
+      }
+      function improveBlockHTML(raw, D){
+        var sens = sensitivityData(raw, D);
+        if(!sens) return "";
+        var basisTxt = sens.kind === "margin" ? "LTV/CAC (за маржею)" : "LTV/CAC (за виручкою)";
+        var h = "<div class=\"d2r-dhead\"><span class=\"d2r-dtitle\">Що покращувати</span></div>";
+        if(sens.base <= 0){
+          h += "<p class=\"d2r-impesc\">Орієнтир, а не гарантія. База: " + esc(basisTxt + " = " + fmtMult(sens.base)) + ".</p>";
+          if(sens.kind === "margin"){
+            h += "<p class=\"d2r-impesc\">Поки маржа ≤ 0 (" + (D.margin.v === 0 ? "витрати дорівнюють виручці" : "витрати перевищують виручку") + "), покращення утримання, чека чи CAC не виводять LTV/CAC у плюс, тому показано лише сценарій маржі.</p>";
+          } else {
+            h += "<p class=\"d2r-impesc\">База LTV/CAC дорівнює нулю (виручки немає): сценарії не показують змін. Спершу потрібен дохід.</p>";
+          }
+          if(sens.list.length){
+            h += "<ul class=\"d2r-senlist\">";
+            sens.list.forEach(function(s){
+              h += "<li>" + esc(s.label + ": LTV/CAC: було " + fmtMult(s.was) + " → стане " + fmtMult(s.now)) + "</li>";
+            });
+            h += "</ul>";
+          }
+          var botsLow = bottleneckData(raw, D);
+          h += "<p class=\"d2r-impesc\">Вузькі місця воронки:</p><ul class=\"d2r-botlist\">";
+          botsLow.forEach(function(t){ h += "<li>" + esc(t) + "</li>"; });
+          h += "</ul>";
+          h += "<p class=\"d2r-impesc\">Сценарії ілюструють чутливість моделі, а не прогноз результату. Реальний ефект залежить від продукту.</p>";
+          return h;
+        }
+        h += "<p class=\"d2r-impesc\">Орієнтир, а не гарантія. База: " + esc(basisTxt + " = " + fmtMult(sens.base)) + ". Кожен сценарій змінює один параметр. Для порівняння кожен параметр змінено на 10% у вигідний бік; реальна легкість такої зміни різна. Чек і частота дають однаковий ефект, бо ARPPU = AOV × частота, тому їх об’єднано в один сценарій. Churn і CAC входять у формулу симетрично, тому дають однаковий ефект; так само ARPPU і маржа.</p>";
+        h += "<ul class=\"d2r-senlist\">";
+        sens.list.forEach(function(s){
+          var dT = s.delta !== null ? " (Δ " + (s.delta >= 0 ? "+" : "") + fmtPct1(s.delta) + ")" : "";
+          h += "<li>" + esc(s.label + ": LTV/CAC: було " + fmtMult(s.was) + " → стане " + fmtMult(s.now) + dT) + "</li>";
+        });
+        h += "</ul>";
+        var bots = bottleneckData(raw, D);
+        h += "<p class=\"d2r-impesc\">Вузькі місця воронки:</p><ul class=\"d2r-botlist\">";
+        bots.forEach(function(t){ h += "<li>" + esc(t) + "</li>"; });
+        h += "</ul>";
+        h += "<p class=\"d2r-impesc\">Сценарії ілюструють чутливість моделі, а не прогноз результату. Реальний ефект залежить від продукту.</p>";
+        return h;
+      }
+      function improveBlockText(raw, D){
+        var T = [];
+        var sens = sensitivityData(raw, D);
+        if(!sens) return T;
+        var basisTxt = sens.kind === "margin" ? "LTV/CAC (за маржею)" : "LTV/CAC (за виручкою)";
+        if(sens.base <= 0){
+          T.push("- База: " + basisTxt + " = " + fmtMult(sens.base) + " (орієнтир, а не гарантія).");
+          if(sens.kind === "margin"){
+            T.push("- Поки маржа ≤ 0 (" + (D.margin.v === 0 ? "витрати дорівнюють виручці" : "витрати перевищують виручку") + "), покращення утримання, чека чи CAC не виводять LTV/CAC у плюс, тому показано лише сценарій маржі.");
+          } else {
+            T.push("- База LTV/CAC дорівнює нулю (виручки немає): сценарії не показують змін. Спершу потрібен дохід.");
+          }
+          sens.list.forEach(function(s){
+            T.push("- " + s.label + ": LTV/CAC: було " + fmtMult(s.was) + " → стане " + fmtMult(s.now));
+          });
+          bottleneckData(raw, D).forEach(function(t){ T.push("- " + t); });
+          T.push("- Сценарії ілюструють чутливість моделі, а не прогноз результату. Реальний ефект залежить від продукту.");
+          return T;
+        }
+        T.push("- База: " + basisTxt + " = " + fmtMult(sens.base) + " (орієнтир, а не гарантія).");
+        T.push("- Для порівняння кожен параметр змінено на 10% у вигідний бік; реальна легкість такої зміни різна.");
+        T.push("- Чек і частота дають однаковий ефект, бо ARPPU = AOV × частота, тому їх об’єднано в один сценарій.");
+        T.push("- Churn і CAC входять у формулу симетрично, тому дають однаковий ефект; так само ARPPU і маржа.");
+        sens.list.forEach(function(s){
+          var dT = s.delta !== null ? " (Δ " + (s.delta >= 0 ? "+" : "") + fmtPct1(s.delta) + ")" : "";
+          T.push("- " + s.label + ": LTV/CAC: було " + fmtMult(s.was) + " → стане " + fmtMult(s.now) + dT);
+        });
+        bottleneckData(raw, D).forEach(function(t){ T.push("- " + t); });
+        T.push("- Сценарії ілюструють чутливість моделі, а не прогноз результату. Реальний ефект залежить від продукту.");
+        return T;
+      }
       function renderDecision(){
         var box = document.getElementById("d2r-decision");
+        var chb = document.getElementById("d2r-chblock");
+        var imb = document.getElementById("d2r-imp");
         if(!box) return;
         if(mode === "template" || !STATE.raw || allEmpty(STATE.raw, STATE.ch)){
           box.hidden = true;
           box.innerHTML = "";
+          if(chb){ chb.hidden = true; chb.innerHTML = ""; }
+          if(imb){ imb.hidden = true; imb.innerHTML = ""; }
           return;
         }
         box.hidden = false;
         box.innerHTML = decisionHTML(STATE.raw, STATE.D);
+        if(chb){
+          var chh = channelBlockHTML(STATE.raw, STATE.D, STATE.ch);
+          if(chh){ chb.hidden = false; chb.innerHTML = chh; }
+          else { chb.hidden = true; chb.innerHTML = ""; }
+        }
+        if(imb){
+          var imh = improveBlockHTML(STATE.raw, STATE.D);
+          if(imh){ imb.hidden = false; imb.innerHTML = imh; }
+          else { imb.hidden = true; imb.innerHTML = ""; }
+        }
       }
       function allEmpty(raw, ch){
         return ch.length === 0 && FIDS.every(function(fid){ return raw[fid].state === "empty"; });
@@ -1697,6 +2021,18 @@
           if(decB.kind === "revenue") T.push("- LTV за виручкою, може бути завищений. Введіть Cost.");
           T.push("- Шкала: менше 1 / 1-2 / 2-3 / 3-5 / 5+. " + D2R_SCALE_NOTE);
         }
+        var secN = 7;
+        var chT = channelBlockText(raw, D, ch);
+        if(chT.length){
+          T.push(secN + ". Канали: хто окупається");
+          chT.forEach(function(s){ T.push(s); });
+          secN++;
+        }
+        var imT = improveBlockText(raw, D);
+        if(imT.length){
+          T.push(secN + ". Що покращувати");
+          imT.forEach(function(s){ T.push(s); });
+        }
         return T.join("\n");
       }
       function update(){
@@ -1818,7 +2154,7 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
           base:"Payback = CAC / (ARPPU × Margin), у періодах по 30 днів. Без Cost Margin = 100% (припущення).",
           mistake:"Читати payback як точний термін: це спрощена оцінка, що припускає стабільний дохід за кожен наступний період."}
       };
-      function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+      function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
       function nameList(ids){
         if(!ids.length) return "—";
         return ids.map(function(id){ return esc(byId[id] ? byId[id].title : id); }).join(", ");
@@ -1888,7 +2224,7 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
           mode = document.querySelector('input[name="d2r-mode"]:checked').value;
           form.classList.toggle("open", mode === "calc");
           if(mode === "calc"){ update(); }
-          else { refreshSubs(); if(activeId) renderPanel(activeId); }
+          else { refreshSubs(); renderDecision(); renderVerdict(); if(activeId) renderPanel(activeId); }
         });
       });
       function setCaseCap(t){ var c = document.getElementById("d2r-casecap"); if(c) c.textContent = t || ""; }

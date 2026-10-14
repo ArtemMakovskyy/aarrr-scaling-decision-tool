@@ -232,7 +232,7 @@
       .d2r-colhead{font-size:12px;font-weight:700;line-height:1.35;padding:2px 4px 8px;margin:0 0 2px;
         border-bottom:2px solid var(--d2r-stage,var(--accent-teal));color:var(--ink);}
       .d2r-colhead small{display:block;font-weight:400;color:var(--ink-soft);font-size:10.5px;}
-      .d2r-node{text-align:left;background:var(--card);color:var(--ink);border-radius:9px;padding:9px 10px 8px;
+      .d2r-node{text-align:left;background:var(--card);color:var(--ink);border-radius:9px;padding:8px 10px 7px;
         cursor:pointer;font-size:12.5px;line-height:1.4;border:1.5px solid var(--d2r-stage,var(--line));
         border-left-width:6px;transition:opacity .15s, box-shadow .15s, transform .15s;width:100%;font-family:inherit;}
       .d2r-node:hover{box-shadow:0 2px 10px rgba(0,0,0,.08);}
@@ -241,9 +241,9 @@
       .d2r-node.t-need{border-style:dotted;border-left-style:solid;border-width:2px;border-left-width:6px;border-color:var(--accent-red);background:var(--accent-red-bg);}
       .d2r-node.t-need .d2r-title,.d2r-node.t-need .d2r-formula{color:var(--accent-red);}
       .d2r-ico-off{background:var(--bg);color:var(--ink-soft);border:1.5px solid var(--line);}
-      .d2r-node .d2r-kind{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
-        letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px;min-width:0;overflow-wrap:anywhere;}
-      .d2r-node .d2r-title{font-weight:700;font-size:12.5px;display:block;}
+      .d2r-node .d2r-head{display:flex;align-items:center;gap:7px;min-width:0;}
+      .d2r-node .d2r-title{font-weight:700;font-size:12.5px;min-width:0;}
+      .d2r-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
       .d2r-node .d2r-formula{display:block;font-family:var(--mono);font-size:10.8px;color:var(--ink-soft);margin-top:4px;word-break:break-word;}
       .d2r-node .d2r-val{display:block;font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:4px;word-break:break-word;}
       .d2r-node.active{box-shadow:0 0 0 2px var(--d2r-stage), inset 0 0 0 1px var(--d2r-stage);}
@@ -269,13 +269,19 @@
       .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-casecap,
       .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-casehelp,
       .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-casecmp,
+      .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-cmpbtn,
       .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-fhint{display:none;}
       .d2r-fgrp{display:flex;flex-wrap:wrap;gap:10px 14px;align-content:flex-start;min-width:0;flex:1 1 100%;padding:8px 10px;border-radius:10px;}
+      .d2r-fside{display:flex;flex-direction:column;gap:10px 14px;flex:1 1 100%;min-width:0;}
+      .d2r-fside > .d2r-fgrp{flex:0 0 auto;}
+      .d2r-fpair{display:flex;gap:10px 14px;width:100%;}
+      .d2r-fpair > .d2r-field{flex:1 1 0;min-width:0;}
+      .d2r-fpair > .d2r-field input{width:100%;max-width:170px;}
       .d2r-fgrp > .d2r-fsub{margin:0 0 2px;}
       .d2r-form > div.d2r-fgrp:nth-of-type(1){background:var(--accent-blue-bg);border-left:3px solid var(--accent-blue);}
       .d2r-form > div.d2r-fgrp:nth-of-type(2){background:var(--accent-coral-bg);border-left:3px solid var(--accent-coral);}
       .d2r-form > div.d2r-fgrp:nth-of-type(3){background:var(--accent-amber-bg);border-left:3px solid var(--accent-amber);}
-      .d2r-form > div.d2r-fgrp:nth-of-type(5){background:var(--accent-slate-bg);border-left:3px solid var(--accent-slate);}
+      .d2r-form div.d2r-fgrp-ch{background:var(--accent-slate-bg);border-left:3px solid var(--accent-slate);}
       .d2r-field.st-5{--d2r-fstage:var(--accent-amber);--d2r-fbg:var(--accent-amber-bg);}
       .d2r-field.st-3{--d2r-fstage:var(--accent-teal);--d2r-fbg:var(--accent-teal-bg);}
       .d2r-field.st-4{--d2r-fstage:#A23A6B;--d2r-fbg:var(--accent-wine-bg);}
@@ -291,7 +297,7 @@
         .d2r-form > div.d2r-fgrp:nth-of-type(2),
         .d2r-form > div.d2r-fgrp:nth-of-type(3){flex:1 1 30%;}
         .d2r-form > div.d2r-fgrp:nth-of-type(4){flex:1 1 40%;}
-        .d2r-form > div.d2r-fgrp:nth-of-type(5){flex:1 1 55%;}
+        .d2r-fside{flex:0 0 auto;width:fit-content;max-width:100%;}
       }
       .d2r-btn{font-size:13px;cursor:pointer;border:1px solid var(--line);border-radius:8px;
         padding:6px 12px;background:var(--bg);color:var(--ink);font-family:inherit;}
@@ -306,14 +312,15 @@
       .d2r-chwrap{width:100%;overflow-x:auto;}
       .d2r-chcap{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin:8px 0 4px;}
       table.d2r-cht{border-collapse:collapse;font-size:12px;background:var(--card);}
-      table.d2r-cht th,table.d2r-cht td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top;}
+      table.d2r-cht th,table.d2r-cht td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top;}
       table.d2r-cht th{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);background:var(--bg);font-weight:400;}
       table.d2r-cht input{font-family:var(--mono);font-size:12.5px;color:var(--ink);background:var(--bg);
-        border:1px solid var(--line);border-radius:6px;padding:4px 7px;width:92px;}
-      table.d2r-cht input.d2r-chname{width:130px;}
+        border:1px solid var(--line);border-radius:6px;padding:3px 6px;width:84px;}
+      table.d2r-cht input.d2r-chname{width:120px;}
       table.d2r-cht input:focus-visible{outline:2px solid var(--accent-teal);outline-offset:1px;}
       table.d2r-cht input[aria-invalid="true"]{border-color:var(--accent-red);background:var(--accent-red-bg);}
       .d2r-cherr{font-size:11px;color:var(--accent-red);min-height:1em;margin:2px 0 0;}
+      .d2r-cherr:empty{display:none;}
       .d2r-ready{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;
         padding:10px 12px;font-size:13px;color:var(--ink);}
       .d2r-field input.d2r-needfield{border-color:var(--accent-red);background:var(--accent-red-bg);}
@@ -429,9 +436,19 @@
       .d2r-casehelp{width:100%;margin:2px 0 0;padding-left:20px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);}
       .d2r-casehelp li{margin-bottom:2px;}
       .d2r-casecmp{width:100%;margin:6px 0 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
-      .d2r-casecmp summary{cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;align-items:center;gap:8px;}
-      .d2r-casecmp summary::-webkit-details-marker{display:none;}
-      .d2r-casecmp summary:focus-visible{outline:2.5px solid var(--accent-teal);outline-offset:2px;border-radius:6px;}
+      .d2r-cmpbtn{margin:6px 0 0;background:var(--accent-purple-bg);border-color:var(--accent-purple);color:var(--accent-purple);font-weight:600;}
+      .d2r-cmpbtn:hover{border-color:var(--accent-purple);box-shadow:0 0 0 1px var(--accent-purple);}
+      .d2r-cmpbtn:focus-visible{outline:2px solid var(--accent-purple);outline-offset:1px;}
+      .d2r-cmpbtn::after{content:" ▸";}
+      .d2r-cmpbtn[aria-expanded="true"]{background:var(--accent-purple);border-color:var(--accent-purple);color:#fff;}
+      .d2r-cmpbtn[aria-expanded="true"]::after{content:" ▾";}
+      .d2r-fbtns .d2r-cmpbtn{margin:0;}
+      .d2r-casebtn{background:var(--accent-amber-bg);border-color:var(--accent-amber);color:var(--accent-amber);font-weight:600;}
+      .d2r-casebtn:hover{border-color:var(--accent-amber);box-shadow:0 0 0 1px var(--accent-amber);}
+      .d2r-casebtn:focus-visible{outline:2px solid var(--accent-amber);outline-offset:1px;}
+      .d2r-clearbtn{background:var(--accent-red-bg);border-color:var(--accent-red);color:var(--accent-red);font-weight:600;}
+      .d2r-clearbtn:hover{border-color:var(--accent-red);box-shadow:0 0 0 1px var(--accent-red);}
+      .d2r-clearbtn:focus-visible{outline:2px solid var(--accent-red);outline-offset:1px;}
       .d2r-casecmp-scroll{overflow-x:auto;margin-top:8px;}
       table.d2r-casecmp-t{border-collapse:collapse;font-size:12.5px;background:var(--card);color:var(--ink);min-width:520px;width:100%;}
       table.d2r-casecmp-t th,table.d2r-casecmp-t td{border:1px solid var(--line);padding:6px 9px;text-align:right;white-space:nowrap;}
@@ -501,14 +518,13 @@
         <label class="d2r-mode"><input type="radio" name="d2r-mode" value="template" checked>Шаблон (формули)</label>
         <label class="d2r-mode"><input type="radio" name="d2r-mode" value="calc">Розрахунок</label>
       </fieldset>
-      <div class="d2r-fbtns"><button type="button" class="d2r-btn" id="d2r-fill" title="Разові покупки: Purchases = Paying Users. База для порівняння.">Приклад даних (кейс А)</button><button type="button" class="d2r-btn" id="d2r-case-b" title="Повторні покупки, і Revenue зростає разом з ними. Дані узгоджені.">Кейс Б: повтори</button><button type="button" class="d2r-btn" id="d2r-case-v" title="Покупок багато, а Revenue не зріс, тому чек «падає». Навчальна пастка.">Кейс В: пастка</button><button type="button" class="d2r-btn" id="d2r-clear">Очистити</button></div>
-      <ul class="d2r-casehelp">
-        <li><b>А:</b> Разові покупки: Purchases = Paying Users. База для порівняння.</li>
-        <li><b>Б:</b> Повторні покупки, і Revenue зростає разом з ними. Дані узгоджені.</li>
-        <li><b>В:</b> Покупок багато, а Revenue не зріс, тому чек «падає». Навчальна пастка.</li>
-      </ul>
-      <details class="d2r-casecmp">
-        <summary>Порівняння кейсів А, Б, В</summary>
+      <div class="d2r-fbtns"><button type="button" class="d2r-btn d2r-clearbtn" id="d2r-clear">Очистити</button><button type="button" class="d2r-btn d2r-cmpbtn" id="d2r-cmp-toggle" aria-expanded="false" aria-controls="d2r-cmp-panel">Порівняння кейсів А, Б, В</button><button type="button" class="d2r-btn d2r-casebtn" id="d2r-fill" title="Разові покупки: Purchases = Paying Users. База для порівняння.">Приклад даних (кейс А)</button><button type="button" class="d2r-btn d2r-casebtn" id="d2r-case-b" title="Повторні покупки, і Revenue зростає разом з ними. Дані узгоджені.">Кейс Б: повтори</button><button type="button" class="d2r-btn d2r-casebtn" id="d2r-case-v" title="Покупок багато, а Revenue не зріс, тому чек «падає». Навчальна пастка.">Кейс В: пастка</button></div>
+      <div class="d2r-casecmp" id="d2r-cmp-panel" hidden>
+        <ul class="d2r-casehelp">
+          <li><b>А:</b> Разові покупки: Purchases = Paying Users. База для порівняння.</li>
+          <li><b>Б:</b> Повторні покупки, і Revenue зростає разом з ними. Дані узгоджені.</li>
+          <li><b>В:</b> Покупок багато, а Revenue не зріс, тому чек «падає». Навчальна пастка.</li>
+        </ul>
         <div class="d2r-casecmp-scroll">
           <table class="d2r-casecmp-t" aria-label="Порівняння кейсів А, Б, В">
             <thead><tr><th scope="col">Показник</th><th scope="col">А</th><th scope="col">Б</th><th scope="col">В</th></tr></thead>
@@ -524,7 +540,7 @@
           </table>
         </div>
         <p class="d2r-casecmp-sum">Кількість покупок сама нічого не покращує: LTV росте, лише коли разом з покупками зростає Revenue.</p>
-      </details>
+      </div>
       <p class="d2r-casecap" id="d2r-casecap" aria-live="polite"></p>
       <ol class="d2r-timeline" role="list" aria-label="Часова шкала: від кампанії до прогнозу">
         <li><strong>Кампанія →</strong><span>Installs, Marketing Cost, Activated</span></li>
@@ -552,14 +568,15 @@
         </div>
         <div class="d2r-fgrp">
           <p class="d2r-fsub">Розширені поля (для LTV і маржі)</p>
+          <div class="d2r-fpair">
           <div class="d2r-field is-key st-5"><label for="d2r-f-purchases">Number of Purchases (етап 5, усі за 30 днів)</label><span class="d2r-ptag" data-field="purchases">30 днів</span><input class="d2r-fin" id="d2r-f-purchases" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-purchases"></p><p class="d2r-needfor" id="d2r-n-purchases"></p></div>
           <div class="d2r-field is-key st-5"><label for="d2r-f-cost">Cost, $ (етап 5: собівартість, комісії та інші витрати цього доходу)</label><span class="d2r-ptag" data-field="cost">30 днів</span><input class="d2r-fin" id="d2r-f-cost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-cost"></p><p class="d2r-needfor" id="d2r-n-cost"></p></div>
+          </div>
           <div class="d2r-field is-key st-4"><label for="d2r-f-ustart">Users at Start (етапи 4 і 7, когорта платних)</label><span class="d2r-ptag" data-field="ustart">Day 0 (= Paying Users)</span><input class="d2r-fin" id="d2r-f-ustart" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustart"></p><p class="d2r-needfor" id="d2r-n-ustart"></p></div>
           <div class="d2r-field is-key st-4"><label for="d2r-f-ustill">Users Still Active (етапи 4 і 7)</label><span class="d2r-ptag" data-field="ustill">Day 30, купили ще раз</span><input class="d2r-fin" id="d2r-f-ustill" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustill"></p><p class="d2r-needfor" id="d2r-n-ustill"></p></div>
-          <div class="d2r-field st-3"><label for="d2r-f-dau">DAU (етап 3)</label><span class="d2r-ptag" data-field="dau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за день, середнє за 30 днів</span><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
-          <div class="d2r-field st-3"><label for="d2r-f-mau">MAU (етап 3)</label><span class="d2r-ptag" data-field="mau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за 30 днів</span><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
         </div>
-        <div class="d2r-fgrp">
+        <div class="d2r-fside">
+        <div class="d2r-fgrp d2r-fgrp-ch">
           <div class="d2r-chwrap">
             <p class="d2r-chcap">Розбивка за каналами (до 5 рядків)</p>
             <table class="d2r-cht">
@@ -579,6 +596,12 @@
             <p class="d2r-cherr" id="d2r-ch-err5"></p>
             <p class="d2r-cherr" id="d2r-ch-sum"></p>
           </div>
+        </div>
+        <div class="d2r-fgrp">
+          <p class="d2r-fsub">Етап 3 · Взаємодія — базові дані</p>
+          <div class="d2r-field st-3"><label for="d2r-f-dau">DAU (етап 3)</label><span class="d2r-ptag" data-field="dau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за день, середнє за 30 днів</span><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
+          <div class="d2r-field st-3"><label for="d2r-f-mau">MAU (етап 3)</label><span class="d2r-ptag" data-field="mau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за 30 днів</span><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
+        </div>
         </div>
         <p class="d2r-fsub">Розраховується автоматично</p>
         <div class="d2r-der"><span class="d2r-derlabel">Onboarding completion, %</span><span class="d2r-ptag" data-der="onboarding">кампанія</span><output id="d2r-o-onboarding">—</output><span class="d2r-from" id="d2r-of-onboarding" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
@@ -1277,18 +1300,20 @@
               b.setAttribute("data-d2r", n.id);
               b.setAttribute("aria-expanded", activeId === n.id ? "true" : "false");
               if(activeId === n.id) b.classList.add("active");
-              var kind = document.createElement("span");
-              kind.className = "d2r-kind";
+              var head = document.createElement("span");
+              head.className = "d2r-head";
               var ic = document.createElement("i");
               ic.className = "d2r-ico d2r-ico-off";
               ic.textContent = "○";
-              kind.appendChild(ic);
-              var kt = document.createElement("span"); kt.textContent = "Формула";
-              kind.appendChild(kt);
-              b.appendChild(kind);
+              ic.setAttribute("aria-hidden", "true");
+              head.appendChild(ic);
               var ti = document.createElement("span");
               ti.className = "d2r-title"; ti.textContent = n.title;
-              b.appendChild(ti);
+              head.appendChild(ti);
+              b.appendChild(head);
+              var st = document.createElement("span");
+              st.className = "d2r-sr";
+              b.appendChild(st);
               var f = document.createElement("span");
               f.className = "d2r-formula"; f.textContent = "";
               f.setAttribute("data-d2r-sub", n.id);
@@ -1312,8 +1337,8 @@
           ic.className = "d2r-ico " + (e.st === "in" ? "d2r-ico-in" : e.st === "calc" ? "d2r-ico-calc" : e.st === "need" ? "d2r-ico-need" : "d2r-ico-off");
           ic.textContent = e.st === "in" ? "●" : e.st === "calc" ? "◆" : e.st === "need" ? "▲" : "○";
         }
-        var kt = b.querySelector(".d2r-kind span");
-        if(kt) kt.textContent = (e.st === "in" ? "Введено" : e.st === "calc" ? "Розраховано" : e.st === "need" ? "Бракує даних" : "Формула") + ((n.opt || n.info) ? " · додатково" : "");
+        var sr = b.querySelector(".d2r-sr");
+        if(sr) sr.textContent = e.status;
         var f = b.querySelector("[data-d2r-sub]");
         if(f) f.textContent = e.sub;
       }
@@ -2343,6 +2368,13 @@ var D2R_FULLNAMES = {"installs": ["Installs", "Встановлення заст
         for(var i = 1; i <= 5; i++){ setId("d2r-ch-name"+i,""); setId("d2r-ch-cost"+i,""); setId("d2r-ch-pay"+i,""); setId("d2r-ch-rev"+i,""); }
         setCaseCap("");
         if(mode === "calc") update();
+      });
+      var cmpBtn = document.getElementById("d2r-cmp-toggle");
+      var cmpPanel = document.getElementById("d2r-cmp-panel");
+      if(cmpBtn && cmpPanel) cmpBtn.addEventListener("click", function(){
+        var open = cmpPanel.hidden;
+        cmpPanel.hidden = !open;
+        cmpBtn.setAttribute("aria-expanded", open ? "true" : "false");
       });
       buildGrid();
       syncPtags();

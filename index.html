@@ -205,8 +205,8 @@
       border-radius:5px;padding:0 6px;background:var(--bg);}
     .d2r-modes{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;background:var(--card);
       border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 14px;}
-    .d2r-modes fieldset{border:none;margin:0;padding:0;display:flex;gap:8px;align-items:center;}
-    .d2r-modes legend{font-family:var(--mono);font-size:11px;color:var(--ink-soft);padding:0;margin-right:6px;}
+    .d2r-modes > fieldset{border:none;margin:0;padding:0;display:flex;gap:8px;align-items:center;}
+    .d2r-modes > fieldset > legend{font-family:var(--mono);font-size:11px;color:var(--ink-soft);padding:0;margin-right:6px;}
     .d2r-mode{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;
       border:1px solid var(--line);border-radius:8px;padding:6px 12px;background:var(--bg);color:var(--ink);}
     .d2r-mode:has(input:checked){border-color:var(--accent-teal);background:var(--accent-teal-bg);font-weight:600;}
@@ -221,7 +221,7 @@
     .d2r-field input[aria-invalid="true"]{border-color:var(--accent-red);background:var(--accent-red-bg);}
     .d2r-formerr{width:100%;font-size:12.5px;color:var(--accent-red);min-height:1.2em;margin:0;}
     #s10 .wrap{max-width:1550px;}
-    .d2r-scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;}
+    .d2r-scroll{position:relative;overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;}
     .d2r-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px;min-width:1475px;}
     .d2r-col.d2r-wide{grid-column:span 3;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
       grid-auto-flow:column;grid-template-rows:auto repeat(4,auto);}
@@ -271,33 +271,47 @@
     .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-casecmp,
     .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-cmpbtn,
     .d2r-modes:has(input[name="d2r-mode"][value="template"]:checked) .d2r-fhint{display:none;}
-    .d2r-fgrp{display:flex;flex-wrap:wrap;gap:10px 14px;align-content:flex-start;min-width:0;flex:1 1 100%;padding:8px 10px;border-radius:10px;}
-    .d2r-fside{display:flex;flex-direction:column;gap:10px 14px;flex:1 1 100%;min-width:0;}
-    .d2r-fside > .d2r-fgrp{flex:0 0 auto;}
+    .d2r-fgrp{display:flex;flex-wrap:wrap;gap:10px 14px;align-content:flex-start;min-width:0;flex:1 1 100%;margin:0;padding:10px 12px;border-radius:10px;border:1px solid transparent;}
+    .d2r-fgrp > legend{display:block;width:100%;padding:0;margin:0 0 2px;float:none;}
     .d2r-fpair{display:flex;gap:10px 14px;width:100%;}
     .d2r-fpair > .d2r-field{flex:1 1 0;min-width:0;}
     .d2r-fpair > .d2r-field input{width:100%;max-width:170px;}
     .d2r-fgrp > .d2r-fsub{margin:0 0 2px;}
-    .d2r-form > div.d2r-fgrp:nth-of-type(1){background:var(--accent-blue-bg);border-left:3px solid var(--accent-blue);}
-    .d2r-form > div.d2r-fgrp:nth-of-type(2){background:var(--accent-coral-bg);border-left:3px solid var(--accent-coral);}
-    .d2r-form > div.d2r-fgrp:nth-of-type(3){background:var(--accent-amber-bg);border-left:3px solid var(--accent-amber);}
-    .d2r-form div.d2r-fgrp-ch{background:var(--accent-slate-bg);border-left:3px solid var(--accent-slate);}
-    .d2r-field.st-5{--d2r-fstage:var(--accent-amber);--d2r-fbg:var(--accent-amber-bg);}
-    .d2r-field.st-3{--d2r-fstage:var(--accent-teal);--d2r-fbg:var(--accent-teal-bg);}
-    .d2r-field.st-4{--d2r-fstage:#A23A6B;--d2r-fbg:var(--accent-wine-bg);}
-    .d2r-field.st-5,.d2r-field.st-3,.d2r-field.st-4{background:var(--d2r-fbg);border-left:3px solid var(--d2r-fstage);border-radius:10px;padding:8px 10px;}
+    /* Колір групи задає етап (data-stage), а не порядок у DOM. */
+    .d2r-form [data-stage="1"]{--d2r-fstage:var(--accent-blue);--d2r-fbg:var(--accent-blue-bg);}
+    .d2r-form [data-stage="2"]{--d2r-fstage:var(--accent-coral);--d2r-fbg:var(--accent-coral-bg);}
+    .d2r-form [data-stage="3"]{--d2r-fstage:var(--accent-teal);--d2r-fbg:var(--accent-teal-bg);}
+    .d2r-form [data-stage="4"]{--d2r-fstage:#A23A6B;--d2r-fbg:var(--accent-wine-bg);}
+    .d2r-form [data-stage="5"]{--d2r-fstage:var(--accent-amber);--d2r-fbg:var(--accent-amber-bg);}
+    .d2r-form [data-stage="6"]{--d2r-fstage:var(--accent-purple);--d2r-fbg:var(--accent-purple-bg);}
+    .d2r-form [data-stage="7"]{--d2r-fstage:var(--accent-red);--d2r-fbg:var(--accent-red-bg);}
+    .d2r-form .d2r-fgrp[data-stage],
+    .d2r-form .d2r-dergrp[data-stage]{background:var(--d2r-fbg);border-left:3px solid var(--d2r-fstage);}
+    .d2r-form .d2r-fgrp[data-stage] > legend{color:var(--d2r-fstage);}
+    /* Об'єднана група 4 і 7: ліва смужка показує обидва кольори. */
+    .d2r-form .d2r-fgrp[data-stage="4"][data-stage-alt="7"]{
+      --d2r-fbg:linear-gradient(to right,var(--accent-wine-bg) 0 50%,var(--accent-red-bg) 50% 100%);
+      border-left:0;
+      background:linear-gradient(to bottom,#A23A6B 0 50%,var(--accent-red) 50% 100%) left/3px 100% no-repeat,var(--d2r-fbg);
+    }
+    .d2r-form .d2r-fgrp[data-stage="4"][data-stage-alt="7"] > legend{color:#A23A6B;}
+    .d2r-form div.d2r-fgrp-ch{flex:1 1 100%;min-width:0;max-width:100%;background:transparent;border:0;border-top:1px dashed var(--d2r-fstage);border-radius:0;padding:6px 0 0;}
+    .d2r-form .d2r-fgrp-ch > .d2r-fsub{margin:0 0 4px;color:var(--d2r-fstage);}
+    .d2r-fbadge{display:inline-block;font-family:var(--mono);font-size:9.5px;line-height:1.5;color:var(--accent-amber);
+      background:var(--accent-amber-bg);border:1px solid var(--accent-amber);border-radius:4px;padding:0 5px;margin-left:5px;
+      white-space:nowrap;vertical-align:middle;}
+    .d2r-fgrp[data-stage="6"] .d2r-fnote{margin:0;font-size:12.5px;color:var(--ink-soft);}
+    .d2r-derive{flex:1 1 100%;display:flex;flex-direction:column;gap:10px;min-width:0;}
+    .d2r-dergrp{display:flex;flex-wrap:wrap;gap:10px 14px;width:100%;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid transparent;border-left-width:3px;}
+    .d2r-dergrp > .d2r-fsub{width:100%;margin:0 0 2px;color:var(--d2r-fstage);}
     .d2r-fhint{margin:0;}
     @media (min-width:640px){
-      .d2r-form > div.d2r-fgrp:nth-of-type(1),
-      .d2r-form > div.d2r-fgrp:nth-of-type(2),
-      .d2r-form > div.d2r-fgrp:nth-of-type(3){flex:1 1 200px;}
+      .d2r-form > .d2r-fgrp[data-stage]{flex:1 1 200px;}
     }
     @media (min-width:1000px){
-      .d2r-form > div.d2r-fgrp:nth-of-type(1),
-      .d2r-form > div.d2r-fgrp:nth-of-type(2),
-      .d2r-form > div.d2r-fgrp:nth-of-type(3){flex:1 1 30%;}
-      .d2r-form > div.d2r-fgrp:nth-of-type(4){flex:1 1 40%;}
-      .d2r-fside{flex:0 0 auto;width:fit-content;max-width:100%;}
+      .d2r-form > .d2r-fgrp[data-stage]{flex:1 1 30%;}
+      .d2r-form > .d2r-fgrp[data-stage="1"],
+      .d2r-form > .d2r-fgrp[data-stage="5"]{flex:1 1 40%;}
     }
     .d2r-btn{font-size:13px;cursor:pointer;border:1px solid var(--line);border-radius:8px;
       padding:6px 12px;background:var(--bg);color:var(--ink);font-family:inherit;}
@@ -309,7 +323,7 @@
     .d2r-der .d2r-derlabel{font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
     .d2r-der output{font-family:var(--mono);font-size:13.5px;color:var(--ink);min-height:1.2em;}
     .d2r-der .d2r-from{font-size:10.5px;color:var(--ink-soft);}
-    .d2r-chwrap{width:100%;overflow-x:auto;}
+    .d2r-chwrap{width:100%;max-width:100%;min-width:0;overflow-x:auto;}
     .d2r-chcap{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin:8px 0 4px;}
     table.d2r-cht{border-collapse:collapse;font-size:12px;background:var(--card);}
     table.d2r-cht th,table.d2r-cht td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top;}
@@ -391,6 +405,7 @@
       .d2r-timeline li + li{border-left:none;border-top:1px solid var(--d2r-tl-line);padding-top:6px;}
       .d2r-timeline li{padding:4px 2px;}
       .d2r-ptag{white-space:normal;margin-left:0;margin-top:2px;align-self:flex-start;}
+      .d2r-vstage{white-space:normal;}
     }
 
   </style>
@@ -552,33 +567,14 @@
       <p class="d2r-tlegend">Типи: <span class="d2r-tchip">вхід</span> <span class="d2r-tchip d2r-tchip-fact">факт</span> <span class="d2r-tchip d2r-tchip-prog">прогноз</span></p>
       <p class="d2r-fsub d2r-fhint">Колір блоку відповідає етапу на схемі</p>
       <form class="d2r-form" id="d2r-form" novalidate>
-        <div class="d2r-fgrp">
-          <p class="d2r-fsub">Етап 1 · Залучення — базові дані</p>
+        <fieldset class="d2r-fgrp" data-stage="1">
+          <legend class="d2r-fsub">Етап 1 · Залучення (Acquisition) — базові дані</legend>
           <div class="d2r-field is-key"><label for="d2r-f-installs">Installs</label><span class="d2r-ptag" data-field="installs">кампанія</span><input class="d2r-fin" id="d2r-f-installs" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-installs"></p><p class="d2r-needfor" id="d2r-n-installs"></p></div>
           <div class="d2r-field is-key"><label for="d2r-f-mcost">Marketing Cost, $</label><span class="d2r-ptag" data-field="mcost">кампанія</span><input class="d2r-fin" id="d2r-f-mcost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-mcost"></p><p class="d2r-needfor" id="d2r-n-mcost"></p></div>
-        </div>
-        <div class="d2r-fgrp">
-          <p class="d2r-fsub">Етап 2 · Активація — базові дані</p>
-          <div class="d2r-field"><label for="d2r-f-activated">Activated users (завершили onboarding)</label><span class="d2r-ptag" data-field="activated">кампанія</span><input class="d2r-fin" id="d2r-f-activated" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-activated"></p><p class="d2r-needfor" id="d2r-n-activated"></p></div>
-        </div>
-        <div class="d2r-fgrp">
-          <p class="d2r-fsub">Етап 5 · Монетизація — базові дані</p>
-          <div class="d2r-field is-key"><label for="d2r-f-paying">Paying Users</label><span class="d2r-ptag" data-field="paying">Day 0</span><input class="d2r-fin" id="d2r-f-paying" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-paying"></p><p class="d2r-needfor" id="d2r-n-paying"></p></div>
-          <div class="d2r-field is-key"><label for="d2r-f-revenue">Revenue, $ (сумарний за 30 днів)</label><span class="d2r-ptag" data-field="revenue">30 днів</span><input class="d2r-fin" id="d2r-f-revenue" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-revenue"></p><p class="d2r-needfor" id="d2r-n-revenue"></p></div>
-        </div>
-        <div class="d2r-fgrp">
-          <p class="d2r-fsub">Розширені поля (для LTV і маржі)</p>
-          <div class="d2r-fpair">
-            <div class="d2r-field is-key st-5"><label for="d2r-f-purchases">Number of Purchases (етап 5, усі за 30 днів)</label><span class="d2r-ptag" data-field="purchases">30 днів</span><input class="d2r-fin" id="d2r-f-purchases" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-purchases"></p><p class="d2r-needfor" id="d2r-n-purchases"></p></div>
-            <div class="d2r-field is-key st-5"><label for="d2r-f-cost">Cost, $ (етап 5: собівартість, комісії та інші витрати цього доходу)</label><span class="d2r-ptag" data-field="cost">30 днів</span><input class="d2r-fin" id="d2r-f-cost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-cost"></p><p class="d2r-needfor" id="d2r-n-cost"></p></div>
-          </div>
-          <div class="d2r-field is-key st-4"><label for="d2r-f-ustart">Users at Start (етапи 4 і 7, когорта платних)</label><span class="d2r-ptag" data-field="ustart">Day 0 (= Paying Users)</span><input class="d2r-fin" id="d2r-f-ustart" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustart"></p><p class="d2r-needfor" id="d2r-n-ustart"></p></div>
-          <div class="d2r-field is-key st-4"><label for="d2r-f-ustill">Users Still Active (етапи 4 і 7)</label><span class="d2r-ptag" data-field="ustill">Day 30, купили ще раз</span><input class="d2r-fin" id="d2r-f-ustill" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustill"></p><p class="d2r-needfor" id="d2r-n-ustill"></p></div>
-        </div>
-        <div class="d2r-fside">
-          <div class="d2r-fgrp d2r-fgrp-ch">
+          <div class="d2r-fgrp-ch">
+            <p class="d2r-fsub">Розбивка по каналах</p>
             <div class="d2r-chwrap">
-              <p class="d2r-chcap">Розбивка за каналами (до 5 рядків)</p>
+              <p class="d2r-chcap">до 5 рядків</p>
               <table class="d2r-cht">
                 <thead><tr><th>Канал</th><th>Marketing Cost, $</th><th>Paying Users</th><th>Revenue, $</th></tr></thead>
                 <tbody>
@@ -597,34 +593,80 @@
               <p class="d2r-cherr" id="d2r-ch-sum"></p>
             </div>
           </div>
-          <div class="d2r-fgrp">
-            <p class="d2r-fsub">Етап 3 · Взаємодія — базові дані</p>
-            <div class="d2r-field st-3"><label for="d2r-f-dau">DAU (етап 3)</label><span class="d2r-ptag" data-field="dau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за день, середнє за 30 днів</span><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
-            <div class="d2r-field st-3"><label for="d2r-f-mau">MAU (етап 3)</label><span class="d2r-ptag" data-field="mau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за 30 днів</span><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
+        </fieldset>
+        <fieldset class="d2r-fgrp" data-stage="2">
+          <legend class="d2r-fsub">Етап 2 · Активація (Activation) — базові дані</legend>
+          <div class="d2r-field"><label for="d2r-f-activated">Activated users (завершили onboarding)</label><span class="d2r-ptag" data-field="activated">кампанія</span><input class="d2r-fin" id="d2r-f-activated" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-activated"></p><p class="d2r-needfor" id="d2r-n-activated"></p></div>
+        </fieldset>
+        <fieldset class="d2r-fgrp" data-stage="3">
+          <legend class="d2r-fsub">Етап 3 · Взаємодія (Engagement) — базові дані <span class="d2r-optbadge">додатково</span></legend>
+          <div class="d2r-fpair">
+            <div class="d2r-field"><label for="d2r-f-dau">DAU</label><span class="d2r-ptag" data-field="dau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за день, середнє за 30 днів</span><input class="d2r-fin" id="d2r-f-dau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-dau"></p><p class="d2r-needfor" id="d2r-n-dau"></p></div>
+            <div class="d2r-field"><label for="d2r-f-mau">MAU</label><span class="d2r-ptag" data-field="mau" title="DAU: унікальні активні за день (середнє за 30 днів); MAU: унікальні активні за 30 днів">за 30 днів</span><input class="d2r-fin" id="d2r-f-mau" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-mau"></p><p class="d2r-needfor" id="d2r-n-mau"></p></div>
           </div>
+        </fieldset>
+        <fieldset class="d2r-fgrp" data-stage="4" data-stage-alt="7">
+          <legend class="d2r-fsub">Етапи 4 і 7 · Утримання (Retention) / Відтік (Churn) — базові дані</legend>
+          <div class="d2r-fpair">
+            <div class="d2r-field is-key"><label for="d2r-f-ustart">Users at Start <span class="d2r-fbadge">для LTV і маржі</span></label><span class="d2r-ptag" data-field="ustart">Day 0 (= Paying Users)</span><input class="d2r-fin" id="d2r-f-ustart" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustart"></p><p class="d2r-needfor" id="d2r-n-ustart"></p></div>
+            <div class="d2r-field is-key"><label for="d2r-f-ustill">Users Still Active <span class="d2r-fbadge">для LTV і маржі</span></label><span class="d2r-ptag" data-field="ustill">Day 30, купили ще раз</span><input class="d2r-fin" id="d2r-f-ustill" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-ustill"></p><p class="d2r-needfor" id="d2r-n-ustill"></p></div>
+          </div>
+        </fieldset>
+        <fieldset class="d2r-fgrp" data-stage="5">
+          <legend class="d2r-fsub">Етап 5 · Монетизація (Monetization / Revenue) — базові дані</legend>
+          <div class="d2r-field is-key"><label for="d2r-f-paying">Paying Users</label><span class="d2r-ptag" data-field="paying">Day 0</span><input class="d2r-fin" id="d2r-f-paying" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-paying"></p><p class="d2r-needfor" id="d2r-n-paying"></p></div>
+          <div class="d2r-field is-key"><label for="d2r-f-revenue">Revenue, $ (сумарний за 30 днів)</label><span class="d2r-ptag" data-field="revenue">30 днів</span><input class="d2r-fin" id="d2r-f-revenue" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-revenue"></p><p class="d2r-needfor" id="d2r-n-revenue"></p></div>
+          <div class="d2r-fpair">
+            <div class="d2r-field is-key"><label for="d2r-f-purchases">Number of Purchases <span class="d2r-fbadge">для LTV і маржі</span></label><span class="d2r-ptag" data-field="purchases">30 днів</span><input class="d2r-fin" id="d2r-f-purchases" type="number" min="0" step="1" value=""><p class="d2r-ferr" id="d2r-e-purchases"></p><p class="d2r-needfor" id="d2r-n-purchases"></p></div>
+            <div class="d2r-field is-key"><label for="d2r-f-cost">Cost, $ <span class="d2r-fbadge">для LTV і маржі</span></label><span class="d2r-ptag" data-field="cost">30 днів</span><input class="d2r-fin" id="d2r-f-cost" type="number" min="0" step="any" value=""><p class="d2r-ferr" id="d2r-e-cost"></p><p class="d2r-needfor" id="d2r-n-cost"></p></div>
+          </div>
+        </fieldset>
+        <fieldset class="d2r-fgrp" data-stage="6">
+          <legend class="d2r-fsub">Етап 6 · Рекомендація (Referral) — інформаційний</legend>
+          <p class="d2r-fnote">Вводу немає: блок інформаційний. NPS / вірусний коефіцієнт не входять у розрахунок рішення про масштабування.</p>
+        </fieldset>
+        <div class="d2r-derive">
+          <p class="d2r-fsub">Розраховується автоматично</p>
+          <div class="d2r-dergrp" data-stage="1" role="group" aria-labelledby="d2r-dg-1">
+            <p class="d2r-fsub" id="d2r-dg-1">Етап 1 · Залучення (Acquisition) — розрахунок</p>
+            <div class="d2r-der"><span class="d2r-derlabel">CAC, $</span><span class="d2r-ptag" data-der="cac">кампанія</span><output id="d2r-o-cac">—</output><span class="d2r-from" id="d2r-of-cac" data-from="з: Marketing Cost, Paying Users">з: Marketing Cost, Paying Users</span></div>
+          </div>
+          <div class="d2r-dergrp" data-stage="2" role="group" aria-labelledby="d2r-dg-2">
+            <p class="d2r-fsub" id="d2r-dg-2">Етап 2 · Активація (Activation) — розрахунок</p>
+            <div class="d2r-der"><span class="d2r-derlabel">Onboarding completion, %</span><span class="d2r-ptag" data-der="onboarding">кампанія</span><output id="d2r-o-onboarding">—</output><span class="d2r-from" id="d2r-of-onboarding" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">Activation rate</span><span class="d2r-ptag" data-der="activation">кампанія</span><output id="d2r-o-activation">—</output><span class="d2r-from" id="d2r-of-activation" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
+          </div>
+          <div class="d2r-dergrp" data-stage="3" role="group" aria-labelledby="d2r-dg-3">
+            <p class="d2r-fsub" id="d2r-dg-3">Етап 3 · Взаємодія (Engagement) — розрахунок</p>
+            <div class="d2r-der"><span class="d2r-derlabel">DAU/MAU</span><span class="d2r-ptag" data-der="daumau">30 днів</span><output id="d2r-o-daumau">—</output><span class="d2r-from" id="d2r-of-daumau" data-from="з: DAU, MAU">з: DAU, MAU</span></div>
+          </div>
+          <div class="d2r-dergrp" data-stage="4" role="group" aria-labelledby="d2r-dg-4">
+            <p class="d2r-fsub" id="d2r-dg-4">Етап 4 · Утримання (Retention) — розрахунок</p>
+            <div class="d2r-der"><span class="d2r-derlabel">Retention rate, %</span><span class="d2r-ptag" data-der="retention">Day 30 / Day 0</span><output id="d2r-o-retention">—</output><span class="d2r-from" id="d2r-of-retention" data-from="з: Users at Start, Users Still Active">з: Users at Start, Users Still Active</span></div>
+          </div>
+          <div class="d2r-dergrp" data-stage="5" role="group" aria-labelledby="d2r-dg-5">
+            <p class="d2r-fsub" id="d2r-dg-5">Етап 5 · Монетизація (Monetization / Revenue) — розрахунок</p>
+            <div class="d2r-der"><span class="d2r-derlabel">Conversion rate (purchase), %</span><span class="d2r-ptag" data-der="conv">кампанія</span><output id="d2r-o-conv">—</output><span class="d2r-from" id="d2r-of-conv" data-from="з: Activated users, Paying Users">з: Activated users, Paying Users</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">Average purchase value (AOV), $</span><span class="d2r-ptag" data-der="aov">факт, 30 днів</span><output id="d2r-o-aov">—</output><span class="d2r-from" id="d2r-of-aov" data-from="з: Revenue, Number of Purchases">з: Revenue, Number of Purchases</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">ARPPU, $</span><span class="d2r-ptag" data-der="arppu">факт, 30 днів</span><output id="d2r-o-arppu">—</output><span class="d2r-from" id="d2r-of-arppu" data-from="з: Revenue, Paying Users">з: Revenue, Paying Users</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">ARPU, $</span><span class="d2r-ptag" data-der="arpu">факт, 30 днів</span><output id="d2r-o-arpu">—</output><span class="d2r-from" id="d2r-of-arpu" data-from="з: Revenue, Installs">з: Revenue, Installs</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">Purchase frequency</span><span class="d2r-ptag" data-der="pfreq">факт, 30 днів</span><output id="d2r-o-pfreq">—</output><span class="d2r-from" id="d2r-of-pfreq" data-from="з: Number of Purchases, Paying Users">з: Number of Purchases, Paying Users</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">Margin, %</span><span class="d2r-ptag" data-der="margin">факт, 30 днів</span><output id="d2r-o-margin">—</output><span class="d2r-from" id="d2r-of-margin" data-from="з: Revenue, Cost">з: Revenue, Cost</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">ROAS</span><span class="d2r-ptag" data-der="roas">факт, 30 днів</span><output id="d2r-o-roas">—</output><span class="d2r-from" id="d2r-of-roas" data-from="з: Revenue, Marketing Cost">з: Revenue, Marketing Cost</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">ROMI, %</span><span class="d2r-ptag" data-der="romi">факт, 30 днів</span><output id="d2r-o-romi">—</output><span class="d2r-from" id="d2r-of-romi" data-from="з: Revenue, Marketing Cost">з: Revenue, Marketing Cost</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">Net Profit, $</span><span class="d2r-ptag" data-der="netprofit">факт, 30 днів</span><output id="d2r-o-netprofit">—</output><span class="d2r-from" id="d2r-of-netprofit" data-from="з: Revenue, Marketing Cost, Cost">з: Revenue, Marketing Cost, Cost</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">LTV, $</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltv">ПРОГНОЗ</span><output id="d2r-o-ltv">—</output><span class="d2r-from" id="d2r-of-ltv" data-from="з: ARPPU, Churn rate">з: ARPPU, Churn rate</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvcac">ПРОГНОЗ</span><output id="d2r-o-ltvcac">—</output><span class="d2r-from" id="d2r-of-ltvcac" data-from="з: LTV, CAC">з: LTV, CAC</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">LTV (за маржею), $</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvm">ПРОГНОЗ</span><output id="d2r-o-ltvm">—</output><span class="d2r-from" id="d2r-of-ltvm" data-from="з: LTV, Margin">з: LTV, Margin</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC (за маржею)</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvcacm">ПРОГНОЗ</span><output id="d2r-o-ltvcacm">—</output><span class="d2r-from" id="d2r-of-ltvcacm" data-from="з: LTV (за маржею), CAC">з: LTV (за маржею), CAC</span></div>
+            <div class="d2r-der"><span class="d2r-derlabel">Payback (періодів по 30 днів)</span><span class="d2r-ptag d2r-ptag-forecast" data-der="payback">ПРОГНОЗ (оцінка)</span><output id="d2r-o-payback">—</output><span class="d2r-from" id="d2r-of-payback" data-from="з: CAC, ARPPU, Margin">з: CAC, ARPPU, Margin</span></div>
+          </div>
+          <div class="d2r-dergrp" data-stage="7" role="group" aria-labelledby="d2r-dg-7">
+            <p class="d2r-fsub" id="d2r-dg-7">Етап 7 · Відтік (Churn) — розрахунок</p>
+            <div class="d2r-der"><span class="d2r-derlabel">Churn rate, %</span><span class="d2r-ptag" data-der="churn">за 30 днів</span><output id="d2r-o-churn">—</output><span class="d2r-from" id="d2r-of-churn" data-from="з: Users at Start, Users Still Active">з: Users at Start, Users Still Active</span></div>
+          </div>
+          <div class="d2r-ready" id="d2r-ready" aria-live="polite"></div>
         </div>
-        <p class="d2r-fsub">Розраховується автоматично</p>
-        <div class="d2r-der"><span class="d2r-derlabel">Onboarding completion, %</span><span class="d2r-ptag" data-der="onboarding">кампанія</span><output id="d2r-o-onboarding">—</output><span class="d2r-from" id="d2r-of-onboarding" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Activation rate</span><span class="d2r-ptag" data-der="activation">кампанія</span><output id="d2r-o-activation">—</output><span class="d2r-from" id="d2r-of-activation" data-from="з: Installs, Activated users">з: Installs, Activated users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Conversion rate (purchase), %</span><span class="d2r-ptag" data-der="conv">кампанія</span><output id="d2r-o-conv">—</output><span class="d2r-from" id="d2r-of-conv" data-from="з: Activated users, Paying Users">з: Activated users, Paying Users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Average purchase value (AOV), $</span><span class="d2r-ptag" data-der="aov">факт, 30 днів</span><output id="d2r-o-aov">—</output><span class="d2r-from" id="d2r-of-aov" data-from="з: Revenue, Number of Purchases">з: Revenue, Number of Purchases</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">ARPPU, $</span><span class="d2r-ptag" data-der="arppu">факт, 30 днів</span><output id="d2r-o-arppu">—</output><span class="d2r-from" id="d2r-of-arppu" data-from="з: Revenue, Paying Users">з: Revenue, Paying Users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">ARPU, $</span><span class="d2r-ptag" data-der="arpu">факт, 30 днів</span><output id="d2r-o-arpu">—</output><span class="d2r-from" id="d2r-of-arpu" data-from="з: Revenue, Installs">з: Revenue, Installs</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">CAC, $</span><span class="d2r-ptag" data-der="cac">кампанія</span><output id="d2r-o-cac">—</output><span class="d2r-from" id="d2r-of-cac" data-from="з: Marketing Cost, Paying Users">з: Marketing Cost, Paying Users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">ROAS</span><span class="d2r-ptag" data-der="roas">факт, 30 днів</span><output id="d2r-o-roas">—</output><span class="d2r-from" id="d2r-of-roas" data-from="з: Revenue, Marketing Cost">з: Revenue, Marketing Cost</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">ROMI, %</span><span class="d2r-ptag" data-der="romi">факт, 30 днів</span><output id="d2r-o-romi">—</output><span class="d2r-from" id="d2r-of-romi" data-from="з: Revenue, Marketing Cost">з: Revenue, Marketing Cost</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Margin, %</span><span class="d2r-ptag" data-der="margin">факт, 30 днів</span><output id="d2r-o-margin">—</output><span class="d2r-from" id="d2r-of-margin" data-from="з: Revenue, Cost">з: Revenue, Cost</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Purchase frequency</span><span class="d2r-ptag" data-der="pfreq">факт, 30 днів</span><output id="d2r-o-pfreq">—</output><span class="d2r-from" id="d2r-of-pfreq" data-from="з: Number of Purchases, Paying Users">з: Number of Purchases, Paying Users</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Retention rate, %</span><span class="d2r-ptag" data-der="retention">Day 30 / Day 0</span><output id="d2r-o-retention">—</output><span class="d2r-from" id="d2r-of-retention" data-from="з: Users at Start, Users Still Active">з: Users at Start, Users Still Active</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Churn rate, %</span><span class="d2r-ptag" data-der="churn">за 30 днів</span><output id="d2r-o-churn">—</output><span class="d2r-from" id="d2r-of-churn" data-from="з: Users at Start, Users Still Active">з: Users at Start, Users Still Active</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">LTV, $</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltv">ПРОГНОЗ</span><output id="d2r-o-ltv">—</output><span class="d2r-from" id="d2r-of-ltv" data-from="з: ARPPU, Churn rate">з: ARPPU, Churn rate</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvcac">ПРОГНОЗ</span><output id="d2r-o-ltvcac">—</output><span class="d2r-from" id="d2r-of-ltvcac" data-from="з: LTV, CAC">з: LTV, CAC</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">DAU/MAU</span><span class="d2r-ptag" data-der="daumau">30 днів</span><output id="d2r-o-daumau">—</output><span class="d2r-from" id="d2r-of-daumau" data-from="з: DAU, MAU">з: DAU, MAU</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">LTV (за маржею), $</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvm">ПРОГНОЗ</span><output id="d2r-o-ltvm">—</output><span class="d2r-from" id="d2r-of-ltvm" data-from="з: LTV, Margin">з: LTV, Margin</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">LTV/CAC (за маржею)</span><span class="d2r-ptag d2r-ptag-forecast" data-der="ltvcacm">ПРОГНОЗ</span><output id="d2r-o-ltvcacm">—</output><span class="d2r-from" id="d2r-of-ltvcacm" data-from="з: LTV (за маржею), CAC">з: LTV (за маржею), CAC</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Net Profit, $</span><span class="d2r-ptag" data-der="netprofit">факт, 30 днів</span><output id="d2r-o-netprofit">—</output><span class="d2r-from" id="d2r-of-netprofit" data-from="з: Revenue, Marketing Cost, Cost">з: Revenue, Marketing Cost, Cost</span></div>
-        <div class="d2r-der"><span class="d2r-derlabel">Payback (періодів по 30 днів)</span><span class="d2r-ptag d2r-ptag-forecast" data-der="payback">ПРОГНОЗ (оцінка)</span><output id="d2r-o-payback">—</output><span class="d2r-from" id="d2r-of-payback" data-from="з: CAC, ARPPU, Margin">з: CAC, ARPPU, Margin</span></div>
-        <div class="d2r-ready" id="d2r-ready" aria-live="polite"></div>
       </form>
     </div>
 
